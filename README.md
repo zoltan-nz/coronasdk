@@ -13,3 +13,5 @@ http://www.coronalabs.com/resources/videos/
 
 http://www.lua.org/
 Lua doc: http://www.lua.org/manual/5.2/
+
+More great tutorial
