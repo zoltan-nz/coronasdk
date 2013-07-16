@@ -17,3 +17,8 @@ Lua doc: http://www.lua.org/manual/5.2/
 ###More great tutorial
 
 http://learningcorona.com/
+
+### Game Level creation
+
+1. Review requirement specification
+2. Based on requirement finishing the task
