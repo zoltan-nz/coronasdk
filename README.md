@@ -22,3 +22,16 @@ http://learningcorona.com/
 
 1. Review requirement specification
 2. Based on requirement finishing the task
+
+
+### Backlog:
+
+Start with the template:
+
+1. Have to create 3 levels with 8 sections/scenes (Template has only 5 sector.)
+2. Have to implement move UP and DOWN ability (climb a ladder/rope)
+3. Need a second button (shoot, use lever, interact)
+4. Any additional function what you want.
+5. Win and Lose screens
+6. Track player score, lives, time.
+7. Have to finish menu, audio, level select screen.
