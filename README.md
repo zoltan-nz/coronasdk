@@ -35,3 +35,8 @@ Start with the template:
 5. Win and Lose screens
 6. Track player score, lives, time.
 7. Have to finish menu, audio, level select screen.
+
+### Usefull IDEs
+
+1. Outlaw IDE: http://OutlawGameTools.com
+
