@@ -65,13 +65,13 @@ db:close() --Then close the database
 
 
 
-local memoryRect = display.newRect(10, 5, 500, 100)
-		memoryRect:setFillColor(255, 255, 255)
-		memoryRect:setStrokeColor(45, 180, 100)
-local memUsageText = display.newText( "Hello, World", 0, 0, "Helvetica", 50 )
-		memUsageText:setTextColor(0, 0, 255)
-local textureMemUsageText = display.newText( "Hello, World", 0, 50, "Helvetica", 50 )
-		textureMemUsageText:setTextColor(0, 0, 255)
+--local memoryRect = display.newRect(10, 5, 500, 100)
+--		memoryRect:setFillColor(255, 255, 255)
+--		memoryRect:setStrokeColor(45, 180, 100)
+--local memUsageText = display.newText( "Hello, World", 0, 0, "Helvetica", 50 )
+--		memUsageText:setTextColor(0, 0, 255)
+--local textureMemUsageText = display.newText( "Hello, World", 0, 50, "Helvetica", 50 )
+--		textureMemUsageText:setTextColor(0, 0, 255)
 
 
 ---------------------------------------------------------------------------------
@@ -92,6 +92,6 @@ local monitorMem = function()
 end
 
 
-Runtime:addEventListener( "enterFrame", monitorMem )
+--Runtime:addEventListener( "enterFrame", monitorMem )
 --Now change scene to go to the menu.
 storyboard.gotoScene( "menu", "fade", 400 )
