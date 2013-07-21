@@ -434,6 +434,12 @@ function scene:createScene( event )
 	local rightButton = display.newImageRect(extraGroup, "images/buttonRight.png", 64, 64)
 	rightButton.x = leftButton.x+84; rightButton.y = _H-34; rightButton.dir = "right"
 	rightButton:addEventListener("touch", moveButton)
+        
+        local actionButton = display.newImageRect(extraGroup, "images/button.png", 32, 32)
+	actionButton.x = _W-38; actionButton.y = _H-98;
+	actionButton:addEventListener("touch", playerJump)
+
+        
 end
 
 

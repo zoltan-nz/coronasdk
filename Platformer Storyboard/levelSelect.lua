@@ -23,8 +23,8 @@ local scene = storyboard.newScene()
 --Variables etc we needs
 local _W = display.contentWidth --Width and height parameters
 local _H = display.contentHeight 
-local amountOfLevels = 15 --Max number of sqaures to make
-local amountPerRow = 5 --Contorls placement.
+local amountOfLevels = 3 --Max number of sqaures to make
+local amountPerRow = 3 --Contorls placement.
 local levelScores = {} --Holds are level information
 
 
