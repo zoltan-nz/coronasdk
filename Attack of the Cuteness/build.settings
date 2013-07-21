@@ -1,0 +1,43 @@
+-- build.settings for project: Attack of the Cuteness Game
+-- For http://MasteringCoronaSDK.com
+-- Copyright 2013 J. A. Whye. All Rights Reserved.
+
+settings =
+{
+	orientation =
+	{
+		default = "landscapeRight",
+		supported =
+		{
+			"landscapeRight"
+		},
+	},
+
+	android =
+	{
+		versionCode = "1"
+	},
+
+	androidPermissions =
+	{
+		"android.permission.WRITE_EXTERNAL_STORAGE"
+	},
+
+	iphone =
+	{
+		plist =
+		{
+			UIPrerenderedIcon = true,
+			UIApplicationExitsOnSuspend = false,
+			UIStatusBarHidden = true,
+                        CFBundleIconFile = "Icon.png",
+                        CFBundleIconFiles = {
+                                "Icon.png" , 
+                                "Icon@2x.png" , 
+                                "Icon-72.png"
+                        },
+
+		},
+	},
+
+}
