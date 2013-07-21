@@ -421,6 +421,60 @@ function scene:createScene( event )
 		end
 		return true
 	end
+        
+        local function playerShoot( event )
+		local t = event.target
+                
+                local function bulletDisappear(event)
+                     print("Bullett Disappear")
+                     display.remove(event.target)
+                end
+                
+                
+                if movementAllowed then
+                    if event.phase == "began" then
+                        startx = player.x + (player.contentWidth / 2) 
+                        starty = player.y - (player.contentHeight / 2)
+                        bullet = display.newImage("images/bullet_30_19.png", startx, starty )
+                        bullet.trans = transition.to (bullet, {x=_W, y=starty, time=1000, onComplete=bulletDisappear})
+                    end
+                else
+                    display.getCurrentStage():setFocus(t, nil)
+                end
+                return true
+
+--		--Only allow this to occur if we haven't died etc.
+--		if movementAllowed then
+--			if event.phase == "began" then
+--				display.getCurrentStage():setFocus( t, event.id )
+--				t.isFocus = true; t.alpha = 0.6
+--				
+--			elseif t.isFocus then
+--				if event.phase == "ended" or event.phase == "cancelled" then
+--					display.getCurrentStage():setFocus( t, nil )
+--					t.isFocus = false; t.alpha = 1
+--					
+--					floorHit = false	
+--					if doubleJump == false then 
+--						player:setLinearVelocity( 0, 0 )
+--						player:applyForce(0,-8, player.x, player.y)
+--						player:setSequence("jump")
+--						jumpChannel = audio.play(jumpSound)
+--					end
+--
+--					if singleJump == false then singleJump = true 
+--					else doubleJump = true end
+--				end
+--			end
+--
+--		--If we aren't allowed to move we need to stop the focus.
+--		--If you dont there is a risk of a crash as the scene changes (if your still pressing the button)
+--		else
+--			display.getCurrentStage():setFocus( t, nil )
+--		end
+--		return true
+	end
+        
 
 	--Create the movement buttons.
 	local jumpButton = display.newImageRect(extraGroup, "images/button.png", 64, 64)
@@ -435,9 +489,10 @@ function scene:createScene( event )
 	rightButton.x = leftButton.x+84; rightButton.y = _H-34; rightButton.dir = "right"
 	rightButton:addEventListener("touch", moveButton)
         
+        --Create an action button, with this player can shoot
         local actionButton = display.newImageRect(extraGroup, "images/button.png", 32, 32)
 	actionButton.x = _W-38; actionButton.y = _H-98;
-	actionButton:addEventListener("touch", playerJump)
+	actionButton:addEventListener("touch", playerShoot)
 
         
 end
