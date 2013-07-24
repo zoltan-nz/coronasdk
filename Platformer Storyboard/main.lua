@@ -9,8 +9,8 @@
 --Created by Biffy Beebe, you would have to purchase the indie Graphics bundle
 --yourself in order to use the graphics in this template in your own game.
 
---You are not allowed to publish this template to the Appstore as it is. 
---You need to work on it, improve it and replace the graphics. 
+--You are not allowed to publish this template to the Appstore as it is.
+--You need to work on it, improve it and replace the graphics.
 
 --For questions and/or bugs found, please contact me using our contact
 --form on http://www.tandgapps.co.uk/contact-us/
@@ -38,24 +38,24 @@ system.activate("multitouch")
 
 
 --Create some level globals used in the game itself/gameWon/gameOver scenes.
-_G.amountofLevels = 2
+_G.amountofLevels = 3
 _G.currentLevel = 1
-_G.levelScore = 0  
+_G.levelScore = 0
 
 
 --Create a database table for holding the high scores per level in.
 --We only need a small database as we dont need to save much information.
 local dbPath = system.pathForFile("levelScores.db3", system.DocumentsDirectory)
-local db = sqlite3.open( dbPath )	
+local db = sqlite3.open( dbPath )
 
 --Current 2 levels. Add more rows to make more levels available. Also remember if
 --you add an extra row into this database you need to add an exta level to
 --"amountofLevels" above.
-local tablesetup = [[ 
-		CREATE TABLE scores (id INTEGER PRIMARY KEY, highscore); 
-		INSERT INTO scores VALUES (NULL, '0'); 
-		INSERT INTO scores VALUES (NULL, '0'); 
-	]]
+local tablesetup = [[
+		CREATE TABLE scores (id INTEGER PRIMARY KEY, highscore);
+		INSERT INTO scores VALUES (NULL, '0');
+		INSERT INTO scores VALUES (NULL, '0');
+]]
 db:exec( tablesetup ) --Create it now.
 db:close() --Then close the database
 
@@ -77,17 +77,17 @@ db:close() --Then close the database
 ---------------------------------------------------------------------------------
 local monitorMem = function()
 
-   collectgarbage()
+    collectgarbage()
 
-	 
-   local textMem = system.getInfo( "textureMemoryUsed" ) / 1000000
-	   memUsageText.text = collectgarbage("count")
-	   memUsageText:setReferencePoint(display.TopLeftReferencePoint)
-	   memUsageText.x = 10
 
-	   textureMemUsageText.text = textMem
-	   textureMemUsageText:setReferencePoint(display.TopLeftReferencePoint)
-	   textureMemUsageText.x = 10
+    local textMem = system.getInfo( "textureMemoryUsed" ) / 1000000
+    memUsageText.text = collectgarbage("count")
+    memUsageText:setReferencePoint(display.TopLeftReferencePoint)
+    memUsageText.x = 10
+
+    textureMemUsageText.text = textMem
+    textureMemUsageText:setReferencePoint(display.TopLeftReferencePoint)
+    textureMemUsageText.x = 10
 
 end
 
