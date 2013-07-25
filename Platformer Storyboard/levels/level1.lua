@@ -70,13 +70,13 @@ M = {
         ladders = {
             {
                 filename = "images/ladder.png",
-                widthHeight = {78,150},
-                position = {0,300},
+                widthHeight = {40,150},
+                position = {0,270},
             },
             {
                 filename = "images/ladder.png",
-                widthHeight = {78,150},
-                position = {100,160},
+                widthHeight = {40,150},
+                position = {250,270},
             }
         },
 

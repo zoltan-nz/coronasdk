@@ -24,6 +24,7 @@ local scene = storyboard.newScene()
 
 --Require physics
 local physics = require("physics")
+physics.setDrawMode( "hybrid" )
 physics.start(); physics.setGravity( 0, 20 ) --Start physics
 --physics.setDrawMode( "hybrid" )
 
@@ -138,6 +139,7 @@ function scene:createScene( event )
     winSound = audio.loadSound("sounds/LevelClear.mp3")
     jumpSound = audio.loadSound("sounds/Jump.mp3")
     bullettSound = audio.loadSound("sounds/shoot.mp3")
+    explosionSound =audio.loadSound("sounds/explosion.mp3")
 
 
     --------------------------------------------
@@ -220,7 +222,8 @@ function scene:createScene( event )
             local ladder = display.newImageRect(objectGroup, object["filename"], object["widthHeight"][1], object["widthHeight"][2])
             ladder:setReferencePoint(display.BottomCenterReferencePoint);
             ladder.x = object["position"][1]+xOffset; ladder.y = object["position"][2];
-            physics.addBody(ladder, "dynamic", {density=0.004, friction=1, bounce=0} )
+            physics.addBody(ladder, "static", {density=0.004, friction=0.3, bounce=0} )
+            ladder.name = "ladder"
         end
         for i=1, #level[sectionInt]["coins"] do
             local object = level[sectionInt]["coins"][i]
@@ -390,10 +393,17 @@ function scene:createScene( event )
             else player:translate(-levelspeed,0) end
         end
 
-        if moveSide == "up" then
+        if moveSide == "up" and atALadder == true then
+            physics.setGravity( 0, 0 )
             player:setLinearVelocity( 0, 0 )
             player:applyForce(0,-1, player.x, player.y)
             player:setSequence("run"); player:play()
+            player.xScale = 1
+            player.onLadder = true
+        end
+
+        if moveSide == "down" and atALadder == true then
+
         end
 
     end
@@ -405,6 +415,7 @@ function scene:createScene( event )
         --Only allow this to occur if we haven't died etc.
         if movementAllowed then
             if event.phase == "began" and moving == false then
+                print('moveButton, phase: began, moving: false')
                 display.getCurrentStage():setFocus( t, event.id )
                 t.isFocus = true; t.alpha = 0.6
                 moving = true
@@ -419,6 +430,8 @@ function scene:createScene( event )
 
             elseif t.isFocus and moving == true then
                 if event.phase == "ended" or event.phase == "cancelled" then
+                    print('moveButton, phase: ended, moving: true')
+                    physics.setGravity( 0, 20 )
                     display.getCurrentStage():setFocus( t, nil )
                     t.isFocus = false; t.alpha = 1
                     moving = false
@@ -612,20 +625,40 @@ function scene:enterScene( event )
         timer.performWithDelay(10, createNow, 1)
     end
 
-    --Collision functon. Controls hitting the blocks and coins etc. Also resets the jumping
+    --Collision function. Controls hitting the blocks and coins etc. Also resets the jumping
     function onCollision(event)
+
+        if event.phase == "ended" then
+            local name1 = event.object1.name
+            local name2 = event.object2.name
+
+            if name1 == "ladder" or name2 == "ladder" then
+                if name1 == "player" or name2 == "player" then
+                    atALadder = false
+                    print("atALadder = false")
+                end
+            end
+        end
+
         if event.phase == "began" and gameIsActive == true and gameOverCalled == false then
             local name1 = event.object1.name
             local name2 = event.object2.name
+
+            if name1 == "ladder" or name2 == "ladder" then
+                if name1 == "player" or name2 == "player" then
+                    atALadder = true
+                    print("atALadder = true")
+                end
+            end
 
             if name1 == "bullett" or name2 == "bullett" then
                 print("bullett collision happend")
                 if name1 == "enemy" or name2 == "enemy" then
                     display.remove(event.object2); event.object2 = nil
                     display.remove(event.object1); event.object1 = nil
+                    explosionChannel = audio.play(explosionSound)
                     changeText(10)
                 end
-
             end
 
             if name1 == "player" or name2 == "player" then
@@ -692,6 +725,11 @@ function scene:enterScene( event )
                         --Else if its the floor just reset.
                         resetJump()
                     end
+
+
+
+
+
 
                     --Picking up coins...
                 elseif name1 == "coin" or name2 == "coin" then
