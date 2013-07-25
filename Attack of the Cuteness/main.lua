@@ -6,6 +6,8 @@
 
 -- housekeeping stuff
 
+require("mobdebug").start()
+
 display.setStatusBar(display.HiddenStatusBar)
 
 local centerX = display.contentCenterX

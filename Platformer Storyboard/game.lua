@@ -95,6 +95,7 @@ local playerSprite = {
     {name="run", start=1, count=3, time = 400, loopCount = 0 },
     {name="jump", start=4, count=1, time = 1000, loopCount = 1 },
     {name="stand", start=5, count=1, time = 1000, loopCount = 1 },
+    {name="shoot", start=4, count=1, time = 500, loopCount = 1}
 }
 
 --Enemy
@@ -213,6 +214,13 @@ function scene:createScene( event )
             else
                 physics.addBody( block, "static", { friction=1, bounce=0} );
             end
+        end
+        for i=1, #level[sectionInt]["ladders"] do
+            local object = level[sectionInt]["ladders"][i]
+            local ladder = display.newImageRect(objectGroup, object["filename"], object["widthHeight"][1], object["widthHeight"][2])
+            ladder:setReferencePoint(display.BottomCenterReferencePoint);
+            ladder.x = object["position"][1]+xOffset; ladder.y = object["position"][2];
+            physics.addBody(ladder, "dynamic", {density=0.004, friction=1, bounce=0} )
         end
         for i=1, #level[sectionInt]["coins"] do
             local object = level[sectionInt]["coins"][i]
@@ -381,6 +389,13 @@ function scene:createScene( event )
             elseif player.x >= _W then player.x = _W-1
             else player:translate(-levelspeed,0) end
         end
+
+        if moveSide == "up" then
+            player:setLinearVelocity( 0, 0 )
+            player:applyForce(0,-1, player.x, player.y)
+            player:setSequence("run"); player:play()
+        end
+
     end
 
     --Button function. Called from the left and right buttons
@@ -435,6 +450,7 @@ function scene:createScene( event )
 
         if movementAllowed then
             if event.phase == "began" then
+                player:setSequence("shoot")
                 startx = player.x + (player.contentWidth / 2)
                 starty = player.y - (player.contentHeight / 2)
                 bullett = display.newImage("images/bullet_30_19.png", startx, starty )
@@ -449,36 +465,6 @@ function scene:createScene( event )
         end
         return true
 
-        --		--Only allow this to occur if we haven't died etc.
-        --		if movementAllowed then
-        --			if event.phase == "began" then
-        --				display.getCurrentStage():setFocus( t, event.id )
-        --				t.isFocus = true; t.alpha = 0.6
-        --
-        --			elseif t.isFocus then
-        --				if event.phase == "ended" or event.phase == "cancelled" then
-        --					display.getCurrentStage():setFocus( t, nil )
-        --					t.isFocus = false; t.alpha = 1
-        --
-        --					floorHit = false
-        --					if doubleJump == false then
-        --						player:setLinearVelocity( 0, 0 )
-        --						player:applyForce(0,-8, player.x, player.y)
-        --						player:setSequence("jump")
-        --						jumpChannel = audio.play(jumpSound)
-        --					end
-        --
-        --					if singleJump == false then singleJump = true
-        --					else doubleJump = true end
-        --				end
-        --			end
-        --
-        --		--If we aren't allowed to move we need to stop the focus.
-        --		--If you dont there is a risk of a crash as the scene changes (if your still pressing the button)
-        --		else
-        --			display.getCurrentStage():setFocus( t, nil )
-        --		end
-        --		return true
     end
 
 
@@ -498,12 +484,12 @@ function scene:createScene( event )
     --Create up and down button
     local upButton = display.newImageRect(extraGroup, "images/buttonLeft.png", 45, 45)
     upButton.rotation = 90
-    upButton.x = 100; upButton.y = _H-100; leftButton.dir = "up"
+    upButton.x = 80; upButton.y = _H-70; upButton.dir = "up"
     upButton:addEventListener("touch", moveButton)
 
     local downButton = display.newImageRect(extraGroup, "images/buttonRight.png", 45, 45)
     downButton.rotation = 90
-    downButton.x = 100; downButton.y = _H-50; downButton.dir = "down"
+    downButton.x = 80; downButton.y = _H-25; downButton.dir = "down"
     downButton:addEventListener("touch", moveButton)
 
     --Create an action button, with this player can shoot

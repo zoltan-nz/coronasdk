@@ -67,6 +67,19 @@ M = {
                 position ={250,160},
             },
         },
+        ladders = {
+            {
+                filename = "images/ladder.png",
+                widthHeight = {78,150},
+                position = {0,300},
+            },
+            {
+                filename = "images/ladder.png",
+                widthHeight = {78,150},
+                position = {100,160},
+            }
+        },
+
         --Create the Coins for this screen. Leave blank for none.
         coins = {
         },
@@ -159,6 +172,8 @@ M = {
             },
         },
         --Create the Coins for this screen. Leave blank for none.
+        ladders = {
+        },
         coins = {
             {
                 widthHeight = {30,42},
@@ -245,6 +260,10 @@ M = {
                 position ={300,200},
             },
         },
+
+        ladders = {
+        },
+
         --Create the Coins for this screen. Leave blank for none.
         coins = {
         },
@@ -315,6 +334,9 @@ M = {
                 position ={450,226},
             },
         },
+        ladders = {
+        },
+
         --Create the Coins for this screen. Leave blank for none.
         coins = {
             {
@@ -370,6 +392,8 @@ M = {
         blocks = {
         },
         --Create the Coins for this screen. Leave blank for none.
+        ladders = {
+        },
         coins = {
         },
         --Create the Spikes for this screen. Leave blank for none.
@@ -396,6 +420,10 @@ M = {
         --Create the blocks for this screen. Leave blank for none.
         blocks = {
         },
+
+        ladders = {
+        },
+
         --Create the Coins for this screen. Leave blank for none.
         coins = {
         },
@@ -419,6 +447,10 @@ M = {
         --Create the blocks for this screen. Leave blank for none.
         blocks = {
         },
+
+        ladders = {
+        },
+
         --Create the Coins for this screen. Leave blank for none.
         coins = {
         },
@@ -445,6 +477,10 @@ M = {
         --Create the blocks for this screen. Leave blank for none.
         blocks = {
         },
+
+        ladders = {
+        },
+
         --Create the Coins for this screen. Leave blank for none.
         coins = {
         },
