@@ -140,7 +140,7 @@ function scene:createScene( event )
     winSound = audio.loadSound("sounds/LevelClear.mp3")
     jumpSound = audio.loadSound("sounds/Jump.mp3")
     bullettSound = audio.loadSound("sounds/shoot.mp3")
-    explosionSound =audio.loadSound("sounds/explosion.mp3")
+    explosionSound = audio.loadSound("sounds/explosion.mp3")
 
 
     --------------------------------------------
@@ -228,10 +228,13 @@ function scene:createScene( event )
             ladder:setReferencePoint(display.BottomCenterReferencePoint);
             ladder.x = object["position"][1]+xOffset; ladder.y = object["position"][2];
 
-            ladderCollisionFilter = {categoryBits = 2, maksBits = 0}
+            ladderCollisionFilter = {categoryBits = 2, maksBits = 1}
 
             physics.addBody(ladder, "static", {density=0.004, friction=0.3, bounce=0, filter=ladderCollisionFilter} )
             ladder.name = "ladder"
+            ladderSensor = ladder
+            ladderSensor.name = "ladderSensor"
+            ladder.BodyType = "sensor"
         end
         for i=1, #level[sectionInt]["coins"] do
             local object = level[sectionInt]["coins"][i]
@@ -304,11 +307,15 @@ function scene:createScene( event )
         local playerShape = { -16,-28, 16,-28, 16,31, -16,31 }
 
         playerCollisionFilter ={categoryBits = 1, maskBits = 4}
-
         physics.addBody( player,  "dynamic", { friction=1, bounce=0, shape=playerShape, filter=playerCollisionFilter} )
+
+        physics.addBody( player,  "dynamic", { friction=1, bounce=0, shape=playerShape} )
         player.isFixedRotation = true 	--To stop it rotating when jumping etc
         player.isSleepingAllowed = false --To force it to update and fall off playforms correctly.
-
+        print("player.gravityScale: "..player.gravityScale)
+        player2 = player
+        player2.x = player.x
+        player2.y = player.y
         --Create a section straight away..
         createSection()
     end
@@ -407,20 +414,22 @@ function scene:createScene( event )
             else player:translate(-levelspeed,0) end
         end
 
-        if moveSide == "up" then -- and atALadder == true then
-            player.BodyType = 'kinematic'
-            --            physics.setGravity( 0, -20 )
-            --            player.gravityScale = 0
-            --            player:setLinearVelocity( 0 , 40 )
-            --            player:applyForce(0,-1, player.x, player.y)
-            player:applyLinearImpulse(0, -1, 0, 0)
+        if moveSide == "up" and atALadder == true then
+            --            player.BodyType = 'kinematic'
+            player.gravityScale = 0
+            player.y = player.y - 5
             player:setSequence("run"); player:play()
             player.xScale = 1
             player.onLadder = true
         end
 
         if moveSide == "down" and atALadder == true then
-
+            --            player.BodyType = 'kinematic'
+            player.gravityScale = 0
+            player.y = player.y + 5
+            player:setSequence("run"); player:play()
+            player.xScale = 1
+            player.onLadder = true
         end
 
     end
@@ -653,6 +662,7 @@ function scene:enterScene( event )
             if name1 == "ladder" or name2 == "ladder" then
                 if name1 == "player" or name2 == "player" then
                     atALadder = false
+                    player.gravityScale = 1
                     print("atALadder = false")
                 end
             end
