@@ -1,0 +1,17 @@
+-- build.settings for project: PhysicsTest
+-- Managed with http://CoronaProjectManager.com
+-- Copyright 2013 . All Rights Reserved.
+-- cpmgen build.settings
+settings =
+{
+	orientation =
+	{
+		default ="landscapeRight",
+		content = "landscapeRight",
+		supported =
+		{
+			"landscapeRight"
+		},
+	},
+
+}

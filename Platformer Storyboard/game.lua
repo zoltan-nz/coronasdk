@@ -487,17 +487,35 @@ function scene:createScene( event )
         end
 
 
-        if movementAllowed then
+        if movementAllowed and ammo > 0 then
             if event.phase == "began" then
-                player:setSequence("shoot")
-                startx = player.x + (player.contentWidth / 2)
-                starty = player.y - (player.contentHeight / 2)
-                bullett = display.newImage("images/bullet_30_19.png", startx, starty )
-                bullett.isBullet = true
-                bullett.name = "bullett"
-                physics.addBody( bullett,  "dynamic", { friction=1, bounce=0, shape=playerShape} )
-                bullettChannel = audio.play(bullettSound)
-                bullett.trans = transition.to (bullett, {x=_W, y=starty, time=1000, onComplete=bullettDisappear})
+                ammo = ammo - 1
+                ammoText.text = "Ammo: "..ammo
+                if player.xScale == -1 then
+
+                    player:setSequence("shoot")
+                    startx = player.x - (player.contentWidth / 2)
+                    starty = player.y - (player.contentHeight / 2)
+                    bullett = display.newImage("images/bullet_30_19.png", startx, starty)
+                    bullett.rotation = 180
+                    bullett.isBullet = true
+                    bullett.name = "bullett"
+                    physics.addBody( bullett,  "dynamic", { friction=1, bounce=0, shape=playerShape} )
+                    bullettChannel = audio.play(bullettSound)
+
+                    bullett.trans = transition.to (bullett, {x=0, y=starty, time=1000, onComplete=bullettDisappear})
+                else
+                    player:setSequence("shoot")
+                    startx = player.x + (player.contentWidth / 2)
+                    starty = player.y - (player.contentHeight / 2)
+                    bullett = display.newImage("images/bullet_30_19.png", startx, starty )
+                    bullett.isBullet = true
+                    bullett.name = "bullett"
+                    physics.addBody( bullett,  "dynamic", { friction=1, bounce=0, shape=playerShape} )
+                    bullettChannel = audio.play(bullettSound)
+                    bullett.trans = transition.to (bullett, {x=_W, y=starty, time=1000, onComplete=bullettDisappear})
+                end
+
             end
 
         else
@@ -639,6 +657,7 @@ function scene:enterScene( event )
             scoreText.x = 6
         end
     end
+
     --Quick coin creation function. Used in the below collision function
     --when the player hits a special box.
     local function createCoin(x,y)
@@ -845,7 +864,22 @@ scene:addEventListener( "enterScene", scene )
 scene:addEventListener( "exitScene", scene )
 scene:addEventListener( "destroyScene", scene )
 
+function onUpdate(event)
+    -- let the first call to onUpdate to return quickly;
+    -- start the debugging during the second call to trick Corona SDK
+    -- and avoid restarting the app.
+    if done == nil then done = false return end
+    if not done then
+        require("mobdebug").start()
+        done = true
+    end
+    -- try to modify the following three lines while running this code live
+    -- (using `Project | Run as Scratchpad`)
 
+
+end
+
+Runtime:addEventListener("enterFrame", function(event) pcall(onUpdate, event) end)
 
 --Return the scene to storyboard.
 return scene
