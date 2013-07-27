@@ -41,6 +41,7 @@ system.activate("multitouch")
 _G.amountofLevels = 3
 _G.currentLevel = 1
 _G.levelScore = 0
+_G.lives = 3
 
 
 --Create a database table for holding the high scores per level in.

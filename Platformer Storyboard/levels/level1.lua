@@ -83,6 +83,12 @@ M = {
         --Create the Coins for this screen. Leave blank for none.
         coins = {
         },
+        ammos = {
+            {
+
+                position = {50,100},
+            }
+        },
         --Create the Spikes for this screen. Leave blank for none.
         spikes = {
         },
@@ -192,6 +198,7 @@ M = {
                 position = {300,66},
             },
         },
+        ammos = {},
         --Create the Spikes for this screen. Leave blank for none.
         spikes = {
             {
@@ -267,6 +274,7 @@ M = {
         --Create the Coins for this screen. Leave blank for none.
         coins = {
         },
+        ammos = {},
         --Create the Spikes for this screen. Leave blank for none.
         spikes = {
         },
@@ -356,6 +364,7 @@ M = {
                 position = {450,166},
             },
         },
+        ammos = {},
         --Create the Spikes for this screen. Leave blank for none.
         spikes = {
             {
@@ -396,6 +405,7 @@ M = {
         },
         coins = {
         },
+        ammos = {},
         --Create the Spikes for this screen. Leave blank for none.
         spikes = {
         },
@@ -427,6 +437,8 @@ M = {
         --Create the Coins for this screen. Leave blank for none.
         coins = {
         },
+
+        ammos = {},
         --Create the Spikes for this screen. Leave blank for none.
         spikes = {
         },
@@ -454,6 +466,9 @@ M = {
         --Create the Coins for this screen. Leave blank for none.
         coins = {
         },
+
+        ammos = {},
+
         --Create the Spikes for this screen. Leave blank for none.
         spikes = {
         },
@@ -484,6 +499,9 @@ M = {
         --Create the Coins for this screen. Leave blank for none.
         coins = {
         },
+
+        ammos = {},
+        
         --Create the Spikes for this screen. Leave blank for none.
         spikes = {
         },
@@ -506,7 +524,7 @@ M = {
 --Limits you going too far left or right. The first one should ALWAYS be 0.
 --The second value controls how far right in pixels you can travel.
 --480 = 1 screen, 960 = 2 screens, 1440 = 3 screens, 1920 = 4 screens, 2400 = 5 screens.
-M.screenBounds = {0,2400}
+M.screenBounds = {0,480*8}
 
 
 

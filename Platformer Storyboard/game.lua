@@ -24,7 +24,7 @@ local scene = storyboard.newScene()
 
 --Require physics
 local physics = require("physics")
-physics.setDrawMode( "hybrid" )
+--physics.setDrawMode( "hybrid" )
 physics.start(); physics.setGravity( 0, 20 ) --Start physics
 --physics.setDrawMode( "hybrid" )
 
@@ -58,6 +58,7 @@ local sectionInt = 1 --Controls the sections being made
 levelScore = 0 --Reset the levelScore just incase it is still set.
 
 
+
 --BG and display variables.
 local bg1, bg2, ground1, ground2, extra1, extra2
 local scoreText --Displays our score
@@ -71,7 +72,7 @@ local player
 local levelspeed = 0 --Will increase when we start running.
 local runSpeed = 8 --How fast the background will move when your running top speed.
 local movementAllowed = true
-local ammo = 5
+local ammoInt = 5
 
 --Timers and transitions
 local moveTimer
@@ -141,6 +142,7 @@ function scene:createScene( event )
     jumpSound = audio.loadSound("sounds/Jump.mp3")
     bullettSound = audio.loadSound("sounds/shoot.mp3")
     explosionSound = audio.loadSound("sounds/explosion.mp3")
+    ammoSound = audio.loadSound("sounds/ammo.mp3")
 
 
     --------------------------------------------
@@ -150,13 +152,42 @@ function scene:createScene( event )
     local hudBar = display.newImageRect(extraGroup, "images/clearheader.png", 480,36)
     hudBar.x = _W*0.5; hudBar.y = 14; hudBar.alpha = 0.5
 
-    scoreText = display.newText(extraGroup, "Score: "..score,0,0,"Arial",17)
+    scoreText = display.newText(extraGroup, "Score: "..score,0,0,"Arial",15)
     scoreText:setReferencePoint(display.CenterLeftReferencePoint); scoreText:setTextColor(50)
-    scoreText.x = 6; scoreText.y = 14
+    scoreText.x = 3; scoreText.y = 12
 
-    ammoText = display.newText(extraGroup, "Ammo: "..ammo, 0,0, "Arial", 17)
+    ammoText = display.newText(extraGroup, "Ammo: "..ammoInt, 0,0, "Arial", 15)
     ammoText:setReferencePoint(display.CenterLeftReferencePoint); ammoText:setTextColor(50)
-    ammoText.x = 100; ammoText.y = 14
+    ammoText.x = 80; ammoText.y = 12
+
+    levelText = display.newText(extraGroup, "Level: "..currentLevel, 0,0, "Arial", 15)
+    levelText:setReferencePoint(display.CenterLeftReferencePoint); levelText:setTextColor(50)
+    levelText.x = 170; levelText.y = 12
+
+    sectionText = display.newText(extraGroup, "Screen: "..sectionInt, 0,0, "Arial", 15)
+    sectionText:setReferencePoint(display.CenterLeftReferencePoint); sectionText:setTextColor(50)
+    sectionText.x = 230; sectionText.y = 12
+
+    livesText = display.newText(extraGroup, "Lives: "..lives, 0,0, "Arial", 15)
+    livesText:setReferencePoint(display.CenterLeftReferencePoint); livesText:setTextColor(50)
+    livesText.x = 330; livesText.y = 12
+
+    startTime = os.time()
+    timeText = display.newText(extraGroup, "Time: 0", 0, 0, "Arial", 15)
+    timeText:setReferencePoint(display.CenterLeftReferencePoint); timeText:setTextColor(50)
+    timeText.x = 400; timeText.y = 12
+
+    local function checkTime(event)
+        local now = os.time()
+        fulltime = now - startTime
+        min = math.floor(fulltime/60)
+        sec = fulltime % 60
+        if sec < 10 then sec = "0"..sec end
+        timeText.text = "Time:  "..min..":"..sec
+    end
+
+    Runtime:addEventListener("enterFrame", checkTime)
+
 
 
     --------------------------------------------
@@ -228,13 +259,12 @@ function scene:createScene( event )
             ladder:setReferencePoint(display.BottomCenterReferencePoint);
             ladder.x = object["position"][1]+xOffset; ladder.y = object["position"][2];
 
-            ladderCollisionFilter = {categoryBits = 2, maksBits = 1}
+            --            ladderCollisionFilter = {categoryBits = 2, maksBits = 1}
 
-            physics.addBody(ladder, "static", {density=0.004, friction=0.3, bounce=0, filter=ladderCollisionFilter} )
+            --            physics.addBody(ladder, "static", {density=0.004, friction=0.3, bounce=0, filter=ladderCollisionFilter} )
+            physics.addBody(ladder, "static", {density=0.004, friction=0.3, bounce=0, isSensor = true} )
             ladder.name = "ladder"
-            ladderSensor = ladder
-            ladderSensor.name = "ladderSensor"
-            ladder.BodyType = "sensor"
+
         end
         for i=1, #level[sectionInt]["coins"] do
             local object = level[sectionInt]["coins"][i]
@@ -243,6 +273,15 @@ function scene:createScene( event )
             coin.x = object["position"][1]+xOffset; coin.y = object["position"][2]; coin.name = "coin"
             physics.addBody( coin, "static", { isSensor = true } )
         end
+
+        for i=1, #level[sectionInt]["ammos"] do
+            local object = level[sectionInt]["ammos"][i]
+            local ammo = display.newImageRect(objectGroup, "images/ammo.png", 27, 42)
+            ammo:setReferencePoint(display.BottomCenterReferencePoint);
+            ammo.x = object["position"][1]+xOffset; ammo.y = object["position"][2]; ammo.name = "ammo"
+            physics.addBody( ammo, "static", { isSensor = true } )
+        end
+
         for i=1, #level[sectionInt]["spikes"] do
             local object = level[sectionInt]["spikes"][i]
             local spike = display.newImageRect(objectGroup, "images/spikes.png", object["widthHeight"][1], object["widthHeight"][2])
@@ -306,16 +345,12 @@ function scene:createScene( event )
 
         local playerShape = { -16,-28, 16,-28, 16,31, -16,31 }
 
-        playerCollisionFilter ={categoryBits = 1, maskBits = 4}
+        --        playerCollisionFilter ={categoryBits = 1, maskBits = 4}
         physics.addBody( player,  "dynamic", { friction=1, bounce=0, shape=playerShape, filter=playerCollisionFilter} )
 
         physics.addBody( player,  "dynamic", { friction=1, bounce=0, shape=playerShape} )
         player.isFixedRotation = true 	--To stop it rotating when jumping etc
         player.isSleepingAllowed = false --To force it to update and fall off playforms correctly.
-        print("player.gravityScale: "..player.gravityScale)
-        player2 = player
-        player2.x = player.x
-        player2.y = player.y
         --Create a section straight away..
         createSection()
     end
@@ -388,6 +423,7 @@ function scene:createScene( event )
             --We dont create them in the opposite direction.
             if distChange2 > 480 then
                 sectionInt = sectionInt + 1
+                sectionText.text = "Screen: "..sectionInt
                 if sectionInt <= #level then createSection() end
                 distChange2 = 0
             end
@@ -457,7 +493,7 @@ function scene:createScene( event )
             elseif t.isFocus and moving == true then
                 if event.phase == "ended" or event.phase == "cancelled" then
                     print('moveButton, phase: ended, moving: true')
-                    physics.setGravity( 0, 20 )
+                    --                    physics.setGravity( 0, 20 )
                     display.getCurrentStage():setFocus( t, nil )
                     t.isFocus = false; t.alpha = 1
                     moving = false
@@ -487,16 +523,16 @@ function scene:createScene( event )
         end
 
 
-        if movementAllowed and ammo > 0 then
+        if movementAllowed and ammoInt > 0 then
             if event.phase == "began" then
-                ammo = ammo - 1
-                ammoText.text = "Ammo: "..ammo
+                ammoInt = ammoInt - 1
+                ammoText.text = "Ammo: "..ammoInt
                 if player.xScale == -1 then
 
                     player:setSequence("shoot")
                     startx = player.x - (player.contentWidth / 2)
                     starty = player.y - (player.contentHeight / 2)
-                    bullett = display.newImage("images/bullet_30_19.png", startx, starty)
+                    bullett = display.newImage("images/bullet.png", startx, starty)
                     bullett.rotation = 180
                     bullett.isBullet = true
                     bullett.name = "bullett"
@@ -508,7 +544,7 @@ function scene:createScene( event )
                     player:setSequence("shoot")
                     startx = player.x + (player.contentWidth / 2)
                     starty = player.y - (player.contentHeight / 2)
-                    bullett = display.newImage("images/bullet_30_19.png", startx, starty )
+                    bullett = display.newImage("images/bullet.png", startx, starty )
                     bullett.isBullet = true
                     bullett.name = "bullett"
                     physics.addBody( bullett,  "dynamic", { friction=1, bounce=0, shape=playerShape} )
@@ -528,7 +564,7 @@ function scene:createScene( event )
 
     --Create the movement buttons.
     local jumpButton = display.newImageRect(extraGroup, "images/button.png", 45, 45)
-    jumpButton.x = _W-38; jumpButton.y = _H-34;
+    jumpButton.x = _W-38; jumpButton.y = _H-25;
     jumpButton:addEventListener("touch", playerJump)
 
     local leftButton = display.newImageRect(extraGroup, "images/buttonLeft.png", 45, 45)
@@ -551,8 +587,8 @@ function scene:createScene( event )
     downButton:addEventListener("touch", moveButton)
 
     --Create an action button, with this player can shoot
-    local actionButton = display.newImageRect(extraGroup, "images/button.png", 45, 45)
-    actionButton.x = _W-38; actionButton.y = _H-98;
+    local actionButton = display.newImageRect(extraGroup, "images/shoot_button.png", 45, 45)
+    actionButton.x = _W-90; actionButton.y = _H-25;
     actionButton:addEventListener("touch", playerShoot)
 
 
@@ -617,7 +653,13 @@ function scene:enterScene( event )
         --After the delay/slow down we show the gameOver screen.
         local function nowEnd()
             --Delay the level change
-            timer.performWithDelay(1400, function() storyboard.gotoScene( "gameOver", "slideLeft", 400 )  end, 1)
+            if lives > 0 then
+                lives = lives - 1
+                --                timer.performWithDelay(1400, function() storyboard.gotoScene( "game", "slideLeft", 400 )  end, 1)
+                timer.performWithDelay(1400, function() storyboard.gotoScene( "gameOver", "slideLeft", 400 )  end, 1)
+            else
+                timer.performWithDelay(1400, function() storyboard.gotoScene( "gameOverTotaly", "slideLeft", 400 )  end, 1)
+            end
         end
 
         --Stop the player and create a weird death animation.
@@ -785,6 +827,14 @@ function scene:enterScene( event )
                     coinChannel = audio.play(coinSound)
                     changeText(50)
 
+                    --Picking up ammos
+                elseif name1 == "ammo" or name2 == "ammo" then
+                    if name1 == "ammo" then display.remove(event.object1); event.object1 = nil;
+                    else display.remove(event.object2); event.object2 = nil; end
+                    ammoChannel = audio.play(ammoSound)
+                    ammoInt = ammoInt + 5
+                    ammoText.text = "Ammo: "..ammoInt
+
                     --Player hits the spikes
                 elseif name1 == "spike" or name2 == "spike" then
                     --Kill player...
@@ -820,8 +870,6 @@ function scene:enterScene( event )
     end
     Runtime:addEventListener("collision",onCollision)
 end
-
-
 
 -- Called when scene is about to move offscreen:
 -- Cancel Timers/Transitions and Runtime Listeners etc.
@@ -863,23 +911,6 @@ scene:addEventListener( "createScene", scene )
 scene:addEventListener( "enterScene", scene )
 scene:addEventListener( "exitScene", scene )
 scene:addEventListener( "destroyScene", scene )
-
-function onUpdate(event)
-    -- let the first call to onUpdate to return quickly;
-    -- start the debugging during the second call to trick Corona SDK
-    -- and avoid restarting the app.
-    if done == nil then done = false return end
-    if not done then
-        require("mobdebug").start()
-        done = true
-    end
-    -- try to modify the following three lines while running this code live
-    -- (using `Project | Run as Scratchpad`)
-
-
-end
-
-Runtime:addEventListener("enterFrame", function(event) pcall(onUpdate, event) end)
 
 --Return the scene to storyboard.
 return scene

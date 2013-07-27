@@ -1,0 +1,30 @@
+{
+  "configs" : [ {
+    "excludedFiles" : [ ],
+    "config_name" : "default",
+    "plugin_props" : {
+      "corona" : {
+        "panelStorage" : {
+        }
+      }
+    },
+    "autolibs" : [ ],
+    "extlibs" : [ ],
+    "fileAlias" : {
+    },
+    "sdkselect" : "track_selection"
+  } ],
+  "project_wide_config" : {
+    "excludedFiles" : [ ],
+    "config_name" : "default",
+    "plugin_props" : {
+    },
+    "autolibs" : [ ],
+    "extlibs" : [ ],
+    "fileAlias" : {
+    },
+    "sdkselect" : "track_selection"
+  },
+  "selected_config" : 0,
+  "ver" : 4
+}

@@ -16,4 +16,26 @@ system.activate("multitouch")
 
 display.setStatusBar(display.HiddenStatusBar)
 
--- Create a goroundground = display.newRect(0,0,200,200)
+function onUpdate(event)
+    -- let the first call to onUpdate to return quickly;
+    -- start the debugging during the second call to trick Corona SDK
+    -- and avoid restarting the app.
+    if done == nil then done = false return end
+    if not done then
+        require("mobdebug").start()
+        done = true
+    end
+    -- try to modify the following three lines while running this code live
+    -- (using `Project | Run as Scratchpad`)
+
+    ground = display.newRect(100,0,400,400)
+    ground2 = display.newRect(10,10,10,10)
+    ground2.color = black
+    
+    display.remove(ground)
+    ground = nil
+       
+
+end
+
+Runtime:addEventListener("enterFrame", function(event) pcall(onUpdate, event) end)
