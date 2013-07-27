@@ -43,7 +43,7 @@ local firstGroup, objectGroup, enemyGroup, extraGroup
 
 --Sounds
 local coinSound, overSound, winSound, jumpSound
-local coinChannel, jumpChannel, overChannel, winChannel = 2,3,4,5 --Channel vars, used to play sounds, these values change when they are used.
+local coinChannel, jumpChannel, overChannel, winChannel, bullettChannel, explosionChannel = 2,3,4,5,6,7 --Channel vars, used to play sounds, these values change when they are used.
 
 --Game Control Variables
 local moveSide = "right" --Changes when we touch the buttons.
@@ -71,6 +71,7 @@ local player
 local levelspeed = 0 --Will increase when we start running.
 local runSpeed = 8 --How fast the background will move when your running top speed.
 local movementAllowed = true
+local ammo = 5
 
 --Timers and transitions
 local moveTimer
@@ -153,6 +154,10 @@ function scene:createScene( event )
     scoreText:setReferencePoint(display.CenterLeftReferencePoint); scoreText:setTextColor(50)
     scoreText.x = 6; scoreText.y = 14
 
+    ammoText = display.newText(extraGroup, "Ammo: "..ammo, 0,0, "Arial", 17)
+    ammoText:setReferencePoint(display.CenterLeftReferencePoint); ammoText:setTextColor(50)
+    ammoText.x = 100; ammoText.y = 14
+
 
     --------------------------------------------
     -- ***CREATE GAME FUNCTION.***
@@ -222,7 +227,10 @@ function scene:createScene( event )
             local ladder = display.newImageRect(objectGroup, object["filename"], object["widthHeight"][1], object["widthHeight"][2])
             ladder:setReferencePoint(display.BottomCenterReferencePoint);
             ladder.x = object["position"][1]+xOffset; ladder.y = object["position"][2];
-            physics.addBody(ladder, "static", {density=0.004, friction=0.3, bounce=0} )
+
+            ladderCollisionFilter = {categoryBits = 2, maksBits = 0}
+
+            physics.addBody(ladder, "static", {density=0.004, friction=0.3, bounce=0, filter=ladderCollisionFilter} )
             ladder.name = "ladder"
         end
         for i=1, #level[sectionInt]["coins"] do
@@ -277,10 +285,13 @@ function scene:createScene( event )
 
         ground1 = display.newImageRect(extraGroup, "images/floor.png", 480, 48)
         ground1:setReferencePoint(display.TopLeftReferencePoint); ground1.x = 0; ground1.y = _H-48; ground1.name = "floor"
-        physics.addBody( ground1,  "static", { friction=0.1, bounce=0} )
+
+        groundCollisionFilter = {categoryBits = 4, maskBits = 3}
+
+        physics.addBody( ground1,  "static", { friction=0.1, bounce=0, filter = groundCollisionFilter} )
         ground2 = display.newImageRect(extraGroup, "images/floor.png", 480, 48)
         ground2:setReferencePoint(display.TopLeftReferencePoint); ground2.x = 480; ground2.y = _H-48; ground2.name = "floor"
-        physics.addBody( ground2,  "static", { friction=0.1, bounce=0} )
+        physics.addBody( ground2,  "static", { friction=0.1, bounce=0, filter = groundCollisionFilter} )
 
 
         --Now create the player sprite!
@@ -291,7 +302,10 @@ function scene:createScene( event )
         extraGroup:insert(player);
 
         local playerShape = { -16,-28, 16,-28, 16,31, -16,31 }
-        physics.addBody( player,  "dynamic", { friction=1, bounce=0, shape=playerShape} )
+
+        playerCollisionFilter ={categoryBits = 1, maskBits = 4}
+
+        physics.addBody( player,  "dynamic", { friction=1, bounce=0, shape=playerShape, filter=playerCollisionFilter} )
         player.isFixedRotation = true 	--To stop it rotating when jumping etc
         player.isSleepingAllowed = false --To force it to update and fall off playforms correctly.
 
@@ -393,10 +407,13 @@ function scene:createScene( event )
             else player:translate(-levelspeed,0) end
         end
 
-        if moveSide == "up" and atALadder == true then
-            physics.setGravity( 0, 0 )
-            player:setLinearVelocity( 0, 0 )
-            player:applyForce(0,-1, player.x, player.y)
+        if moveSide == "up" then -- and atALadder == true then
+            player.BodyType = 'kinematic'
+            --            physics.setGravity( 0, -20 )
+            --            player.gravityScale = 0
+            --            player:setLinearVelocity( 0 , 40 )
+            --            player:applyForce(0,-1, player.x, player.y)
+            player:applyLinearImpulse(0, -1, 0, 0)
             player:setSequence("run"); player:play()
             player.xScale = 1
             player.onLadder = true
@@ -467,6 +484,7 @@ function scene:createScene( event )
                 startx = player.x + (player.contentWidth / 2)
                 starty = player.y - (player.contentHeight / 2)
                 bullett = display.newImage("images/bullet_30_19.png", startx, starty )
+                bullett.isBullet = true
                 bullett.name = "bullett"
                 physics.addBody( bullett,  "dynamic", { friction=1, bounce=0, shape=playerShape} )
                 bullettChannel = audio.play(bullettSound)
