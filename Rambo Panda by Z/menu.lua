@@ -34,28 +34,56 @@ local tapChannel, tapSound --Sound variables..
 -- Create all your display objects here.
 function scene:createScene( event )
 
+    audio.setVolume( 1, { channel=1 } )
+
+    print( "Menu: createScene event")
     local screenGroup = self.view
 
-
+    --Load the sounds.
     tapSound = audio.loadSound("sounds/tapsound.wav")
-    
-    local bg1 = display.newImageRect( "images/gameOverTotaly.jpg", 480,320)
+
+    --Background images first...
+    local bg1 = display.newImageRect( "images/mainMenu.jpg", 480,320)
     bg1.x = _W*0.5; bg1.y = _H*0.5
     screenGroup:insert(bg1)
 
-    local function gotoMenu() storyboard.gotoScene( "menu", "slideRight", 400 ) end
+    --Play Game button;
+    local function startGame()
+        tapChannel = audio.play( tapSound )
+        storyboard.gotoScene( "levelSelect", "slideLeft", 400 )
+    end
+    local playGame = display.newRect(0,0, 120, 60)
+    playGame.x = _W*0.5; playGame.y = _H*0.8; playGame.alpha = 0.01
+    playGame:addEventListener("tap", startGame)
+    screenGroup:insert(playGame)
 
-    local menu = display.newRect(0,0, 280, 80)
-    menu.x = _W*0.5; menu.y = _H*0.66; menu.alpha = 0.01
-    menu:addEventListener("tap", gotoMenu)
-    screenGroup:insert(menu)
+
+    -- Sound ON/OFF text in the bottom-right corner
+    soundText = display.newText(screenGroup, "Sound: ON", 380, 290, 100, 20, "Arial", 15)
+    soundText:setTextColor(50)
+
+    function soundOnOff()
+        if audioPaused then
+            print("Sound ON")
+            audio.setMaxVolume(1)
+            soundText.text = "Sound: ON"
+            audioPaused = false
+        else
+            print("Sound OFF")
+            audio.setMaxVolume(0)
+            audioPaused = true
+            soundText.text = "Sound: OFF"
+        end
+
+    end
+    soundText:addEventListener("tap", soundOnOff)
 end
 
 
 -- Called immediately after scene has moved onscreen:
 -- Start timers/transitions etc.
 function scene:enterScene( event )
-
+    print( "Menu: enterScene event" )
 
     -- Completely remove the previous scene/all scenes.
     -- Handy in this case where we want to keep everything simple.
@@ -65,12 +93,12 @@ end
 -- Called when scene is about to move offscreen:
 -- Cancel Timers/Transitions and Runtime Listeners etc.
 function scene:exitScene( event )
-
+    print( "Menu: exitScene event" )
 end
 
 --Called prior to the removal of scene's "view" (display group)
 function scene:destroyScene( event )
-
+    print( "Menu: destroying view" )
     audio.dispose( tapSound ); tapSound = nil;
 end
 

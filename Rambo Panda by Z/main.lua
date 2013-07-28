@@ -46,7 +46,7 @@ _G.lives = 3
 
 --Create a database table for holding the high scores per level in.
 --We only need a small database as we dont need to save much information.
-local dbPath = system.pathForFile("levelScores.db3", system.DocumentsDirectory)
+local dbPath = system.pathForFile("levelScores2.db3", system.DocumentsDirectory)
 local db = sqlite3.open( dbPath )
 
 --Current 2 levels. Add more rows to make more levels available. Also remember if
@@ -56,6 +56,8 @@ local tablesetup = [[
 		CREATE TABLE scores (id INTEGER PRIMARY KEY, highscore);
 		INSERT INTO scores VALUES (NULL, '0');
 		INSERT INTO scores VALUES (NULL, '0');
+                INSERT INTO scores VALUES (NULL, '0');
+                INSERT INTO scores VALUES (NULL, '0');
 ]]
 db:exec( tablesetup ) --Create it now.
 db:close() --Then close the database

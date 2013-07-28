@@ -140,7 +140,7 @@ function scene:createScene( event )
 
     --Load the sounds.
     coinSound = audio.loadSound("sounds/Collect.mp3")
-    overSound = audio.loadSound("sounds/Defeat2.mp3")
+    overSound = audio.loadSound("sounds/zombie_death.mp3")
     winSound = audio.loadSound("sounds/LevelClear.mp3")
     jumpSound = audio.loadSound("sounds/Jump.mp3")
     bullettSound = audio.loadSound("sounds/shoot.mp3")
@@ -349,10 +349,12 @@ function scene:createScene( event )
 
 
         -- If debugMode true player can walk through everything.
-        if debugMode then       playerCollisionFilter ={categoryBits = 1, maskBits = 4} end
-        physics.addBody( player,  "dynamic", { friction=1, bounce=0, shape=playerShape, filter=playerCollisionFilter} )
-
-        physics.addBody( player,  "dynamic", { friction=1, bounce=0, shape=playerShape} )
+        if debugMode then
+            playerCollisionFilter ={categoryBits = 1, maskBits = 4}
+            physics.addBody( player,  "dynamic", { friction=1, bounce=0, shape=playerShape, filter=playerCollisionFilter} )
+        else
+            physics.addBody( player,  "dynamic", { friction=1, bounce=0, shape=playerShape} )
+        end
         player.isFixedRotation = true 	--To stop it rotating when jumping etc
         player.isSleepingAllowed = false --To force it to update and fall off playforms correctly.
         --Create a section straight away..

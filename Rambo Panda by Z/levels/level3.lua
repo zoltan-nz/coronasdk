@@ -72,16 +72,15 @@ M = {
         },
         ammos = {
             {
-
-                position = {50,110},
-            }
+                position = {50, 110}
+            },
+            {
+                position = {0,276}
+            },
         },
         --Create the Spikes for this screen. Leave blank for none.
         spikes = {
-            {
-                widthHeight = {50,16},
-                position = {300,276},
-            },
+
             {
                 widthHeight = {50,16},
                 position = {350,276},
@@ -95,17 +94,47 @@ M = {
         enemies = {
             {
                 widthHeight = {50,48},
-                position ={250,276},
-                allowedMovement = 180, --How far left-right the enemy can walk.
+                position ={250,110},
+                allowedMovement = 200, --How far left-right the enemy can walk.
                 speed = -2 --How fast they walk. Start walking left.
             },
-        },
-        ladders = {
             {
-                position = {0,276}
-            }
+                widthHeight = {50,48},
+                position ={250,276},
+                allowedMovement = 250, --How far left-right the enemy can walk.
+                speed = -2 --How fast they walk. Start walking left.
+            },
+            {
+                widthHeight = {50,48},
+                position ={250,276},
+                allowedMovement = 250, --How far left-right the enemy can walk.
+                speed = -3 --How fast they walk. Start walking left.
+            },
+            {
+                widthHeight = {50,48},
+                position ={250,276},
+                allowedMovement = 250, --How far left-right the enemy can walk.
+                speed = -4 --How fast they walk. Start walking left.
+            },
+            {
+                widthHeight = {50,48},
+                position ={250,276},
+                allowedMovement = 250, --How far left-right the enemy can walk.
+                speed = -5 --How fast they walk. Start walking left.
+            },
+            {
+                widthHeight = {50,48},
+                position ={250,276},
+                allowedMovement = 250, --How far left-right the enemy can walk.
+                speed = -6 --How fast they walk. Start walking left.
+            },
         },
         --Create the level end. (flag) Should only have one of these and in the last screen you make.
+        ladders = {
+            {
+                position = {0,276},
+            },
+        },
         flags = {
         },
         --You can add more categories here. Just remember to add them into the
@@ -121,12 +150,6 @@ M = {
         },
         --Create the Coins for this screen. Leave blank for none.
         coins = {
-        },
-        ammos = {
-            {
-
-                position = {0,276},
-            }
         },
         --Create the Spikes for this screen. Leave blank for none.
         spikes = {
@@ -147,6 +170,11 @@ M = {
                 position = {370,276},
             },
         },
+        ammos = {
+            {
+                position = {0,276}
+            },
+        },
         --Create some enemies. Very basic walking. Don't create too close to blocks!
         enemies = {
             {
@@ -161,28 +189,9 @@ M = {
                 allowedMovement = 100, --How far left-right the enemy can walk.
                 speed = -2 --How fast they walk. Start walking left.
             },
-            {
-                widthHeight = {50,48},
-                position ={290,276},
-                allowedMovement = 100, --How far left-right the enemy can walk.
-                speed = -2 --How fast they walk. Start walking left.
-            },
-            {
-                widthHeight = {50,48},
-                position ={320,276},
-                allowedMovement = 100, --How far left-right the enemy can walk.
-                speed = -2 --How fast they walk. Start walking left.
-            },
         },
         --Create the level end. (flag) Should only have one of these and in the last screen you make.
-        ladders = {
-            {
-                position = {0,276},
-            },
-            {
-                position = {250,276},
-            }
-        },
+        ladders = {},
         flags = {
         },
     },
@@ -261,9 +270,8 @@ M = {
         },
         ammos = {
             {
-
-                position = {50,226},
-            }
+                position = {0,276}
+            },
         },
         --Create the Spikes for this screen. Leave blank for none.
         spikes = {
@@ -278,6 +286,12 @@ M = {
         },
         --Create some enemies. Very basic walking. Don't create too close to blocks!
         enemies = {
+            {
+                widthHeight = {50,48},
+                position ={240,70},
+                allowedMovement = 40, --How far left-right the enemy can walk.
+                speed = -1 --How fast they walk. Start walking left.
+            },
         },
         --Create the level end. (flag) Should only have one of these and in the last screen you make.
         ladders = {},
@@ -366,14 +380,13 @@ M = {
                 position = {400,21},
             },
         },
-        ammos = {
-            {
-
-                position = {50,120},
-            }
-        },
         --Create the Spikes for this screen. Leave blank for none.
         spikes = {
+            {
+                widthHeight = {50,16},
+                position = {350,276},
+            },
+
             {
                 widthHeight = {50,16},
                 position = {450,276},
@@ -383,84 +396,48 @@ M = {
         enemies = {
             {
                 widthHeight = {50,48},
-                position ={230,276},
-                allowedMovement = 100, --How far left-right the enemy can walk.
+                position ={380,276},
+                allowedMovement = 200, --How far left-right the enemy can walk.
+                speed = -3 --How fast they walk. Start walking left.
+            },
+            {
+                widthHeight = {50,48},
+                position ={370,276},
+                allowedMovement = 200, --How far left-right the enemy can walk.
                 speed = -2 --How fast they walk. Start walking left.
             },
             {
                 widthHeight = {50,48},
-                position ={270,276},
-                allowedMovement = 100, --How far left-right the enemy can walk.
-                speed = -2 --How fast they walk. Start walking left.
+                position ={360,276},
+                allowedMovement = 200, --How far left-right the enemy can walk.
+                speed = -5 --How fast they walk. Start walking left.
+            },
+            {
+                widthHeight = {50,48},
+                position ={380,276},
+                allowedMovement = 200, --How far left-right the enemy can walk.
+                speed = -5 --How fast they walk. Start walking left.
+            },
+        },
+        ammos = {
+            {
+                position = {0,276}
             },
         },
         --Create the level end. (flag) Should only have one of these and in the last screen you make.
-        ladders = {},
+        ladders = {
+            {
+                position = {250,276};
+            }
+        },
         flags = {
         },
     },
 
+
     -------------------------------------------
     --Screen 5
-    -------------------------------------------
-    {
-        blocks = {},
-        coins = {
-            {
-                widthHeight = {30,42},
-                position = {300,270},
-            },
-            {
-                widthHeight = {30,42},
-                position = {350,270},
-            },
-
-        },
-        ammos = {
-            {
-
-                position = {50,276},
-            }
-        },
-        spikes = {},
-        enemies = {
-
-            {
-                widthHeight = {50,48},
-                position ={300,276},
-                allowedMovement = 200, --How far left-right the enemy can walk.
-                speed = -3 --How fast they walk. Start walking left.
-            },
-            {
-                widthHeight = {50,48},
-                position ={350,276},
-                allowedMovement = 200, --How far left-right the enemy can walk.
-                speed = -3 --How fast they walk. Start walking left.
-            },
-            {
-                widthHeight = {50,48},
-                position ={400,276},
-                allowedMovement = 200, --How far left-right the enemy can walk.
-                speed = -2 --How fast they walk. Start walking left.
-            },
-            {
-                widthHeight = {50,48},
-                position ={430,276},
-                allowedMovement = 200, --How far left-right the enemy can walk.
-                speed = -2 --How fast they walk. Start walking left.
-            },
-
-        },
-        ladders = {
-            {
-                position = {0,276},
-            }
-        },
-        flags = {},
-    },
-
-    -------------------------------------------
-    -- Screen 6
+    --Added by Zoltan
     -------------------------------------------
     {
         blocks = {
@@ -471,20 +448,20 @@ M = {
                 position ={50,160},
             },
             {
-                filename = "images/block_green_question.png",
-                type = "special",
+                filename = "images/block_green_brick.png",
+                type = "breakable",
                 widthHeight = {50,50},
                 position ={100,160},
             },
             {
-                filename = "images/block_green_brick.png",
-                type = "breakable",
+                filename = "images/block_green_question.png",
+                type = "special",
                 widthHeight = {50,50},
                 position ={150,160},
             },
             {
-                filename = "images/block_green_question.png",
-                type = "special",
+                filename = "images/block_green_brick.png",
+                type = "breakable",
                 widthHeight = {50,50},
                 position ={200,160},
             },
@@ -494,72 +471,308 @@ M = {
                 widthHeight = {50,50},
                 position ={250,160},
             },
-
-
         },
-        coins = {},
-        ammos = {
-            {
+        ladders = {
 
-                position = {0,276},
+            {
+                position = {290,270},
             }
         },
-        spikes = {
 
+        --Create the Coins for this screen. Leave blank for none.
+        coins = {
             {
-                widthHeight = {50,16},
-                position = {350,276},
+                widthHeight = {30,42},
+                position = {100,110},
+
+            },
+            {
+                widthHeight = {30,42},
+                position = {200,110},
+
             },
 
         },
+        ammos = {
+            {
+
+                position = {50,110},
+            }
+        },
+        --Create the Spikes for this screen. Leave blank for none.
+        spikes = {
+            {
+                widthHeight = {50,16},
+                position = {340,276},
+            },
+        },
+        --Create some enemies. Very basic walking. Don't create too close to blocks!
+        --To change the enemies you would have to edit the createSections function in game.lua
+        --Currently they are set to one imageSheet for animations, you could easily add more for more enemies.
         enemies = {
             {
                 widthHeight = {50,48},
-                position ={50,276},
-                allowedMovement = 200, --How far left-right the enemy can walk.
+                position ={250,276},
+                allowedMovement = 180, --How far left-right the enemy can walk.
+                speed = -2 --How fast they walk. Start walking left.
+            },
+            {
+                widthHeight = {50,48},
+                position ={250,110},
+                allowedMovement = 180, --How far left-right the enemy can walk.
+                speed = -2 --How fast they walk. Start walking left.
+            },
+
+        },
+        --Create the level end. (flag) Should only have one of these and in the last screen you make.
+        flags = {
+        },
+    },
+
+
+
+
+    -------------------------------------------
+    --Screen 6
+    --Added by Zoltan
+    -------------------------------------------
+    {
+        --Create the blocks for this screen. Leave blank for none.
+        blocks = {
+        },
+
+        ladders = {
+
+            {position = {300, 270}}
+        },
+
+        --Create the Coins for this screen. Leave blank for none.
+        coins = {
+            {
+                widthHeight = {30,42},
+                position = {150,270},
+
+            },
+            {
+                widthHeight = {30,42},
+                position = {200,270},
+
+            },
+            {
+                widthHeight = {30,42},
+                position = {250,270},
+
+            },
+        },
+
+        ammos = {
+            {
+                position = {100, 270}
+            },
+        },
+        --Create the Spikes for this screen. Leave blank for none.
+        spikes = {
+        },
+        --Create some enemies. Very basic walking. Don't create too close to blocks!
+        enemies = {
+            {
+                widthHeight = {50,48},
+                position ={100,276},
+                allowedMovement = 180, --How far left-right the enemy can walk.
                 speed = -1 --How fast they walk. Start walking left.
             },
             {
                 widthHeight = {50,48},
                 position ={100,276},
-                allowedMovement = 200, --How far left-right the enemy can walk.
-                speed = -2 --How fast they walk. Start walking left.
+                allowedMovement = 180, --How far left-right the enemy can walk.
+                speed = -6 --How fast they walk. Start walking left.
+            },
+            {
+                widthHeight = {50,48},
+                position ={100,276},
+                allowedMovement = 180, --How far left-right the enemy can walk.
+                speed = -7 --How fast they walk. Start walking left.
             },
             {
                 widthHeight = {50,48},
                 position ={150,276},
-                allowedMovement = 200, --How far left-right the enemy can walk.
-                speed = -3 --How fast they walk. Start walking left.
+                allowedMovement = 180, --How far left-right the enemy can walk.
+                speed = -2 --How fast they walk. Start walking left.
             },
             {
                 widthHeight = {50,48},
                 position ={200,276},
-                allowedMovement = 200, --How far left-right the enemy can walk.
+                allowedMovement = 180, --How far left-right the enemy can walk.
+                speed = -3 --How fast they walk. Start walking left.
+            },
+            {
+                widthHeight = {50,48},
+                position ={250,276},
+                allowedMovement = 180, --How far left-right the enemy can walk.
+                speed = -5 --How fast they walk. Start walking left.
+            },
+            {
+                widthHeight = {50,48},
+                position ={300,276},
+                allowedMovement = 180, --How far left-right the enemy can walk.
+                speed = -7 --How fast they walk. Start walking left.
+            },
+        },
+        --Create the level end. (flag) Should only have one of these and in the last screen you make.
+        --To edit its appearance and functions you would have to edit the createSection function in the game.lua file.
+        flags = {
+        },
+    },
+
+    -------------------------------------------
+    --Screen 7
+    --Added by Zoltan
+    -------------------------------------------
+    {
+        --Create the blocks for this screen. Leave blank for none.
+        blocks = {
+
+            {
+                filename = "images/block_green_brick.png",
+                type = "breakable",
+                widthHeight = {50,50},
+                position ={100,160},
+            },
+            {
+                filename = "images/block_green_question.png",
+                type = "special",
+                widthHeight = {50,50},
+                position ={150,160},
+            },
+            {
+                filename = "images/block_green_brick.png",
+                type = "breakable",
+                widthHeight = {50,50},
+                position ={200,160},
+            },
+
+        },
+
+        ladders = {
+            {position={300,276}},
+        },
+
+        --Create the Coins for this screen. Leave blank for none.
+        coins = {
+            {
+                widthHeight = {30,42},
+                position = {100,100},
+
+            },
+            {
+                widthHeight = {30,42},
+                position = {200,100},
+
+            },
+            {
+                widthHeight = {30,42},
+                position = {100,270},
+
+            },
+            {
+                widthHeight = {30,42},
+                position = {140,270},
+
+            },
+            {
+                widthHeight = {30,42},
+                position = {180,270},
+
+            },
+            {
+                widthHeight = {30,42},
+                position = {220,270},
+
+            },
+        },
+
+        ammos = {},
+
+        --Create the Spikes for this screen. Leave blank for none.
+        spikes = {
+            {
+                widthHeight = {50,16},
+                position = {350,276},
+            },
+            {
+                widthHeight = {50,16},
+                position = {400,276},
+            },
+        },
+        --Create some enemies. Very basic walking. Don't create too close to blocks!
+        enemies = {
+
+            {
+                widthHeight = {50,48},
+                position ={250,276},
+                allowedMovement = 250, --How far left-right the enemy can walk.
+                speed = -1 --How fast they walk. Start walking left.
+            },
+            {
+                widthHeight = {50,48},
+                position ={250,276},
+                allowedMovement = 250, --How far left-right the enemy can walk.
+                speed = -2 --How fast they walk. Start walking left.
+            },
+            {
+                widthHeight = {50,48},
+                position ={250,276},
+                allowedMovement = 250, --How far left-right the enemy can walk.
+                speed = -3 --How fast they walk. Start walking left.
+            },
+            {
+                widthHeight = {50,48},
+                position ={250,276},
+                allowedMovement = 250, --How far left-right the enemy can walk.
                 speed = -4 --How fast they walk. Start walking left.
             },
             {
                 widthHeight = {50,48},
-                position ={430,276},
-                allowedMovement = 200, --How far left-right the enemy can walk.
+                position ={250,276},
+                allowedMovement = 250, --How far left-right the enemy can walk.
                 speed = -5 --How fast they walk. Start walking left.
             },
-
-        },
-        ladders = {
             {
-                position = {0,276}
+                widthHeight = {50,48},
+                position ={250,276},
+                allowedMovement = 250, --How far left-right the enemy can walk.
+                speed = -6 --How fast they walk. Start walking left.
             },
             {
-                position = {300, 276},
-            }
+                widthHeight = {50,48},
+                position ={250,276},
+                allowedMovement = 250, --How far left-right the enemy can walk.
+                speed = -7 --How fast they walk. Start walking left.
+            },
+            {
+                widthHeight = {50,48},
+                position ={250,276},
+                allowedMovement = 250, --How far left-right the enemy can walk.
+                speed = -8 --How fast they walk. Start walking left.
+            },
         },
-        flags = {},
+        --Create the level end. (flag) Should only have one of these and in the last screen you make.
+        --To edit its appearance and functions you would have to edit the createSection function in the game.lua file.
+        flags = {
+        },
     },
+
+
+
     -------------------------------------------
-    -- Screen 7
+    --Screen 8
+    --This is going to be the last screen for this
+    --level, so all i do is make a tree! (end point)
     -------------------------------------------
     {
+        --Create the blocks for this screen. Leave blank for none.
         blocks = {
+
             {
                 filename = "images/block_grey_plain.png",
                 type = "plain",
@@ -621,8 +834,15 @@ M = {
                 position ={300,126},
             },
 
+
         },
+
+        ladders = {
+        },
+
+        --Create the Coins for this screen. Leave blank for none.
         coins = {
+
             {
                 widthHeight = {30,42},
                 position = {150,216},
@@ -639,101 +859,93 @@ M = {
                 widthHeight = {30,42},
                 position = {300,66},
             },
-
         },
+
         ammos = {
             {
-
-                position = {50,276},
-            }
-        },
-        spikes = {},
-        enemies = {},
-        ladders = {},
-        flags = {},
-    },
-    -------------------------------------------
-    -- Screen 8
-    -------------------------------------------
-
-    {
-        --Create the blocks for this screen. Leave blank for none.
-        blocks = {
-            {
-                filename = "images/block_green_brick.png",
-                type = "breakable",
-                widthHeight = {50,50},
-                position ={50,160},
+                position = {0,276}
             },
-            {
-                filename = "images/block_green_question.png",
-                type = "special",
-                widthHeight = {50,50},
-                position ={100,160},
-            },
-
-
         },
-        --Create the Coins for this screen. Leave blank for none.
-        coins = {
-        },
-        ammos = {
-            {
 
-                position = {50,110},
-            }
-        },
         --Create the Spikes for this screen. Leave blank for none.
         spikes = {
-            {
-                widthHeight = {50,16},
-                position = {20,276},
-            },
+
         },
         --Create some enemies. Very basic walking. Don't create too close to blocks!
         enemies = {
-
-            {
-                widthHeight = {50,48},
-                position ={50,276},
-                allowedMovement = 200, --How far left-right the enemy can walk.
-                speed = -1 --How fast they walk. Start walking left.
-            },
             {
                 widthHeight = {50,48},
                 position ={100,276},
-                allowedMovement = 200, --How far left-right the enemy can walk.
+                allowedMovement = 250, --How far left-right the enemy can walk.
                 speed = -2 --How fast they walk. Start walking left.
             },
             {
                 widthHeight = {50,48},
-                position ={150,276},
-                allowedMovement = 200, --How far left-right the enemy can walk.
+                position ={120,276},
+                allowedMovement = 250, --How far left-right the enemy can walk.
                 speed = -3 --How fast they walk. Start walking left.
             },
             {
                 widthHeight = {50,48},
-                position ={200,276},
-                allowedMovement = 200, --How far left-right the enemy can walk.
+                position ={140,276},
+                allowedMovement = 250, --How far left-right the enemy can walk.
                 speed = -4 --How fast they walk. Start walking left.
             },
             {
                 widthHeight = {50,48},
-                position ={430,276},
-                allowedMovement = 200, --How far left-right the enemy can walk.
+                position ={100,276},
+                allowedMovement = 250, --How far left-right the enemy can walk.
                 speed = -5 --How fast they walk. Start walking left.
             },
-
+            {
+                widthHeight = {50,48},
+                position ={120,276},
+                allowedMovement = 250, --How far left-right the enemy can walk.
+                speed = -6 --How fast they walk. Start walking left.
+            },
+            {
+                widthHeight = {50,48},
+                position ={140,276},
+                allowedMovement = 250, --How far left-right the enemy can walk.
+                speed = -7 --How fast they walk. Start walking left.
+            },
+            {
+                widthHeight = {50,48},
+                position ={100,276},
+                allowedMovement = 250, --How far left-right the enemy can walk.
+                speed = -8 --How fast they walk. Start walking left.
+            },
+            {
+                widthHeight = {50,48},
+                position ={120,276},
+                allowedMovement = 250, --How far left-right the enemy can walk.
+                speed = -15 --How fast they walk. Start walking left.
+            },
+            {
+                widthHeight = {50,48},
+                position ={140,276},
+                allowedMovement = 250, --How far left-right the enemy can walk.
+                speed = -15 --How fast they walk. Start walking left.
+            },
+            {
+                widthHeight = {50,48},
+                position ={200,226},
+                allowedMovement = 70, --How far left-right the enemy can walk.
+                speed = -1 --How fast they walk. Start walking left.
+            },
+            {
+                widthHeight = {50,48},
+                position ={250,176},
+                allowedMovement = 70, --How far left-right the enemy can walk.
+                speed = -1 --How fast they walk. Start walking left.
+            },
         },
         --Create the level end. (flag) Should only have one of these and in the last screen you make.
         --To edit its appearance and functions you would have to edit the createSection function in the game.lua file.
-        ladders = {
-            { position = {250, 276} }
-        },
         flags = {
             {
                 widthHeight = {50,160},
-                position = {400,276}, --BottomCenterReferencePoint
+                position = {370,276}, --BottomCenterReferencePoint
             },
         },
     },
