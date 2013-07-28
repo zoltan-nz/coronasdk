@@ -16,6 +16,8 @@
 --form on http://www.tandgapps.co.uk/contact-us/
 -------------------------------------------------------------------------
 
+local debugMode = false -- Change true and player will be a ghost! Handy for level planning and testing
+
 --Start off by requiring storyboard and creating a scene.
 local storyboard = require( "storyboard" )
 local scene = storyboard.newScene()
@@ -189,7 +191,6 @@ function scene:createScene( event )
     Runtime:addEventListener("enterFrame", checkTime)
 
 
-
     --------------------------------------------
     -- ***CREATE GAME FUNCTION.***
     --Create the scenery and the player/jumpfunction
@@ -345,7 +346,9 @@ function scene:createScene( event )
 
         local playerShape = { -16,-28, 16,-28, 16,31, -16,31 }
 
-        --        playerCollisionFilter ={categoryBits = 1, maskBits = 4}
+
+        -- If debugMode true player can walk through everything.
+        if debugMode then       playerCollisionFilter ={categoryBits = 1, maskBits = 4} end
         physics.addBody( player,  "dynamic", { friction=1, bounce=0, shape=playerShape, filter=playerCollisionFilter} )
 
         physics.addBody( player,  "dynamic", { friction=1, bounce=0, shape=playerShape} )
@@ -595,6 +598,25 @@ function scene:createScene( event )
     actionButton.x = _W-90; actionButton.y = _H-25;
     actionButton:addEventListener("touch", playerShoot)
 
+    -- if debugMode true coordinates of player will appear in the coorner.
+    if debugMode then
+
+        xText = display.newText(extraGroup, "Player.x: "..player.x,0,0,"Arial",15)
+        yText = display.newText(extraGroup, "Player.y: "..player.y,0,0,"Arial",15)
+        xText:setReferencePoint(display.CenterLeftReferencePoint);
+        xText:setTextColor(50)
+        yText:setReferencePoint(display.CenterLeftReferencePoint);
+        yText:setTextColor(50)
+        xText.x = 15; xText.y = 40
+        yText.x = 100; yText.y = 70
+
+        function updateCoordinates(event)
+            xText.text = "Player.x: "..player.x
+            yText.text = "Player.y: "..player.y
+        end
+
+        Runtime:addEventListener("enterFrame", updateCoordinates)
+    end
 
 end
 
@@ -636,6 +658,10 @@ function scene:enterScene( event )
         end
     end
     Runtime:addEventListener("enterFrame",gameLoop)
+
+
+
+
 
 
     --------------------------------------------
@@ -752,7 +778,7 @@ function scene:enterScene( event )
                     display.remove(event.object2); event.object2 = nil
                     display.remove(event.object1); event.object1 = nil
                     explosionChannel = audio.play(explosionSound)
-                    changeText(10)
+                    changeText(30)
                 end
             end
 
