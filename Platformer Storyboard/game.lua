@@ -71,7 +71,8 @@ local player
 local levelspeed = 0 --Will increase when we start running.
 local runSpeed = 8 --How fast the background will move when your running top speed.
 local movementAllowed = true
-local ammoInt = 5
+local ammoInt = 5 -- How many ammunition has the player.
+local atALadder = false -- True if player at the ladder
 
 --Timers and transitions
 local moveTimer
@@ -157,7 +158,7 @@ function scene:createScene( event )
 
     ammoText = display.newText(extraGroup, "Ammo: "..ammoInt, 0,0, "Arial", 15)
     ammoText:setReferencePoint(display.CenterLeftReferencePoint); ammoText:setTextColor(50)
-    ammoText.x = 80; ammoText.y = 14
+    ammoText.x = 90; ammoText.y = 14
 
     levelText = display.newText(extraGroup, "Level: "..currentLevel, 0,0, "Arial", 15)
     levelText:setReferencePoint(display.CenterLeftReferencePoint); levelText:setTextColor(50)
@@ -367,7 +368,7 @@ function scene:createScene( event )
         if moveSide == "left" then
             levelspeed = levelspeed +1
             if levelspeed > runSpeed then levelspeed = runSpeed end
-        else
+        elseif moveSide == "right" then
             levelspeed = levelspeed -1
             if levelspeed < -runSpeed then levelspeed = -runSpeed end
         end
@@ -442,8 +443,10 @@ function scene:createScene( event )
             else
                 moveBackgrounds()
             end
+        end
 
-        elseif moveSide == "left" then
+
+        if moveSide == "left" then
             if player.x <= 0 then player.x = 0
             elseif player.x >= _W then player.x = _W-1
             else player:translate(-levelspeed,0) end
@@ -485,9 +488,11 @@ function scene:createScene( event )
                 moveTimer = timer.performWithDelay(1, moveEverything, 0) --Timer for forcing movement
 
                 --Change the sprite animation depending on the direction.
-                player:setSequence("run"); player:play()
-                if t.dir == "right" then player.xScale = 1
-                else player.xScale = -1 end
+                if t.dir == "left" or t.dir == "right" then
+                    player:setSequence("run"); player:play()
+                end
+                if t.dir == "right" then player.xScale = 1 end
+                if t.dir == "left" then player.xScale = -1 end
 
             elseif t.isFocus and moving == true then
                 if event.phase == "ended" or event.phase == "cancelled" then
