@@ -54,7 +54,7 @@ function scene:createScene( event )
     -- *** Load all the level scores/amount of levels.. ***
     --------------------------------
     --Each level score is placed in the levelScores array.
-    local dbPath = system.pathForFile("levelScores2.db3", system.DocumentsDirectory)
+    local dbPath = system.pathForFile("levelScores.db3", system.DocumentsDirectory)
     local db = sqlite3.open( dbPath );
 
     --Loop through each row and assign the score to our levelScores array.
@@ -136,7 +136,7 @@ function scene:createScene( event )
         end
     end
     soundText:addEventListener("tap", soundOnOff)
-    
+
 end
 
 

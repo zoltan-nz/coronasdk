@@ -41,7 +41,7 @@ _G.lives = 3 -- This variable counts how many lives has the player.
 
 --Create a database table for holding the high scores per level in.
 --We only need a small database as we dont need to save much information.
-local dbPath = system.pathForFile("levelScores2.db3", system.DocumentsDirectory)
+local dbPath = system.pathForFile("levelScores.db3", system.DocumentsDirectory)
 local db = sqlite3.open( dbPath )
 
 --Current 2 levels. Add more rows to make more levels available. Also remember if
