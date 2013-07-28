@@ -69,14 +69,10 @@ M = {
         },
         ladders = {
             {
-                filename = "images/ladder.png",
-                widthHeight = {40,150},
                 position = {0,270},
             },
             {
-                filename = "images/ladder.png",
-                widthHeight = {40,150},
-                position = {250,270},
+                position = {290,270},
             }
         },
 
@@ -86,7 +82,7 @@ M = {
         ammos = {
             {
 
-                position = {50,100},
+                position = {50,110},
             }
         },
         --Create the Spikes for this screen. Leave blank for none.
@@ -179,7 +175,14 @@ M = {
         },
         --Create the Coins for this screen. Leave blank for none.
         ladders = {
+            {
+                position = {0,270}
+            },
+            {
+                position= {350,270}
+            },
         },
+
         coins = {
             {
                 widthHeight = {30,42},
@@ -198,7 +201,11 @@ M = {
                 position = {300,66},
             },
         },
-        ammos = {},
+        ammos = {
+            {
+                position = {50,276}
+            }
+        },
         --Create the Spikes for this screen. Leave blank for none.
         spikes = {
             {
@@ -212,6 +219,12 @@ M = {
         },
         --Create some enemies. Very basic walking. Don't create too close to blocks!
         enemies = {
+            {
+                widthHeight = {50,48},
+                position ={450,276},
+                allowedMovement = 250, --How far left-right the enemy can walk.
+                speed = -2 --How fast they walk. Start walking left.
+            },
         },
         --Create the level end. (flag) Should only have one of these and in the last screen you make.
         flags = {
@@ -269,17 +282,25 @@ M = {
         },
 
         ladders = {
+            {
+                position = {400,260}
+            },
         },
 
         --Create the Coins for this screen. Leave blank for none.
         coins = {
         },
-        ammos = {},
+        ammos = {
+            {
+                position = {450,260},
+            }
+        },
         --Create the Spikes for this screen. Leave blank for none.
         spikes = {
         },
         --Create some enemies. Very basic walking. Don't create too close to blocks!
         enemies = {
+
         },
         --Create the level end. (flag) Should only have one of these and in the last screen you make.
         flags = {
@@ -343,6 +364,9 @@ M = {
             },
         },
         ladders = {
+            {
+                position = {100,276},
+            }
         },
 
         --Create the Coins for this screen. Leave blank for none.
@@ -386,6 +410,18 @@ M = {
         },
         --Create some enemies. Very basic walking. Don't create too close to blocks!
         enemies = {
+            {
+                widthHeight = {50,48},
+                position ={0,276},
+                allowedMovement = 250, --How far left-right the enemy can walk.
+                speed = -2 --How fast they walk. Start walking left.
+            },
+            {
+                widthHeight = {50,48},
+                position ={50,276},
+                allowedMovement = 250, --How far left-right the enemy can walk.
+                speed = -2 --How fast they walk. Start walking left.
+            }
         },
         --Create the level end. (flag) Should only have one of these and in the last screen you make.
         flags = {
@@ -397,25 +433,72 @@ M = {
     --Added by Zoltan
     -------------------------------------------
     {
-        --Create the blocks for this screen. Leave blank for none.
         blocks = {
+            {
+                filename = "images/block_green_brick.png",
+                type = "breakable",
+                widthHeight = {50,50},
+                position ={50,160},
+            },
+            {
+                filename = "images/block_green_brick.png",
+                type = "breakable",
+                widthHeight = {50,50},
+                position ={100,160},
+            },
+            {
+                filename = "images/block_green_question.png",
+                type = "special",
+                widthHeight = {50,50},
+                position ={150,160},
+            },
+            {
+                filename = "images/block_green_brick.png",
+                type = "breakable",
+                widthHeight = {50,50},
+                position ={200,160},
+            },
+            {
+                filename = "images/block_green_brick.png",
+                type = "breakable",
+                widthHeight = {50,50},
+                position ={250,160},
+            },
         },
-        --Create the Coins for this screen. Leave blank for none.
         ladders = {
+            {
+                position = {0,270},
+            },
+            {
+                position = {290,270},
+            }
         },
+
+        --Create the Coins for this screen. Leave blank for none.
         coins = {
         },
-        ammos = {},
+        ammos = {
+            {
+
+                position = {50,110},
+            }
+        },
         --Create the Spikes for this screen. Leave blank for none.
         spikes = {
         },
         --Create some enemies. Very basic walking. Don't create too close to blocks!
+        --To change the enemies you would have to edit the createSections function in game.lua
+        --Currently they are set to one imageSheet for animations, you could easily add more for more enemies.
         enemies = {
+            {
+                widthHeight = {50,48},
+                position ={250,276},
+                allowedMovement = 180, --How far left-right the enemy can walk.
+                speed = -2 --How fast they walk. Start walking left.
+            },
         },
         --Create the level end. (flag) Should only have one of these and in the last screen you make.
-        --To edit its appearance and functions you would have to edit the createSection function in the game.lua file.
         flags = {
-
         },
     },
 
@@ -501,7 +584,7 @@ M = {
         },
 
         ammos = {},
-        
+
         --Create the Spikes for this screen. Leave blank for none.
         spikes = {
         },

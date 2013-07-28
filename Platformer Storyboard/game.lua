@@ -16,7 +16,6 @@
 --form on http://www.tandgapps.co.uk/contact-us/
 -------------------------------------------------------------------------
 
-
 --Start off by requiring storyboard and creating a scene.
 local storyboard = require( "storyboard" )
 local scene = storyboard.newScene()
@@ -154,28 +153,28 @@ function scene:createScene( event )
 
     scoreText = display.newText(extraGroup, "Score: "..score,0,0,"Arial",15)
     scoreText:setReferencePoint(display.CenterLeftReferencePoint); scoreText:setTextColor(50)
-    scoreText.x = 3; scoreText.y = 12
+    scoreText.x = 3; scoreText.y = 14
 
     ammoText = display.newText(extraGroup, "Ammo: "..ammoInt, 0,0, "Arial", 15)
     ammoText:setReferencePoint(display.CenterLeftReferencePoint); ammoText:setTextColor(50)
-    ammoText.x = 80; ammoText.y = 12
+    ammoText.x = 80; ammoText.y = 14
 
     levelText = display.newText(extraGroup, "Level: "..currentLevel, 0,0, "Arial", 15)
     levelText:setReferencePoint(display.CenterLeftReferencePoint); levelText:setTextColor(50)
-    levelText.x = 170; levelText.y = 12
+    levelText.x = 170; levelText.y = 14
 
     sectionText = display.newText(extraGroup, "Screen: "..sectionInt, 0,0, "Arial", 15)
     sectionText:setReferencePoint(display.CenterLeftReferencePoint); sectionText:setTextColor(50)
-    sectionText.x = 230; sectionText.y = 12
+    sectionText.x = 230; sectionText.y = 14
 
     livesText = display.newText(extraGroup, "Lives: "..lives, 0,0, "Arial", 15)
     livesText:setReferencePoint(display.CenterLeftReferencePoint); livesText:setTextColor(50)
-    livesText.x = 330; livesText.y = 12
+    livesText.x = 330; livesText.y = 14
 
     startTime = os.time()
     timeText = display.newText(extraGroup, "Time: 0", 0, 0, "Arial", 15)
     timeText:setReferencePoint(display.CenterLeftReferencePoint); timeText:setTextColor(50)
-    timeText.x = 400; timeText.y = 12
+    timeText.x = 400; timeText.y = 14
 
     local function checkTime(event)
         local now = os.time()
@@ -255,7 +254,7 @@ function scene:createScene( event )
         end
         for i=1, #level[sectionInt]["ladders"] do
             local object = level[sectionInt]["ladders"][i]
-            local ladder = display.newImageRect(objectGroup, object["filename"], object["widthHeight"][1], object["widthHeight"][2])
+            local ladder = display.newImageRect(objectGroup, "images/ladder.png", 40, 160)
             ladder:setReferencePoint(display.BottomCenterReferencePoint);
             ladder.x = object["position"][1]+xOffset; ladder.y = object["position"][2];
 
@@ -452,7 +451,7 @@ function scene:createScene( event )
 
         if moveSide == "up" and atALadder == true then
             --            player.BodyType = 'kinematic'
-            player.gravityScale = 0
+
             player.y = player.y - 5
             player:setSequence("run"); player:play()
             player.xScale = 1
@@ -461,7 +460,7 @@ function scene:createScene( event )
 
         if moveSide == "down" and atALadder == true then
             --            player.BodyType = 'kinematic'
-            player.gravityScale = 0
+
             player.y = player.y + 5
             player:setSequence("run"); player:play()
             player.xScale = 1
@@ -735,6 +734,8 @@ function scene:enterScene( event )
 
             if name1 == "ladder" or name2 == "ladder" then
                 if name1 == "player" or name2 == "player" then
+                    player.gravityScale = 0
+                    player:setLinearVelocity( 0, 0 )
                     atALadder = true
                     print("atALadder = true")
                 end
@@ -863,6 +864,7 @@ function scene:enterScene( event )
 
                     --Player hits the flag! We end the game and set it to won!
                 elseif name1 == "flag" or name2 == "flag" then
+                    levelTime = timeText.text
                     gameWon()
                 end
             end
