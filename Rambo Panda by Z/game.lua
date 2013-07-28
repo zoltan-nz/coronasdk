@@ -671,7 +671,7 @@ function scene:enterScene( event )
                 --                timer.performWithDelay(1400, function() storyboard.gotoScene( "game", "slideLeft", 400 )  end, 1)
                 timer.performWithDelay(1400, function() storyboard.gotoScene( "gameOver", "slideLeft", 400 )  end, 1)
             else
-                timer.performWithDelay(1400, function() storyboard.gotoScene( "gameOverTotaly", "slideLeft", 400 )  end, 1)
+                timer.performWithDelay(1400, function() storyboard.gotoScene( "gameOverTotally", "slideLeft", 400 )  end, 1)
             end
         end
 
