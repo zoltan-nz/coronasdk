@@ -19,13 +19,10 @@
 local storyboard = require( "storyboard" )
 local scene = storyboard.newScene()
 
-
 --Variables etc we needs
 local _W = display.contentWidth --Width and height parameters
 local _H = display.contentHeight
 local tapChannel, tapSound --Sound variables..
-
-
 
 ------------------------------------------------
 -- *** STORYBOARD SCENE EVENT FUNCTIONS ***
@@ -70,15 +67,15 @@ function scene:createScene( event )
             audioPaused = false
         else
             print("Sound OFF")
-            audio.setMaxVolume(0)
+            audio.setMaxVolume(0) -- Handy option to turn off the music and every sound effects.
             audioPaused = true
             soundText.text = "Sound: OFF"
         end
 
     end
+    -- This listener connect action to our button.
     soundText:addEventListener("tap", soundOnOff)
 end
-
 
 -- Called immediately after scene has moved onscreen:
 -- Start timers/transitions etc.
@@ -102,8 +99,6 @@ function scene:destroyScene( event )
     audio.dispose( tapSound ); tapSound = nil;
 end
 
-
-
 -----------------------------------------------
 -- Add the story board event listeners
 -----------------------------------------------
@@ -111,8 +106,6 @@ scene:addEventListener( "createScene", scene )
 scene:addEventListener( "enterScene", scene )
 scene:addEventListener( "exitScene", scene )
 scene:addEventListener( "destroyScene", scene )
-
-
 
 --Return the scene to storyboard.
 return scene

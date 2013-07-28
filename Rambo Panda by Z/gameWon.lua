@@ -25,8 +25,6 @@ local _W = display.contentWidth --Width and height parameters
 local _H = display.contentHeight
 local tapChannel, tapSound --Sound variables..
 
-
-
 ------------------------------------------------
 -- *** STORYBOARD SCENE EVENT FUNCTIONS ***
 ------------------------------------------------
@@ -38,7 +36,6 @@ function scene:createScene( event )
 
     --Load the sounds.
     tapSound = audio.loadSound("sounds/tapsound.wav")
-
 
     --------
     -- *** Check to see if we got a highscore.. ***
@@ -59,13 +56,11 @@ function scene:createScene( event )
     end
     db:close()
 
-
     --------
     -- *** Iterate the currentLevel
     --This is done so that when we press next it will go to the next level
     --------
     currentLevel = currentLevel + 1 --Our global var from the main.lua
-
 
     --------
     -- *** Create the background and Next/menu Buttons ***
@@ -91,7 +86,6 @@ function scene:createScene( event )
     menu:addEventListener("tap", gotoMenu)
     screenGroup:insert(menu)
 
-
     --Now show the score text and highscore text...
     local score1 = display.newText(screenGroup, levelScore, 0,0, native.systemFontBold, 18)
     score1:setReferencePoint(display.CenterLeftReferencePoint); score1:setTextColor(40)
@@ -101,11 +95,11 @@ function scene:createScene( event )
     score2:setReferencePoint(display.CenterLeftReferencePoint); score2:setTextColor(40)
     score2.x = (_W*0.5)+10; score2.y = _H*0.57
 
+    -- Player's time is written in the corner.
     levelTimeText = display.newText(screenGroup, "Your "..levelTime, 0, 0, "Arial", 15)
     levelTimeText:setReferencePoint(display.CenterLeftReferencePoint); levelTimeText:setTextColor(50)
     levelTimeText.x = 350; timeText.y = 12
 end
-
 
 -- Called immediately after scene has moved onscreen:
 -- Start timers/transitions etc.

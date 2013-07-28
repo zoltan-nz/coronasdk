@@ -25,8 +25,6 @@ local _W = display.contentWidth --Width and height parameters
 local _H = display.contentHeight
 local tapChannel, tapSound --Sound variables..
 
-
-
 ------------------------------------------------
 -- *** STORYBOARD SCENE EVENT FUNCTIONS ***
 ------------------------------------------------

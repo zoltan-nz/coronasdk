@@ -19,7 +19,6 @@
 local storyboard = require( "storyboard" )
 local scene = storyboard.newScene()
 
-
 --Variables etc we needs
 local _W = display.contentWidth --Width and height parameters
 local _H = display.contentHeight
@@ -27,12 +26,9 @@ local amountOfLevels = 3 --Max number of sqaures to make
 local amountPerRow = 3 --Contorls placement.
 local levelScores = {} --Holds are level information
 
-
 --Set up some of the sounds we want to use....
 local tapChannel, tapSound
-lives = 3
-
-
+lives = 3 -- Setup lives variable here just in case as well...
 
 ------------------------------------------------
 -- *** STORYBOARD SCENE EVENT FUNCTIONS ***
@@ -46,7 +42,6 @@ function scene:createScene( event )
     --Load sound.
     tapSound = audio.loadSound("sounds/tapsound.wav")
 
-
     --------
     -- *** Create the background and Play Button ***
     -------
@@ -54,7 +49,6 @@ function scene:createScene( event )
     local bg1 = display.newImageRect( "images/levelSelect.jpg", 480,320)
     bg1.x = _W*0.5; bg1.y = _H*0.5
     screenGroup:insert(bg1)
-
 
     --------------------------------
     -- *** Load all the level scores/amount of levels.. ***
@@ -75,7 +69,7 @@ function scene:createScene( event )
     ------------------------------------------------
     -- *** Create all of the level buttons. Only activate the ones in the levelScores array. ***
     ------------------------------------------------
-    --Level sqaure clicked...
+    --Level square clicked...
     local function levelTouched(event)
         --Play the sound
         tapChannel = audio.play( tapSound )
@@ -124,6 +118,7 @@ function scene:createScene( event )
         end
     end
 
+    -- Sound ON/OFF button implemented on this screen as well.
     soundText = display.newText(screenGroup, "Sound: ON", 380, 290, 100, 20, "Arial", 15)
     soundText:setTextColor(255)
 
@@ -139,10 +134,9 @@ function scene:createScene( event )
             audioPaused = true
             soundText.text = "Sound: OFF"
         end
-
     end
     soundText:addEventListener("tap", soundOnOff)
-
+    
 end
 
 

@@ -45,6 +45,7 @@ local firstGroup, objectGroup, enemyGroup, extraGroup
 local coinSound, overSound, winSound, jumpSound
 local coinChannel, jumpChannel, overChannel, winChannel, bullettChannel, explosionChannel = 2,3,4,5,6,7 --Channel vars, used to play sounds, these values change when they are used.
 
+-- Decrase of backround music volume while user play the game.
 audio.setVolume( 0.3, { channel=1 } )
 
 --Game Control Variables
@@ -58,8 +59,6 @@ local gameIsActive = true  --Set to true to start scrolling etc.
 local score = 0  --Points for killing enemies etc.
 local sectionInt = 1 --Controls the sections being made
 levelScore = 0 --Reset the levelScore just incase it is still set.
-
-
 
 --BG and display variables.
 local bg1, bg2, ground1, ground2, extra1, extra2
@@ -79,9 +78,6 @@ local atALadder = false -- True if player at the ladder
 
 --Timers and transitions
 local moveTimer
-
-
-
 
 
 --------------------------------------------
@@ -114,10 +110,6 @@ local options2 =
 }
 local enemySheet = graphics.newImageSheet( "images/enemySprite.png", options2)
 local enemySprite = { name="run", start=1, count=2, time = 300, loopCount = 0 }
-
-
-
-
 
 
 ------------------------------------------------
@@ -159,6 +151,8 @@ function scene:createScene( event )
     scoreText:setReferencePoint(display.CenterLeftReferencePoint); scoreText:setTextColor(50)
     scoreText.x = 3; scoreText.y = 14
 
+
+    -- Added a couple of extra text in HUD area: ammo, level, screen, lives, time
     ammoText = display.newText(extraGroup, "Ammo: "..ammoInt, 0,0, "Arial", 15)
     ammoText:setReferencePoint(display.CenterLeftReferencePoint); ammoText:setTextColor(50)
     ammoText.x = 90; ammoText.y = 14
@@ -180,12 +174,13 @@ function scene:createScene( event )
     timeText:setReferencePoint(display.CenterLeftReferencePoint); timeText:setTextColor(50)
     timeText.x = 400; timeText.y = 14
 
+    -- This part is counting time, start when user start a level and a listener is always rewrite the text.
     local function checkTime(event)
         local now = os.time()
         fulltime = now - startTime
-        min = math.floor(fulltime/60)
-        sec = fulltime % 60
-        if sec < 10 then sec = "0"..sec end
+        min = math.floor(fulltime/60) -- Braking fulltime to min and sec
+        sec = fulltime % 60 -- Percentage is modulus in lua.
+        if sec < 10 then sec = "0"..sec end -- Write an extra 0 before the number if it smaller then 10
         timeText.text = "Time:  "..min..":"..sec
     end
 
@@ -255,15 +250,17 @@ function scene:createScene( event )
                 physics.addBody( block, "static", { friction=1, bounce=0} );
             end
         end
+
+        -- This part creating ladders on a sceene.
         for i=1, #level[sectionInt]["ladders"] do
             local object = level[sectionInt]["ladders"][i]
             local ladder = display.newImageRect(objectGroup, "images/ladder.png", 40, 160)
             ladder:setReferencePoint(display.BottomCenterReferencePoint);
             ladder.x = object["position"][1]+xOffset; ladder.y = object["position"][2];
-
-            --            ladderCollisionFilter = {categoryBits = 2, maksBits = 1}
-
-            --            physics.addBody(ladder, "static", {density=0.004, friction=0.3, bounce=0, filter=ladderCollisionFilter} )
+            -- I have tested this Collision Filter option as well...
+            --   ladderCollisionFilter = {categoryBits = 2, maksBits = 1}
+            --   physics.addBody(ladder, "static", {density=0.004, friction=0.3, bounce=0, filter=ladderCollisionFilter} )
+            -- But isSensor = true manages if an object is there create collision, but player can walk through on it.
             physics.addBody(ladder, "static", {density=0.004, friction=0.3, bounce=0, isSensor = true} )
             ladder.name = "ladder"
 
@@ -276,6 +273,7 @@ function scene:createScene( event )
             physics.addBody( coin, "static", { isSensor = true } )
         end
 
+        -- This part is creating extra ammo objects on a scene.
         for i=1, #level[sectionInt]["ammos"] do
             local object = level[sectionInt]["ammos"][i]
             local ammo = display.newImageRect(objectGroup, "images/ammo.png", 27, 42)
@@ -330,8 +328,8 @@ function scene:createScene( event )
         ground1 = display.newImageRect(extraGroup, "images/floor.png", 480, 48)
         ground1:setReferencePoint(display.TopLeftReferencePoint); ground1.x = 0; ground1.y = _H-48; ground1.name = "floor"
 
+        -- Player could be a ghost, for that it needs a collision filter with ground... This ghost function activated if debugMode boolen is on.
         groundCollisionFilter = {categoryBits = 4, maskBits = 3}
-
         physics.addBody( ground1,  "static", { friction=0.1, bounce=0, filter = groundCollisionFilter} )
         ground2 = display.newImageRect(extraGroup, "images/floor.png", 480, 48)
         ground2:setReferencePoint(display.TopLeftReferencePoint); ground2.x = 480; ground2.y = _H-48; ground2.name = "floor"
@@ -347,8 +345,7 @@ function scene:createScene( event )
 
         local playerShape = { -16,-28, 16,-28, 16,31, -16,31 }
 
-
-        -- If debugMode true player can walk through everything.
+        -- If debugMode true player can walk through everything. Ghost status! :) Great for level building.
         if debugMode then
             playerCollisionFilter ={categoryBits = 1, maskBits = 4}
             physics.addBody( player,  "dynamic", { friction=1, bounce=0, shape=playerShape, filter=playerCollisionFilter} )
@@ -361,8 +358,6 @@ function scene:createScene( event )
         createSection()
     end
     createGame()
-
-
 
     --------------------------------------------
     -- *** D-PAD Setup ***
@@ -458,9 +453,8 @@ function scene:createScene( event )
             else player:translate(-levelspeed,0) end
         end
 
+        -- Following lines manage up and down. It will work if user at a ladder, this boolean is changed in collision part.
         if moveSide == "up" and atALadder == true then
-            --            player.BodyType = 'kinematic'
-
             player.y = player.y - 5
             player:setSequence("run"); player:play()
             player.xScale = 1
@@ -468,8 +462,6 @@ function scene:createScene( event )
         end
 
         if moveSide == "down" and atALadder == true then
-            --            player.BodyType = 'kinematic'
-
             player.y = player.y + 5
             player:setSequence("run"); player:play()
             player.xScale = 1
@@ -523,20 +515,24 @@ function scene:createScene( event )
         return true
     end
 
+    -- Following function manages shooting event. When user click on shoot button this function will be called.
     local function playerShoot( event )
         local t = event.target
 
+        -- This function will be called when bullett reach the end of a screen.
         local function bullettDisappear(event)
             print("Bullett Disappear")
             display.remove(event)
             event.target = nil
         end
 
-
+        -- Bullett will be shooted if ammoInt is bigger than 0.
         if movementAllowed and ammoInt > 0 then
             if event.phase == "began" then
                 ammoInt = ammoInt - 1
                 ammoText.text = "Ammo: "..ammoInt
+
+                -- player.xScale is determine the direction of the player and bullett... Player can shoot backward.
                 if player.xScale == -1 then
 
                     player:setSequence("shoot")
@@ -603,18 +599,14 @@ function scene:createScene( event )
 
 end
 
-
-
 -- Called immediately after scene has moved onscreen:
 -- Start timers/transitions etc.
 function scene:enterScene( event )
     print( "Game: enterScene event" )
 
-
     -- Completely remove the previous scene/all scenes.
     -- Handy in this case where we want to keep everything simple.
     storyboard.removeAll()
-
 
     --------------------------------------------
     -- ***GAMELOOP Runtime Listener***
@@ -642,11 +634,6 @@ function scene:enterScene( event )
     end
     Runtime:addEventListener("enterFrame",gameLoop)
 
-
-
-
-
-
     --------------------------------------------
     -- ***COLLISION FUNCTIONS AND START/STOP***
     --What happens when we get hit essentially
@@ -666,9 +653,9 @@ function scene:enterScene( event )
         --After the delay/slow down we show the gameOver screen.
         local function nowEnd()
             --Delay the level change
+            -- If user still has lives just a simple gameOver if no more lives the game will be totally over... RIP
             if lives > 0 then
                 lives = lives - 1
-                --                timer.performWithDelay(1400, function() storyboard.gotoScene( "game", "slideLeft", 400 )  end, 1)
                 timer.performWithDelay(1400, function() storyboard.gotoScene( "gameOver", "slideLeft", 400 )  end, 1)
             else
                 timer.performWithDelay(1400, function() storyboard.gotoScene( "gameOverTotally", "slideLeft", 400 )  end, 1)
@@ -733,6 +720,7 @@ function scene:enterScene( event )
             local name1 = event.object1.name
             local name2 = event.object2.name
 
+            -- If a user left a ladder than atALadder boolen will be changed and gravityScale goes back to normal.
             if name1 == "ladder" or name2 == "ladder" then
                 if name1 == "player" or name2 == "player" then
                     atALadder = false
@@ -746,6 +734,7 @@ function scene:enterScene( event )
             local name1 = event.object1.name
             local name2 = event.object2.name
 
+            -- If a user touch a ladder player gravityScale changed to 0, player can climb.
             if name1 == "ladder" or name2 == "ladder" then
                 if name1 == "player" or name2 == "player" then
                     player.gravityScale = 0
@@ -755,6 +744,7 @@ function scene:enterScene( event )
                 end
             end
 
+            -- When a bullett hit an enemy, remove booth object and play an explosion sound.
             if name1 == "bullett" or name2 == "bullett" then
                 print("bullett collision happend")
                 if name1 == "enemy" or name2 == "enemy" then
@@ -830,11 +820,6 @@ function scene:enterScene( event )
                         resetJump()
                     end
 
-
-
-
-
-
                     --Picking up coins...
                 elseif name1 == "coin" or name2 == "coin" then
                     if name1 == "coin" then display.remove(event.object1); event.object1 = nil;
@@ -906,8 +891,6 @@ function scene:exitScene( event )
     audio.stop(winChannel)
 end
 
-
-
 --Called prior to the removal of scene's "view" (display group)
 function scene:destroyScene( event )
     print( "Game: destroying view" )
@@ -916,9 +899,6 @@ function scene:destroyScene( event )
     audio.dispose(coinSound); coinSound=nil
     audio.dispose(jumpSound); jumpSound=nil
 end
-
-
-
 
 -----------------------------------------------
 -- Add the story board event listeners
