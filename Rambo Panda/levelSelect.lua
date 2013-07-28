@@ -123,6 +123,26 @@ function scene:createScene( event )
             rowControl = 0
         end
     end
+
+    soundText = display.newText(screenGroup, "Sound: ON", 380, 290, 100, 20, "Arial", 15)
+    soundText:setTextColor(255)
+
+    function soundOnOff()
+        if audioPaused then
+            print("Sound ON")
+            audio.setMaxVolume(1)
+            soundText.text = "Sound: ON"
+            audioPaused = false
+        else
+            print("Sound OFF")
+            audio.setMaxVolume(0)
+            audioPaused = true
+            soundText.text = "Sound: OFF"
+        end
+
+    end
+    soundText:addEventListener("tap", soundOnOff)
+
 end
 
 

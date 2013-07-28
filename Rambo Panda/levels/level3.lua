@@ -70,6 +70,11 @@ M = {
         --Create the Coins for this screen. Leave blank for none.
         coins = {
         },
+        ammos = {
+            {
+                position = {0,276}
+            },
+        },
         --Create the Spikes for this screen. Leave blank for none.
         spikes = {
             {
@@ -129,6 +134,11 @@ M = {
             {
                 widthHeight = {50,16},
                 position = {370,276},
+            },
+        },
+        ammos = {
+            {
+                position = {0,276}
             },
         },
         --Create some enemies. Very basic walking. Don't create too close to blocks!
@@ -222,6 +232,11 @@ M = {
             {
                 widthHeight = {30,42},
                 position = {350,166},
+            },
+        },
+        ammos = {
+            {
+                position = {0,276}
             },
         },
         --Create the Spikes for this screen. Leave blank for none.
@@ -335,6 +350,11 @@ M = {
         --Create some enemies. Very basic walking. Don't create too close to blocks!
         enemies = {
         },
+        ammos = {
+            {
+                position = {0,276}
+            },
+        },
         --Create the level end. (flag) Should only have one of these and in the last screen you make.
         ladders = {},
         flags = {
@@ -348,6 +368,11 @@ M = {
     {
         blocks = {},
         coins = {},
+        ammos = {
+            {
+                position = {0,276}
+            },
+        },
         spikes = {},
         enemies = {},
         ladders = {},
@@ -360,6 +385,11 @@ M = {
     {
         blocks = {},
         coins = {},
+        ammos = {
+            {
+                position = {0,276}
+            },
+        },
         spikes = {},
         enemies = {},
         ladders = {},
@@ -371,6 +401,11 @@ M = {
     {
         blocks = {},
         coins = {},
+        ammos = {
+            {
+                position = {0,276}
+            },
+        },
         spikes = {},
         enemies = {},
         ladders = {},
@@ -388,6 +423,11 @@ M = {
         },
         --Create the Coins for this screen. Leave blank for none.
         coins = {
+        },
+        ammos = {
+            {
+                position = {0,276}
+            },
         },
         --Create the Spikes for this screen. Leave blank for none.
         spikes = {

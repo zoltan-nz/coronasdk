@@ -21,13 +21,12 @@ local debugMode = false -- Change true and player will be a ghost! Handy for lev
 --Start off by requiring storyboard and creating a scene.
 local storyboard = require( "storyboard" )
 local scene = storyboard.newScene()
-
+storyboard.returnTo = "menu" -- Go back to menu if click back button on Android
 
 --Require physics
 local physics = require("physics")
 --physics.setDrawMode( "hybrid" )
 physics.start(); physics.setGravity( 0, 20 ) --Start physics
---physics.setDrawMode( "hybrid" )
 
 --We also require the section definitions.
 --These controls positions etc of the Stars and platforms.
