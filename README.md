@@ -40,3 +40,4 @@ Start with the template:
 
 1. Outlaw IDE: http://OutlawGameTools.com
 
+Todo: creating screens and angry birds clone
