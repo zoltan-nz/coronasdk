@@ -12,3 +12,6 @@ local storyboard = require "storyboard"
 
 -- load menu screen
 storyboard.gotoScene( "menu" )
+
+_W = display.contentWidth
+_H = display.contentHeight

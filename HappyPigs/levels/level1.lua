@@ -9,6 +9,7 @@ local scene = storyboard.newScene()
 
 -- include Corona's "physics" library
 local physics = require "physics"
+physics.setDrawMode('hybrid')
 physics.start(); physics.pause()
 
 --------------------------------------------
@@ -33,7 +34,7 @@ function scene:createScene( event )
 	background:setFillColor( 128 )
 	
 	-- make a crate (off-screen), position it, and rotate slightly
-	local crate = display.newImageRect( "crate.png", 90, 90 )
+	local crate = display.newImageRect( "images/crate.png", 90, 90 )
 	crate.x, crate.y = 160, -100
 	crate.rotation = 15
 	
@@ -41,7 +42,7 @@ function scene:createScene( event )
 	physics.addBody( crate, { density=1.0, friction=0.3, bounce=0.3 } )
 	
 	-- create a grass object and add physics (with custom shape)
-	local grass = display.newImageRect( "grass.png", screenW, 82 )
+	local grass = display.newImageRect( "images/grass.png", screenW, 82 )
 	grass:setReferencePoint( display.BottomLeftReferencePoint )
 	grass.x, grass.y = 0, display.contentHeight
 	
