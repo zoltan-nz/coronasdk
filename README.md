@@ -41,3 +41,7 @@ Start with the template:
 1. Outlaw IDE: http://OutlawGameTools.com
 
 Todo: creating screens and angry birds clone
+
+
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/szines/coronasdk/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
+
