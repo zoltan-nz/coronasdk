@@ -5,7 +5,7 @@
 -- 1. Hide Status Bar
 -- 2. Creating Storyboard object.
 -- 3. Load first screen: menu.lua
---
+-- 4. Launch background music
 --
 -----------------------------------------------------------------------------------------
 
@@ -14,10 +14,18 @@ display.setStatusBar( display.HiddenStatusBar )
 
 local storyboard = require "storyboard"
 
--- load scenetemplate.lua
-storyboard.gotoScene( "menu" )
-
 --Activate multi-touch so we can press multiple buttons at once.
 system.activate("multitouch")
 
 -- Add any objects that should appear on all scenes below (e.g. tab bar, hud, etc.):
+
+-- Create a constantly looping background sound...
+local bgSound = audio.loadStream("sounds/EyeOfTheTiger.mp3")
+audio.reserveChannels(1)   --Reserve its channel
+audio.play(bgSound, {channel=1, loops=-1}) --Start looping the sound.
+
+-- Load tapSound for buttons
+local tapSound = audio.loadSound("sounds/tapsound.wav")
+
+-- load menu.lua
+storyboard.gotoScene( "menu" )

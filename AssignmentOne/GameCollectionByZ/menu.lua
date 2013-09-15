@@ -8,7 +8,6 @@ This is the main menu screen.
 
 1. Loading widget modul and creating button widgets.
 2. Connect click event to buttons and linking to other screens.
-3. Launching a background music.
 
 --]]
 --
@@ -31,57 +30,34 @@ local _H = display.contentHeight
 
 -- Called when the scene's view does not exist:
 function scene:createScene( event )
-	local group = self.view
-  
-  shared.launchBackgroundMusic
-  
-  shared.drawSoundONOFFButton()
-  
-  
+  -- Initializing groups
+  local displayGroup = self.view
+  local buttonGroup = display.newGroup()
+
+  -- Draw a Text Button for toggle Sound
+  shared.drawSoundONOFFButton(displayGroup)
+
+  -- Draw a Background
+  shared.drawBackground()
+
+  -- Creating a function to handle button events
+  local function buttonOneEvent (event)
+    local phase = event.phase
+    if 'ended' == phase then
+      print('You pressed and released a button!')
+    end
+  end
+
+  local buttons = {
+    "First Game",
+    "Second Game",
+    "Third Game"
+  }
+  -- Button One
+  local buttonOne = shared.createAButton(100, 100, 100, 100, {10, 10, 10, 0}, {30, 30, 30, 0}, "BUTTON ONE", buttonOneEvent)
+  buttonGroup:insert (buttonOne)
 
 
-  
-  
-  
-
-
--- Creating a function to handle button events
-local function GameOneButtonEvent (event)
-	local phase = event.phase
-	if 'ended' == phase then
-		print('You pressed and released a button!')
-	end
-end
-
--- create a group for buttons
-local buttonGroup = display.newGroup()
-
--- Create buttons
-local firstButton = widget.newButton
-{
-    left = 0,
-    top = 0,
-    width = 300,
-    height = 300,
-    default = {255, 255, 255, 90},
-    over = {120, 53, 128, 255},
-    defaultFile = "",
-    overFile = "",
-    id = "button_1",
-    label = "Button",
-    onEvent = handleButtonEvent
-}
-
-buttonGroup:insert (firstButton)
-
-
--- Create a constantly looping background sound...
-local bgSound = audio.loadStream("sounds/EyeOfTheTiger.mp3")
-audio.reserveChannels(1)   --Reserve its channel
-audio.play(bgSound, {channel=1, loops=-1}) --Start looping the sound.
-
--- Load tapSound for buttons
-local tapSound = audio.loadSound("sounds/tapsound.wav")
 
 
 end
@@ -90,7 +66,7 @@ end
 -- Called immediately after scene has moved onscreen:
 function scene:enterScene( event )
 	local screenGroup = self.view
-    
+
 
 end
 
