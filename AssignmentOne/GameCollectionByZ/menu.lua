@@ -72,28 +72,23 @@ function scene:createScene( event )
   -- Draw a background
   shared.drawBackground(displayGroup)
 
-  -- Creating a function to handle button events
-
-
+  -- Write out a Welcome message
+  local welcomeText = display.newText({parent = displayGroup, text = "Welcome in Game Menu", x = _W/2, y = 10, font = native.systemFontBold, align = "center", fontSize = 80, width = _W, height = 200})
 
   -- Button One, Button Two and Button Three
-  local buttonOne = shared.createAButton(10, _H/5, _W-10, 100, {10, 10, 10, 0}, {30, 30, 30, 0}, "GAME ONE", gameOneButtonClicked)
+  local buttonOne = shared.createAButton(10, _H/5, _W-20, 100, {10, 10, 10, 0}, {30, 30, 30, 0}, "GAME ONE", gameOneButtonClicked)
   buttonGroup:insert (buttonOne)
-  local buttonTwo = shared.createAButton(10, (_H/5)*2, _W-10, 100, {10, 10, 10, 0}, {30, 30, 30, 0}, "GAME TWO", gameTwoButtonClicked)
+  local buttonTwo = shared.createAButton(10, (_H/5)*2, _W-20, 100, {10, 10, 10, 0}, {30, 30, 30, 0}, "GAME TWO", gameTwoButtonClicked)
   buttonGroup:insert (buttonTwo)
-  local buttonThree = shared.createAButton(10, (_H/5)*3, _W-10, 100, {10, 10, 10, 0}, {30, 30, 30, 0}, "GAME THREE", gameThreeButtonClicked)
+  local buttonThree = shared.createAButton(10, (_H/5)*3, _W-20, 100, {10, 10, 10, 0}, {30, 30, 30, 0}, "GAME THREE", gameThreeButtonClicked)
   buttonGroup:insert (buttonThree)
-
-
-
-
 
 end
 
 
 -- Called immediately after scene has moved onscreen:
 function scene:enterScene( event )
-	local screenGroup = self.view
+  local screenGroup = self.view
 
 
 end
@@ -101,13 +96,13 @@ end
 
 -- Called when scene is about to move offscreen:
 function scene:exitScene( event )
-	local group = self.view
+  local group = self.view
 end
 
 
 -- Called prior to the removal of scene's "view" (display group)
 function scene:destroyScene( event )
-	local group = self.view
+  local group = self.view
 end
 
 

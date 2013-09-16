@@ -26,9 +26,6 @@ M.createAButton = createAButton
 
 local function drawSoundONOFFButton(screenGroup)
 
-  print('Sound on off button draw function called')
-
-
   -- Sound ON/OFF text in the bottom-right corner
   --  soundText = display.newText(screenGroup, "Sound: ON", 0, _H-30, "Arial", 20)
   --  soundText:setTextColor(50)
