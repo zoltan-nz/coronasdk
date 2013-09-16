@@ -28,34 +28,62 @@ local shared = require ( "sharedfunctions" )
 local _W = display.contentWidth --Width and height parameters
 local _H = display.contentHeight
 
+----------------------------------------------------------------------------------
+-- Functions for button events.
+-- Each button call an event and if clicking phase ended, will be called a new scene.
+--
+local gameOneButtonClicked = function (event)
+
+  print('Game One Button Clicked')
+
+  local phase = event.phase
+
+  if phase == "ended" then
+    storyboard.gotoScene("scene2")
+  end
+
+end
+
+local gameTwoButtonClicked = function ()
+
+end
+
+local gameThreeButtonClicked = function ()
+
+end
+
+----------------------------------------------------------------------------------
+-- @param event
+-- @return
+
+
+
+
 -- Called when the scene's view does not exist:
 function scene:createScene( event )
   -- Initializing groups
   local displayGroup = self.view
   local buttonGroup = display.newGroup()
+  displayGroup:insert(buttonGroup)
 
-  -- Draw a Text Button for toggle Sound
+  -- Draw a Text Button for toggle all sound.
   shared.drawSoundONOFFButton(displayGroup)
 
-  -- Draw a Background
-  shared.drawBackground()
+  -- Draw a background
+  shared.drawBackground(displayGroup)
 
   -- Creating a function to handle button events
-  local function buttonOneEvent (event)
-    local phase = event.phase
-    if 'ended' == phase then
-      print('You pressed and released a button!')
-    end
-  end
 
-  local buttons = {
-    "First Game",
-    "Second Game",
-    "Third Game"
-  }
-  -- Button One
-  local buttonOne = shared.createAButton(100, 100, 100, 100, {10, 10, 10, 0}, {30, 30, 30, 0}, "BUTTON ONE", buttonOneEvent)
+
+
+  -- Button One, Button Two and Button Three
+  local buttonOne = shared.createAButton(10, _H/5, _W-10, 100, {10, 10, 10, 0}, {30, 30, 30, 0}, "GAME ONE", gameOneButtonClicked)
   buttonGroup:insert (buttonOne)
+  local buttonTwo = shared.createAButton(10, (_H/5)*2, _W-10, 100, {10, 10, 10, 0}, {30, 30, 30, 0}, "GAME TWO", gameTwoButtonClicked)
+  buttonGroup:insert (buttonTwo)
+  local buttonThree = shared.createAButton(10, (_H/5)*3, _W-10, 100, {10, 10, 10, 0}, {30, 30, 30, 0}, "GAME THREE", gameThreeButtonClicked)
+  buttonGroup:insert (buttonThree)
+
 
 
 
