@@ -1,6 +1,7 @@
 -- Shared functions
 
 local widget = require ('widget')
+local storyboard = require "storyboard"
 
 local _W = display.contentWidth --Width and height parameters
 local _H = display.contentHeight
@@ -70,5 +71,20 @@ local drawBackground = function (group)
 
 end
 M.drawBackground = drawBackground
+
+local drawBackToMenu = function (group)
+
+  local backToMenuEvent = function (event)
+    local phase = event.phase
+    if phase == "ended" then
+      storyboard.gotoScene( "menu" )
+    end
+  end
+
+  local backButton = createAButton(_W-250, _H-30, 240, 70, '', '', "BACK TO MENU", backToMenuEvent)
+  group:insert(backButton)
+
+end
+M.drawBackToMenu = drawBackToMenu
 
 return M

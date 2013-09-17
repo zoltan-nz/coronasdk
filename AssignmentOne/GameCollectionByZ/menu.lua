@@ -33,9 +33,7 @@ local _H = display.contentHeight
 -- Each button call an event and if clicking phase ended, will be called a new scene.
 --
 local gameOneButtonClicked = function (event)
-
-  print('Game One Button Clicked')
-
+  
   local phase = event.phase
 
   if phase == "ended" then
@@ -44,12 +42,20 @@ local gameOneButtonClicked = function (event)
 
 end
 
-local gameTwoButtonClicked = function ()
+local gameTwoButtonClicked = function (event)
+  local phase = event.phase
 
+  if phase == "ended" then
+    storyboard.gotoScene("scene3")
+  end
 end
 
-local gameThreeButtonClicked = function ()
+local gameThreeButtonClicked = function (event)
+  local phase = event.phase
 
+  if phase == "ended" then
+    storyboard.gotoScene("scene4")
+  end
 end
 
 ----------------------------------------------------------------------------------
