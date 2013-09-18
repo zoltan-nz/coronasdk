@@ -13,6 +13,13 @@ local _H = display.contentHeight
 -- Loading shared functions
 local shared = require ( "sharedfunctions" )
 
+-- we use physics API in this game
+local physics = require("physics")
+
+-- start physics and setup gravity
+physics.start()
+physics.setGravity(0, 9.8)
+
 ----------------------------------------------------------------------------------
 --
 --	NOTE:
@@ -29,25 +36,82 @@ local shared = require ( "sharedfunctions" )
 -- Called when the scene's view does not exist:
 function scene:createScene( event )
 	local displayGroup = self.view
-  local dpadGroup = display.newGroup();
-  displayGroup:insert(dpadGroup);
-
-  -- Draw a Text Button for toggle all sound.
-  shared.drawSoundONOFFButton(displayGroup)
 
   -- Draw a background
   shared.drawBackground(displayGroup)
 
+  -- Draw a Text Button for toggle all sound.
+  shared.drawSoundONOFFButton(displayGroup)
+
   -- Draw a back to Menu button
   shared.drawBackToMenu(displayGroup)
 
-	-----------------------------------------------------------------------------
+  -- Group for siluett
+  local silhouetteGroup = display.newGroup()
+  displayGroup:insert(silhouetteGroup)
 
-	--	CREATE display objects and add them to 'group' here.
-	--	Example use-case: Restore 'group' from previously saved state.
+  local objectGroup = display.newGroup()
+  displayGroup:insert(objectGroup)
 
-	-----------------------------------------------------------------------------
+  local groundGroup = display.newGroup()
+  displayGroup:insert(groundGroup)
 
+  -- Create three objects and silhouettes
+
+  -- Draw a rectangle silhouette
+  local rectangleObject = display.newRect(0, 0, 80, 80 )
+  rectangleObject.strokeWidth = 3
+  rectangleObject:setFillColor(0,0,0)
+  rectangleObject:setStrokeColor(255, 0, 0)
+  silhouetteGroup:insert(rectangleObject)
+  rectangleObject.x = 55; rectangleObject.y = 60
+
+  -- Draw a circle silhouette
+  local circleSilhouette = display.newCircle(0,0, 40)
+  circleSilhouette.strokeWidth = 3
+  circleSilhouette:setFillColor(0,0,0)
+  circleSilhouette:setStrokeColor(0, 255, 0)
+  silhouetteGroup:insert(circleSilhouette)
+  circleSilhouette.x = 160; circleSilhouette.y = 60
+
+  -- Draw a rounded rectangle silhouette
+  local roundedSilhouette = display.newRoundedRect(0,0, 80, 80, 20)
+  roundedSilhouette.strokeWidth = 3
+  roundedSilhouette:setFillColor(0,0,0)
+  roundedSilhouette:setStrokeColor(0, 0, 255)
+  silhouetteGroup:insert(roundedSilhouette)
+  roundedSilhouette.x = 265; roundedSilhouette.y = 60
+
+  -- Draw three object
+
+  -- Draw a rectangle silhouette
+  local rectangleObject = display.newRect(0, 0, 80, 80 )
+  rectangleObject.strokeWidth = 3
+  rectangleObject:setFillColor(255, 0, 0)
+  rectangleObject:setStrokeColor(0, 0, 0)
+  objectGroup:insert(rectangleObject)
+  rectangleObject.x = 265; rectangleObject.y = 300
+
+  -- Draw a circle silhouette
+  local circleObject = display.newCircle(0,0, 40)
+  circleObject.strokeWidth = 3
+  circleObject:setFillColor(0, 255, 0)
+  circleObject:setStrokeColor(0, 0, 0)
+  silhouetteGroup:insert(circleObject)
+  circleObject.x = 55; circleObject.y = 300
+
+  -- Draw a rounded rectangle silhouette
+  local roundedObject = display.newRoundedRect(0,0, 80, 80, 20)
+  roundedObject.strokeWidth = 3
+  roundedObject:setFillColor(0,0,255)
+  roundedObject:setStrokeColor(0, 0, 0)
+  silhouetteGroup:insert(roundedObject)
+  roundedObject.x = 160; roundedObject.y = 300
+
+  local ground = display.newLine(0, 342, _W, 342)
+  groundGroup:insert(ground)
+  ground:setColor(255,102, 102)
+  ground.width = 6
 end
 
 
