@@ -28,35 +28,30 @@ local shared = require ( "sharedfunctions" )
 local _W = display.contentWidth --Width and height parameters
 local _H = display.contentHeight
 
+local tapChannel --Sound variables..
+
 ----------------------------------------------------------------------------------
 -- Functions for button events.
 -- Each button call an event and if clicking phase ended, will be called a new scene.
 --
-local gameOneButtonClicked = function (event)
-  
+local gameButtonClicked = function (event)
+
   local phase = event.phase
+  local t = event.target
+
+  -- each button has a button parameter which stores scene name
+  local button = t.button
+
+  if phase == "began" then
+    tapChannel = audio.play( tapSound )
+  end
 
   if phase == "ended" then
-    storyboard.gotoScene("scene2")
+    storyboard.gotoScene(button)
   end
 
 end
 
-local gameTwoButtonClicked = function (event)
-  local phase = event.phase
-
-  if phase == "ended" then
-    storyboard.gotoScene("scene3")
-  end
-end
-
-local gameThreeButtonClicked = function (event)
-  local phase = event.phase
-
-  if phase == "ended" then
-    storyboard.gotoScene("scene4")
-  end
-end
 
 ----------------------------------------------------------------------------------
 -- @param event
@@ -69,25 +64,29 @@ end
 function scene:createScene( event )
   -- Initializing groups
   local displayGroup = self.view
-  local buttonGroup = display.newGroup()
-  displayGroup:insert(buttonGroup)
-
-  -- Draw a Text Button for toggle all sound.
-  shared.drawSoundONOFFButton(displayGroup)
 
   -- Draw a background
   shared.drawBackground(displayGroup)
 
+  -- Draw a Text Button for toggle all sound.
+  shared.drawSoundONOFFButton(displayGroup)
+
   -- Write out a Welcome message
-  local welcomeText = display.newText({parent = displayGroup, text = "Welcome in Game Menu", x = _W/2, y = 10, font = native.systemFontBold, align = "center", fontSize = 80, width = _W, height = 200})
+  local welcomeText = display.newText({parent = displayGroup, text = "Welcome in Game Menu", x = _W/2, y = 50, font = native.systemFontBold, align = "center", fontSize = 20, width = _W, height = 50})
+
+  local buttonGroup = display.newGroup()
+  displayGroup:insert(buttonGroup)
 
   -- Button One, Button Two and Button Three
-  local buttonOne = shared.createAButton(10, _H/5, _W-20, 100, {10, 10, 10, 0}, {30, 30, 30, 0}, "GAME ONE", gameOneButtonClicked)
+  local buttonOne = shared.createAButton(10, _H/5, _W-20, 100, {10, 10, 10, 0}, {30, 30, 30, 0}, "GAME ONE", gameButtonClicked)
   buttonGroup:insert (buttonOne)
-  local buttonTwo = shared.createAButton(10, (_H/5)*2, _W-20, 100, {10, 10, 10, 0}, {30, 30, 30, 0}, "GAME TWO", gameTwoButtonClicked)
+  buttonOne.button = 'scene2'
+  local buttonTwo = shared.createAButton(10, (_H/5)*2, _W-20, 100, {10, 10, 10, 0}, {30, 30, 30, 0}, "GAME TWO", gameButtonClicked)
   buttonGroup:insert (buttonTwo)
-  local buttonThree = shared.createAButton(10, (_H/5)*3, _W-20, 100, {10, 10, 10, 0}, {30, 30, 30, 0}, "GAME THREE", gameThreeButtonClicked)
+  buttonTwo.button = 'scene3'
+  local buttonThree = shared.createAButton(10, (_H/5)*3, _W-20, 100, {10, 10, 10, 0}, {30, 30, 30, 0}, "GAME THREE", gameButtonClicked)
   buttonGroup:insert (buttonThree)
+  buttonThree.button = 'scene4'
 
 end
 

@@ -25,7 +25,7 @@ audio.reserveChannels(1)   --Reserve its channel
 audio.play(bgSound, {channel=1, loops=-1}) --Start looping the sound.
 
 -- Load tapSound for buttons
-local tapSound = audio.loadSound("sounds/tapsound.wav")
+tapSound = audio.loadSound("sounds/tapsound.wav")
 
 -- load menu.lua
 storyboard.gotoScene( "menu" )

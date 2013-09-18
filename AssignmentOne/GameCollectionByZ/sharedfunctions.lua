@@ -6,6 +6,8 @@ local storyboard = require "storyboard"
 local _W = display.contentWidth --Width and height parameters
 local _H = display.contentHeight
 
+local tapChannel
+
 local M = {}
 
 local createAButton = function (left, top, width, height, default, over, label, onevent)
@@ -18,7 +20,7 @@ local createAButton = function (left, top, width, height, default, over, label, 
     height = height,
     label = label,
     onEvent = onevent,
-    fontSize = 40
+    fontSize = 12
   }
 
   return(createdButton)
@@ -33,6 +35,11 @@ local function drawSoundONOFFButton(screenGroup)
 
   function soundOnOff(event)
     local phase = event.phase
+
+    if phase == "began" then
+      tapChannel = audio.play( tapSound )
+    end
+
     if phase == "ended" then
       if audioPaused then
         print("Sound ON")
@@ -50,7 +57,7 @@ local function drawSoundONOFFButton(screenGroup)
 
   end
 
-  soundButton = createAButton(0, _H-30, 240, 70, '', '', "Sound: ON", soundOnOff)
+  soundButton = createAButton(5, _H-50, 100, 40, '', '', "Sound: ON", soundOnOff)
   screenGroup:insert(soundButton)
 
   -- This listener connect action to our button.
@@ -66,7 +73,7 @@ local drawBackground = function (group)
 	local background = display.newRect(group, 0, 0, _W, _H )
 	background:setReferencePoint( display.TopLeftReferencePoint )
 	background.x, background.y = 0, 0
-  background:setFillColor(20,20,20,20)
+  background:setFillColor(0,20,0)
 
 
 end
@@ -76,12 +83,17 @@ local drawBackToMenu = function (group)
 
   local backToMenuEvent = function (event)
     local phase = event.phase
+
+    if phase == "began" then
+      tapChannel = audio.play( tapSound )
+    end
+
     if phase == "ended" then
       storyboard.gotoScene( "menu" )
     end
   end
 
-  local backButton = createAButton(_W-250, _H-30, 240, 70, '', '', "BACK TO MENU", backToMenuEvent)
+  backButton = createAButton(_W-110, _H-50, 100, 40, '', '', "Menu", backToMenuEvent)
   group:insert(backButton)
 
 end
