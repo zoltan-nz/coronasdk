@@ -26,22 +26,57 @@ local deathSound = audio.loadSound("sounds/death.mp3")
 local deathChannel
 
 local ground
+-- platforms hold stones
 local platforms = {}
+local stones = {}
 local platformGroup
+local stoneGroup
+
+-- this function will be called if user click on platform and remove the platform from the screen
+local platformKiller = function(event)
+
+  local t = event.target
+  local phase = event.phase
+
+  if phase == "began" then
+    explosionChannel = audio.play( explosionSound )
+    display.remove(t)
+  end
+
+end
 
 -- Platforms position generated randomly.
 -- It is called always when use relaunch this game
 local randomPlatformGenerator = function()
+  -- ranges helps to control random numbers to avoid generating platform too close to each other
+  local y_range = {{y1 = 40, y2 = 80}, {y1 = 130, y2=190}, {y1=230, y2=300}}
   for i=1,3 do
     platforms[i] = display.newRect(platformGroup, 0, 0, 100, 20)
     platforms[i]:setReferencePoint(display.TopLeftReferencePoint)
-    local x = math.random(0,220)
-    local y = math.random(0,300)
+    -- create a random x and y coordinate between the given range.
+    local x = math.random(0,240)
+    local y = math.random(y_range[i].y1, y_range[i].y2)
     platforms[i].x = x
     platforms[i].y = y
     platforms[i].name = 'platform'
+    physics.addBody( platforms[i],  "static", { friction=0.1, bounce=0 } )
+
+    stones[i] = display.newCircle(100, 100, 30)
+    stoneGroup:insert(stones[i])
+    -- with settings reference point of stones to bottom center, will be easier to put on platforms
+    stones[i]:setReferencePoint(display.BottomCenterReferencePoint)
+    stones[i].x = x+50
+    stones[i].y = y
+    stones[i].name = 'stone'
+    physics.addBody(stones[i], 'dynamic', { friction=1, bounce=0.1})
+
+    -- add remove touch event to each platform
+    platforms[i]:addEventListener("touch", platformKiller)
+
   end
 end
+
+
 
 -- Called when the scene's view does not exist:
 function scene:createScene( event )
@@ -65,8 +100,11 @@ function scene:createScene( event )
   platformGroup = display.newGroup()
   displayGroup:insert(platformGroup)
 
+  stoneGroup = display.newGroup()
+  displayGroup:insert(stoneGroup)
+
   -- Create character
-  
+
 
 
 end
@@ -91,8 +129,10 @@ function scene:exitScene( event )
   -- If user goes back to main menu, then platforms deleted and if comes back later, generated a new random position...
   for i=1,3 do
     display.remove(platforms[i]);
+    display.remove(stones[i])
   end
   platforms = {}
+  stones = {}
 
 end
 
