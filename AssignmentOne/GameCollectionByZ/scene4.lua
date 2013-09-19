@@ -13,41 +13,61 @@ local _H = display.contentHeight
 -- Loading shared functions
 local shared = require ( "sharedfunctions" )
 
-----------------------------------------------------------------------------------
---
---	NOTE:
---
---	Code outside of listener functions (below) will only be executed once,
---	unless storyboard.removeScene() is called.
---
----------------------------------------------------------------------------------
+-- turn on physics
+local physics = require ('physics')
+physics.start()
+physics.setGravity(0, 9.8)
 
----------------------------------------------------------------------------------
--- BEGINNING OF YOUR IMPLEMENTATION
----------------------------------------------------------------------------------
+-- couple of sound effects
+local explosionSound = audio.loadSound("sounds/explosion.mp3")
+local explosionChannel
+
+local deathSound = audio.loadSound("sounds/death.mp3")
+local deathChannel
+
+local ground
+local platforms = {}
+local platformGroup
+
+-- Platforms position generated randomly.
+-- It is called always when use relaunch this game
+local randomPlatformGenerator = function()
+  for i=1,3 do
+    platforms[i] = display.newRect(platformGroup, 0, 0, 100, 20)
+    platforms[i]:setReferencePoint(display.TopLeftReferencePoint)
+    local x = math.random(0,220)
+    local y = math.random(0,300)
+    platforms[i].x = x
+    platforms[i].y = y
+    platforms[i].name = 'platform'
+  end
+end
 
 -- Called when the scene's view does not exist:
 function scene:createScene( event )
 	local displayGroup = self.view
-  local dpadGroup = display.newGroup();
-  displayGroup:insert(dpadGroup);
-
-  -- Draw a Text Button for toggle all sound.
-  shared.drawSoundONOFFButton(displayGroup)
 
   -- Draw a background
   shared.drawBackground(displayGroup)
 
   -- Draw a back to Menu button
   shared.drawBackToMenu(displayGroup)
+
+  -- Create ground
+  local groundGroup = display.newGroup();
+  displayGroup:insert(groundGroup);
+
+  ground = display.newImageRect(groundGroup, "images/floor.png", 480, 48)
+  ground:setReferencePoint(display.TopLeftReferencePoint); ground.x = 0; ground.y = _H-110; ground.name = "floor"
+  physics.addBody( ground,  "static", { friction=0.1, bounce=0 } )
+
+  -- Platform Generator will be called in enterScene
+  platformGroup = display.newGroup()
+  displayGroup:insert(platformGroup)
+
+  -- Create character
   
 
-	-----------------------------------------------------------------------------
-
-	--	CREATE display objects and add them to 'group' here.
-	--	Example use-case: Restore 'group' from previously saved state.
-
-	-----------------------------------------------------------------------------
 
 end
 
@@ -56,11 +76,9 @@ end
 function scene:enterScene( event )
 	local group = self.view
 
-	-----------------------------------------------------------------------------
+  -- Have to generate new platforms here in enterScene, because we want to create always new platforms when user reenter the game.
+  randomPlatformGenerator()
 
-	--	INSERT code here (e.g. start timers, load audio, start listeners, etc.)
-
-	-----------------------------------------------------------------------------
 
 end
 
@@ -69,11 +87,12 @@ end
 function scene:exitScene( event )
 	local group = self.view
 
-	-----------------------------------------------------------------------------
-
-	--	INSERT code here (e.g. stop timers, remove listeners, unload sounds, etc.)
-
-	-----------------------------------------------------------------------------
+  -- remove platforms
+  -- If user goes back to main menu, then platforms deleted and if comes back later, generated a new random position...
+  for i=1,3 do
+    display.remove(platforms[i]);
+  end
+  platforms = {}
 
 end
 
@@ -82,33 +101,12 @@ end
 function scene:destroyScene( event )
 	local group = self.view
 
-	-----------------------------------------------------------------------------
-
-	--	INSERT code here (e.g. remove listeners, widgets, save state, etc.)
-
-	-----------------------------------------------------------------------------
 
 end
 
-
----------------------------------------------------------------------------------
--- END OF YOUR IMPLEMENTATION
----------------------------------------------------------------------------------
-
--- "createScene" event is dispatched if scene's view does not exist
 scene:addEventListener( "createScene", scene )
-
--- "enterScene" event is dispatched whenever scene transition has finished
 scene:addEventListener( "enterScene", scene )
-
--- "exitScene" event is dispatched before next scene's transition begins
 scene:addEventListener( "exitScene", scene )
-
--- "destroyScene" event is dispatched before view is unloaded, which can be
--- automatically unloaded in low memory situations, or explicitly via a call to
--- storyboard.purgeScene() or storyboard.removeScene().
 scene:addEventListener( "destroyScene", scene )
-
----------------------------------------------------------------------------------
 
 return scene
