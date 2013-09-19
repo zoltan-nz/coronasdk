@@ -82,7 +82,7 @@ local drawBackground = function (group)
 	local background = display.newRect(group, 0, 0, _W, _H )
 	background:setReferencePoint( display.TopLeftReferencePoint )
 	background.x, background.y = 0, 0
-  background:setFillColor(0,20,0)
+  background:setFillColor(30,30,30)
 
 
 end

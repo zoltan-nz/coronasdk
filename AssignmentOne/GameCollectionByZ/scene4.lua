@@ -17,6 +17,8 @@ local shared = require ( "sharedfunctions" )
 local physics = require ('physics')
 physics.start()
 physics.setGravity(0, 9.8)
+-- below mode great for debugging...
+physics.setDrawMode( "hybrid" )
 
 -- couple of sound effects
 local explosionSound = audio.loadSound("sounds/explosion.mp3")
@@ -31,6 +33,14 @@ local platforms = {}
 local stones = {}
 local platformGroup
 local stoneGroup
+
+local character
+local characterGroup
+
+-- Character. I use here my famous Koala who was known as Rambo Panda: http://zoltandebre.com/rambopanda/
+-- This paramters will be used when create character sprite below.
+local characterSheet = graphics.newImageSheet( "images/playerSprite.png", { width = 45, height = 62, numFrames = 5, sheetContentWidth = 225, sheetContentHeight = 62 })
+local characterSprite = {name="run", start=1, count=3, time = 400, loopCount = 0 }
 
 -- this function will be called if user click on platform and remove the platform from the screen
 local platformKiller = function(event)
@@ -68,7 +78,24 @@ local randomPlatformGenerator = function()
     stones[i].x = x+50
     stones[i].y = y
     stones[i].name = 'stone'
-    physics.addBody(stones[i], 'dynamic', { friction=1, bounce=0.1})
+    -- create a circle shape, each coordinate a vertex point. 0,0 is the centre of the circle, because 30 is the radius, -30,0 will be the left side of the circle, etc...
+    -- Here I use cosinus and sinus to determine a little bit more than only 4 shape points. I create 12 point with a for loop
+    -- Sinus give back x coordinates, Cosinus gives back y coordinate
+    -- sin and cos need value in radians... math.rad will convert degree to radiant
+    local circleShape = {}
+    local poligon = 8  -- with this easy to decrease or increase numbers of poligons, unfortunately coronasdk manages only 8 vertex points...
+    local degreeStep = 360/poligon
+    local radius = 30
+    local counter = 1 -- using for position in circleShape
+    for i=0,poligon-1 do
+      local radian = math.rad(degreeStep * i)
+      local xcord = math.sin(radian) * radius
+      circleShape[counter] = xcord; counter = counter + 1
+      local ycord = math.cos(radian) * radius
+      circleShape[counter] = ycord; counter = counter + 1
+      --      print('Degree: '..degreeStep * i..' Radian: '..radian..' Xcord: '..xcord..' Ycord: '..ycord)
+    end
+    physics.addBody(stones[i], 'dynamic', { friction=1, bounce=0.1, shape = circleShape})
 
     -- add remove touch event to each platform
     platforms[i]:addEventListener("touch", platformKiller)
@@ -103,10 +130,21 @@ function scene:createScene( event )
   stoneGroup = display.newGroup()
   displayGroup:insert(stoneGroup)
 
-  -- Create character
+  characterGroup = display.newGroup()
+  displayGroup:insert(characterGroup)
 
+  -- Create character, it is a sprite
+  character = display.newSprite(characterSheet, characterSprite)
+  character:setReferencePoint(display.BottomCenterReferencePoint)
+  character.x = 140; character.y = _H-110; character.name = "character"
+  character:setSequence("run"); character:play()
+  characterGroup:insert(character);
 
-
+  -- setup shape of character to properly manage collisions
+  local characterShape = { -16,-28, 16,-28, 16,31, -16,31 }
+  physics.addBody( character,  "dynamic", { friction=1, bounce=0, shape=characterShape} )
+  -- just rotate left and right
+  character.isFixedRotation = true
 end
 
 
