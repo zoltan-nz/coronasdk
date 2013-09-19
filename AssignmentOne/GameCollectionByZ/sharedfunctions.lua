@@ -10,7 +10,9 @@ local tapChannel
 
 local M = {}
 
-local createAButton = function (left, top, width, height, default, over, label, onevent)
+local createAButton = function (left, top, width, height, default, over, label, onevent, fontsize)
+
+  fontsize = fontsize or 12
 
   local createdButton = widget.newButton
   {
@@ -20,14 +22,14 @@ local createAButton = function (left, top, width, height, default, over, label, 
     height = height,
     label = label,
     onEvent = onevent,
-    fontSize = 12
+    fontSize = fontsize
   }
 
   return(createdButton)
 end
 M.createAButton = createAButton
 
-local function drawSoundONOFFButton(screenGroup)
+local function drawSoundONOFFButton()
 
   -- Sound ON/OFF text in the bottom-right corner
   --  soundText = display.newText(screenGroup, "Sound: ON", 0, _H-30, "Arial", 20)
@@ -56,9 +58,16 @@ local function drawSoundONOFFButton(screenGroup)
 
 
   end
+  local buttonLabel
+  if audioPaused then
+    buttonLabel = "Sound: OFF"
+  else
+    buttonLabel = "Sound: ON"
+  end
 
-  soundButton = createAButton(5, _H-50, 100, 40, '', '', "Sound: ON", soundOnOff)
-  screenGroup:insert(soundButton)
+  soundButton = createAButton(5, _H-50, 100, 40, '', '', buttonLabel, soundOnOff)
+  --  screenGroup:insert(soundButton)
+
 
   -- This listener connect action to our button.
   --  soundText:addEventListener("tap", soundOnOff)

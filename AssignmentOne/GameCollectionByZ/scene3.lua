@@ -206,8 +206,8 @@ function scene:createScene( event )
   shared.drawBackground(displayGroup)
 
   -- Draw a Text Button for toggle all sound.
-  shared.drawSoundONOFFButton(displayGroup)
-
+  --  shared.drawSoundONOFFButton(displayGroup)
+  --  displayGroup:insert(soundButton)
   -- Draw a back to Menu button
   shared.drawBackToMenu(displayGroup)
 

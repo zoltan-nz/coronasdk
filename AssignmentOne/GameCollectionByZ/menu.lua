@@ -69,22 +69,22 @@ function scene:createScene( event )
   shared.drawBackground(displayGroup)
 
   -- Draw a Text Button for toggle all sound.
-  shared.drawSoundONOFFButton(displayGroup)
+  shared.drawSoundONOFFButton()
 
   -- Write out a Welcome message
-  local welcomeText = display.newText({parent = displayGroup, text = "Welcome in Game Menu", x = _W/2, y = 50, font = native.systemFontBold, align = "center", fontSize = 20, width = _W, height = 50})
+  local welcomeText = display.newText({parent = displayGroup, text = "Welcome in Game Menu", x = _W/2, y = 50, font = native.systemFontBold, align = "center", fontSize = 25, width = _W, height = 50})
 
   local buttonGroup = display.newGroup()
   displayGroup:insert(buttonGroup)
 
   -- Button One, Button Two and Button Three
-  local buttonOne = shared.createAButton(10, _H/5, _W-20, 100, {10, 10, 10, 0}, {30, 30, 30, 0}, "GAME ONE", gameButtonClicked)
+  local buttonOne = shared.createAButton(10, _H/5, _W-20, 100, {10, 10, 10, 0}, {30, 30, 30, 0}, "GAME ONE", gameButtonClicked, 20)
   buttonGroup:insert (buttonOne)
   buttonOne.button = 'scene2'
-  local buttonTwo = shared.createAButton(10, (_H/5)*2, _W-20, 100, {10, 10, 10, 0}, {30, 30, 30, 0}, "GAME TWO", gameButtonClicked)
+  local buttonTwo = shared.createAButton(10, (_H/5)*2, _W-20, 100, {10, 10, 10, 0}, {30, 30, 30, 0}, "GAME TWO", gameButtonClicked, 20)
   buttonGroup:insert (buttonTwo)
   buttonTwo.button = 'scene3'
-  local buttonThree = shared.createAButton(10, (_H/5)*3, _W-20, 100, {10, 10, 10, 0}, {30, 30, 30, 0}, "GAME THREE", gameButtonClicked)
+  local buttonThree = shared.createAButton(10, (_H/5)*3, _W-20, 100, {10, 10, 10, 0}, {30, 30, 30, 0}, "GAME THREE", gameButtonClicked, 20)
   buttonGroup:insert (buttonThree)
   buttonThree.button = 'scene4'
 

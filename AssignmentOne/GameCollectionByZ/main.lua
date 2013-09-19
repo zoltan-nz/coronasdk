@@ -27,5 +27,9 @@ audio.play(bgSound, {channel=1, loops=-1}) --Start looping the sound.
 -- Load tapSound for buttons
 tapSound = audio.loadSound("sounds/tapsound.wav")
 
+-- Sound ON/OFF status, need a global variable for store that to manage properly in each screen
+audioPaused = false
+soundButton = {}
+
 -- load menu.lua
 storyboard.gotoScene( "menu" )
