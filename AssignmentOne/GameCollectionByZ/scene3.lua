@@ -13,16 +13,20 @@ local _H = display.contentHeight
 -- Loading shared functions
 local shared = require ( "sharedfunctions" )
 
+-- This game is perfectly working without any physics.
+-- First I tried to implement with physic, but finally I commented out all physics related lines.
+
 -- we use physics API in this game
-local physics = require("physics")
+--local physics = require("physics")
 
 -- start physics and setup gravity
-physics.start()
-physics.setGravity(0, 9.8)
+--physics.start()
+--physics.setGravity(0, 9.8)
 
 
 --load snap sound effect
 local snapSound = audio.loadSound("sounds/snap.mp3")
+local snapChannel
 
 local rectangleObject, circleObject, roundedObject, rectangleSilhouette, circleSilhouette, roundedSilhouette
 local wallTop, wallLeft, wallRight, wallBottom
@@ -31,6 +35,10 @@ local wallTop, wallLeft, wallRight, wallBottom
 local bottom = 342
 -- All object
 local objectWidth = 40
+
+local tapChannel
+
+
 ----------------------------------------------------------------------------------
 --
 --	NOTE:
@@ -86,15 +94,19 @@ local function hasCollided( obj1, obj2 )
 end
 
 
--- This startDrag function below is copied from DragPlatform sample code in Corona Package
--- Execept border check. Objects cannot move outside defined border (0,0, _W, bottom)
+-- This startDrag function originaly copied from DragPlatform sample code in Corona Package and customized mainly.
+-- Border check: Objects cannot move outside defined border (0,0, _W, bottom)
+-- Object matching and snapping options are implemented in this function. See below.
+-- And finally physics commented out.
 local function startDrag( event )
 	local t = event.target
   local o = event.target.name
 
 	local phase = event.phase
-	if "began" == phase then
-		display.getCurrentStage():setFocus( t )
+
+  if "began" == phase then
+    tapChannel = audio.play( tapSound )
+    display.getCurrentStage():setFocus( t )
 		t.isFocus = true
 
 		-- Store initial position
@@ -102,15 +114,13 @@ local function startDrag( event )
 		t.y0 = event.y - t.y
 
 		-- Make body type temporarily "kinematic" (to avoid gravitional forces)
-		event.target.bodyType = "kinematic"
+    --		event.target.bodyType = "kinematic"
 
 		-- Stop current motion, if any
-		event.target:setLinearVelocity( 0, 0 )
-		event.target.angularVelocity = 0
+    --		event.target:setLinearVelocity( 0, 0 )
+    --		event.target.angularVelocity = 0
 
 	elseif t.isFocus then
-
-
 
     if ("moved" == phase) then
 
@@ -134,38 +144,36 @@ local function startDrag( event )
       -- Inspiration from here: http://www.coronalabs.com/blog/2013/07/23/tutorial-non-physics-collision-detection/
       local hotSpot
 
+      -- Check which object and if circle use hasCollidedCircle else use simple hasCollided function.
       if (o == "circleObject") then
-        print('Circle object')
-        local hotSpot = circleSilhouette
+
+        hotSpot = circleSilhouette
 
         if (hasCollidedCircle(t,hotSpot)) then
-          print('Snap')
+          -- Snap and play a snap music
           transition.to( t, {time=250, x=hotSpot.x, y=hotSpot.y} )
+          snapChannel = audio.play(snapSound)
         else
-          print('Back to origin')
+          -- Move back to original position
           transition.to( t, {time=500, x=t.xStart, y=t.yStart} )
         end
 
       else
         if (o == "rectangleObject") then
-          print('Rectangle')
-          local hotSpot = rectangleSilhouette
+          hotSpot = rectangleSilhouette
         end
 
         if (o == "roundedObject") then
-          print('Rounded')
-          local hotSpot = roundedSilhouette
+          hotSpot = roundedSilhouette
         end
 
         if ( hasCollided( t, hotSpot ) ) then
-          print('Snapped')
-          --snap in place
+          -- Snap in place and play sound.
           transition.to( t, {time=250, x=hotSpot.x, y=hotSpot.y} )
+          snapChannel = audio.play(snapSound)
         else
-          print('Back to origin')
-          --move back
+          -- Move back to original position.
           transition.to( t, {time=500, x=event.target.xStart, y=event.target.yStart} )
-
         end
       end
 
@@ -177,17 +185,17 @@ local function startDrag( event )
 	return true
 end
 
-local collision = function(event)
-  local o1 = event.object1.name
-  local o2 = event.object2.name
-  print 'in collision'
-  print(o1)
-  print(o2)
-  if (o1 == "wall") or (o2 == "wall") then
-    print 'hit a wall'
-  end
-
-end
+--local collision = function(event)
+--  local o1 = event.object1.name
+--  local o2 = event.object2.name
+--  print 'in collision'
+--  print(o1)
+--  print(o2)
+--  if (o1 == "wall") or (o2 == "wall") then
+--    print 'hit a wall'
+--  end
+--
+--end
 
 
 -- Called when the scene's view does not exist:
@@ -229,7 +237,7 @@ function scene:createScene( event )
     wall:setStrokeColor(255,255,255)
     wall:setFillColor(255,255,255)
     wall.strokeWidth = 2
-    physics.addBody( wall,  "static", { density = 10, friction=0.5, bounce=0.1} )
+    --    physics.addBody( wall,  "static", { density = 10, friction=0.5, bounce=0.1} )
     wall.name = "wall"
   end
 
@@ -242,6 +250,7 @@ function scene:createScene( event )
 
 
   -- Create three objects and silhouettes
+  -- Silhouettes should bigger a little bit than snapped object.
 
   -- Draw a rectangle silhouette
   rectangleSilhouette = display.newRect(0, 0, 82, 82 )
@@ -250,7 +259,7 @@ function scene:createScene( event )
   rectangleSilhouette:setStrokeColor(255, 0, 0)
   silhouetteGroup:insert(rectangleSilhouette)
   rectangleSilhouette.x = 55; rectangleSilhouette.y = 60
-  physics.addBody(rectangleSilhouette, "static", {bounce=0, isSensor = true} )
+  --  physics.addBody(rectangleSilhouette, "static", {bounce=0, isSensor = true} )
   rectangleSilhouette.name = "rectangleSilhouette"
 
   -- Draw a circle silhouette
@@ -260,7 +269,7 @@ function scene:createScene( event )
   circleSilhouette:setStrokeColor(0, 255, 0)
   silhouetteGroup:insert(circleSilhouette)
   circleSilhouette.x = 160; circleSilhouette.y = 60
-  physics.addBody(circleSilhouette, "static", {bounce=0, isSensor = true})
+  --  physics.addBody(circleSilhouette, "static", {bounce=0, isSensor = true})
   circleSilhouette.name = "circleSilhouette"
 
   -- Draw a rounded rectangle silhouette
@@ -270,7 +279,7 @@ function scene:createScene( event )
   roundedSilhouette:setStrokeColor(0, 0, 255)
   silhouetteGroup:insert(roundedSilhouette)
   roundedSilhouette.x = 265; roundedSilhouette.y = 60
-  physics.addBody(roundedSilhouette, "static", {bounce=0, isSensor = true})
+  --  physics.addBody(roundedSilhouette, "static", {bounce=0, isSensor = true})
   roundedSilhouette.name = "roundedSilhouette"
 
   -- Draw three object
@@ -283,7 +292,7 @@ function scene:createScene( event )
   objectGroup:insert(rectangleObject)
   rectangleObject.x = 265; rectangleObject.y = 300
   rectangleObject.xStart = 265; rectangleObject.yStart = 300
-  physics.addBody(rectangleObject, "kinematic", {bounce=0})
+  --  physics.addBody(rectangleObject, "kinematic", {bounce=0})
   rectangleObject.name = "rectangleObject"
 
   -- Draw a dragable circle object
@@ -294,7 +303,7 @@ function scene:createScene( event )
   objectGroup:insert(circleObject)
   circleObject.x = 55; circleObject.y = 300
   circleObject.xStart = 55; circleObject.yStart = 300
-  physics.addBody(circleObject, "kinematic", {bounce=0})
+  --  physics.addBody(circleObject, "kinematic", {bounce=0})
   circleObject.name = "circleObject"
 
   -- Draw a dragable rounded rectangle object
@@ -305,7 +314,7 @@ function scene:createScene( event )
   objectGroup:insert(roundedObject)
   roundedObject.x = 160; roundedObject.y = 300
   roundedObject.xStart = 160; roundedObject.yStart = 300
-  physics.addBody(roundedObject, "kinematic", {bounce=0})
+  --  physics.addBody(roundedObject, "kinematic", {bounce=0})
   roundedObject.name = "roundedObject"
 end
 
@@ -319,11 +328,15 @@ function scene:enterScene( event )
   --	INSERT code here (e.g. start timers, load audio, start listeners, etc.)
 
   -----------------------------------------------------------------------------
+
+  -- Decrase of backround music volume while user play the game.
+  audio.setVolume( 0.3, { channel=1 } )
+
   rectangleObject:addEventListener('touch', startDrag)
   circleObject:addEventListener('touch', startDrag)
   roundedObject:addEventListener('touch', startDrag)
 
-  Runtime:addEventListener("collision", collision)
+  --  Runtime:addEventListener("collision", collision)
 end
 
 
@@ -336,7 +349,13 @@ function scene:exitScene( event )
   --	INSERT code here (e.g. stop timers, remove listeners, unload sounds, etc.)
 
   -----------------------------------------------------------------------------
+  rectangleObject:removeEventListener('touch', startDrag)
+  circleObject:removeEventListener('touch', startDrag)
+  roundedObject:removeEventListener('touch', startDrag)
 
+  --  Runtime:removeEventListener("collision", collision)
+
+  audio.setVolume( 0.8, { channel=1 } )
 end
 
 
@@ -349,7 +368,7 @@ function scene:destroyScene( event )
   --	INSERT code here (e.g. remove listeners, widgets, save state, etc.)
 
   -----------------------------------------------------------------------------
-
+  audio.dispose(snapSound)
 end
 
 

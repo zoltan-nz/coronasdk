@@ -21,6 +21,11 @@ local leftButton, rightButton, upButton, downButton
 
 -- Some useful variable for sharing status
 local movementInProgress, direction
+
+-- A loop what is always watching... have to removeEventListener when exit.
+local gameLoop
+
+local tapChannel
 ----------------------------------------------------------------------------------
 --
 --	NOTE:
@@ -56,8 +61,6 @@ local moveButton = function(event)
   end
 
   if phase == "ended" then
-    print('Phase ended')
-    print (t.dir)
     if movementInProgress then
       movementInProgress = false
 
@@ -130,13 +133,17 @@ function scene:enterScene( event )
 
   -----------------------------------------------------------------------------
 
+
+  -- Decrase of backround music volume while user play the game.
+  audio.setVolume( 0.3, { channel=1 } )
+
   leftButton:addEventListener("touch", moveButton)
   rightButton:addEventListener("touch", moveButton)
   upButton:addEventListener("touch", moveButton)
   downButton:addEventListener("touch", moveButton)
 
   -- gameLoop will run always as a loop, so if movementInProgress set true above than this will fired and translate the character
-  local gameLoop = function()
+  gameLoop = function()
     local deltaX, deltaY
     if movementInProgress == true then
       if direction == "up" then
@@ -174,6 +181,14 @@ function scene:exitScene( event )
 
   -----------------------------------------------------------------------------
 
+  leftButton:removeEventListener("touch", moveButton)
+  rightButton:removeEventListener("touch", moveButton)
+  upButton:removeEventListener("touch", moveButton)
+  downButton:removeEventListener("touch", moveButton)
+
+  Runtime:removeEventListener("enterFrame",gameLoop)
+
+  audio.setVolume( 0.8, { channel=1 } )
 end
 
 
