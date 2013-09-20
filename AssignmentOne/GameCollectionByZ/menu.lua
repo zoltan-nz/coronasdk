@@ -2,15 +2,11 @@
 --
 -- menu.lua
 --
---[[
-
-This is the main menu screen.
-
-1. Loading widget modul and creating button widgets.
-2. Connect click event to buttons and linking to other screens.
-
---]]
+-- Created by Zoltan Debre
 --
+-- This is the main menu screen.
+-- 1. Loading widget modul and creating button widgets.
+-- 2. Connect click event to buttons and linking to other screens.
 --
 ----------------------------------------------------------------------------------
 

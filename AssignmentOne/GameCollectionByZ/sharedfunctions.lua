@@ -1,4 +1,12 @@
+-----------------------------
+--
 -- Shared functions
+-- 
+-- Created by Zoltan Debre
+-- 
+-- I collect here reusable functions to keep my code a little bit DRY.
+--
+------------------------
 
 local widget = require ('widget')
 local storyboard = require ("storyboard")
@@ -8,8 +16,10 @@ local _H = display.contentHeight
 
 local tapChannel
 
+-- This file behave as a module.
 local M = {}
 
+-- Button creator function.
 local createAButton = function (left, top, width, height, default, over, label, onevent, fontsize)
 
   fontsize = fontsize or 12
@@ -29,6 +39,7 @@ local createAButton = function (left, top, width, height, default, over, label, 
 end
 M.createAButton = createAButton
 
+-- Sound ON/OFF button will be available in each screen.
 local function drawSoundONOFFButton()
 
   -- Sound ON/OFF text in the bottom-right corner
@@ -55,9 +66,9 @@ local function drawSoundONOFFButton()
         soundButton:setLabel("Sound: OFF")
       end
     end
-
-
   end
+
+  -- If audio already paused the new button will get proper label.
   local buttonLabel
   if audioPaused then
     buttonLabel = "Sound: OFF"
@@ -71,12 +82,11 @@ local function drawSoundONOFFButton()
 
   -- This listener connect action to our button.
   --  soundText:addEventListener("tap", soundOnOff)
-
-
-
 end
 M.drawSoundONOFFButton = drawSoundONOFFButton
 
+
+-- I prefer to draw a clean background instead of messy graphics... this function will manage that.
 local drawBackground = function (group)
 
 	local background = display.newRect(group, 0, 0, _W, _H )
@@ -84,10 +94,11 @@ local drawBackground = function (group)
 	background.x, background.y = 0, 0
   background:setFillColor(30,30,30)
 
-
 end
 M.drawBackground = drawBackground
 
+
+-- Back to menu button is exist in each screen. This function will create it.
 local drawBackToMenu = function (group)
 
   local backToMenuEvent = function (event)

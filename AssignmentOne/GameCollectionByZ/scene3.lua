@@ -1,6 +1,17 @@
 ----------------------------------------------------------------------------------
 --
--- scenetemplate.lua
+-- scene3.lua
+-- Created by Zoltan Debre
+--
+-- Scene 3
+-- 1. 3 object at the bottom
+-- 2. Silhouette above them
+-- 3. Drag, if wrong back to original, if OK snap it
+-- 4. Audio notification about snap.
+--
+-- Code was used from following sources:
+-- Source: http://www.coronalabs.com/blog/2013/07/23/tutorial-non-physics-collision-detection/
+-- Source: http://developer.coronalabs.com/code/flashs-hittestobject-emulated-using-contentbounds
 --
 ----------------------------------------------------------------------------------
 
@@ -17,11 +28,11 @@ local shared = require ( "sharedfunctions" )
 -- First I tried to implement with physic, but finally I commented out all physics related lines.
 
 -- we use physics API in this game
---local physics = require("physics")
+-- local physics = require("physics")
 
 -- start physics and setup gravity
---physics.start()
---physics.setGravity(0, 9.8)
+-- physics.start()
+-- physics.setGravity(0, 9.8)
 
 
 --load snap sound effect
@@ -76,7 +87,7 @@ end
 
 -- Below function originaly was in Share Your Code section on coronalabs website
 -- Source: http://developer.coronalabs.com/code/flashs-hittestobject-emulated-using-contentbounds
---rectangle-based collision detection
+-- rectangle-based collision detection
 local function hasCollided( obj1, obj2 )
   if ( obj1 == nil ) then  --make sure the first object exists
     return false

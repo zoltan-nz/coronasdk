@@ -1,7 +1,13 @@
 ----------------------------------------------------------------------------------
 --
--- scenetemplate.lua
---
+-- scene2.lua
+-- Created by Zoltan Debre
+-- 
+-- Scene 2
+-- 1. Interface with 4 arrows
+-- 2. Menu button Back
+-- 3. Character on the screen moved by arrows.
+-- 
 ----------------------------------------------------------------------------------
 
 local storyboard = require( "storyboard" )

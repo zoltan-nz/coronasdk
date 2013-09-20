@@ -1,7 +1,15 @@
 ----------------------------------------------------------------------------------
 --
--- scenetemplate.lua
---
+-- scene4.lua
+-- Created by Zoltan Debre
+-- 
+-- 1. Create 3 platforms at the top
+-- 2. Create a character at the bottom, moving right-left.
+-- 3. On each platforms has an object.
+-- 4. Tap platform --> remove them
+-- 5. Object fall, if hit character notification: You won!
+-- 6. 3 lives, if not hit character notification: You lost!
+-- 
 ----------------------------------------------------------------------------------
 
 local storyboard = require( "storyboard" )

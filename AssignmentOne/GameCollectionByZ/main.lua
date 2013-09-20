@@ -1,11 +1,13 @@
 -----------------------------------------------------------------------------------------
 --
 -- main.lua
---
+-- Created by Zoltan Debre
+-- 
 -- 1. Hide Status Bar
 -- 2. Creating Storyboard object.
 -- 3. Load first screen: menu.lua
 -- 4. Launch background music
+-- 5. Setup tapSound
 --
 -----------------------------------------------------------------------------------------
 
