@@ -342,6 +342,7 @@ end
 
 -- Called when scene is about to move offscreen:
 function scene:exitScene( event )
+  --  print( 'exit scene 3')
   local group = self.view
 
   -----------------------------------------------------------------------------

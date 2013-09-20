@@ -49,7 +49,7 @@ local gameButtonClicked = function (event)
   if phase == "ended" then
     storyboard.gotoScene(button)
   end
-
+	return true
 end
 
 
@@ -95,12 +95,14 @@ end
 function scene:enterScene( event )
   local screenGroup = self.view
 
+  storyboard.removeAll()
 
 end
 
 
 -- Called when scene is about to move offscreen:
 function scene:exitScene( event )
+  --  print ('exit scene menu')
   local group = self.view
 end
 

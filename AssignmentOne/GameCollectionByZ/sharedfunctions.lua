@@ -1,7 +1,7 @@
 -- Shared functions
 
 local widget = require ('widget')
-local storyboard = require "storyboard"
+local storyboard = require ("storyboard")
 
 local _W = display.contentWidth --Width and height parameters
 local _H = display.contentHeight

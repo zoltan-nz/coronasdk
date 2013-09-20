@@ -24,7 +24,7 @@ local bgSound = audio.loadStream("sounds/EyeOfTheTiger.mp3")
 audio.reserveChannels(1)   --Reserve its channel
 audio.play(bgSound, {channel=1, loops=-1}) --Start looping the sound.
 
--- Load tapSound for buttons
+-- Load tapSound for buttons, it stay global
 tapSound = audio.loadSound("sounds/tapsound.wav")
 
 -- Sound ON/OFF status, need a global variable for store that to manage properly in each screen
