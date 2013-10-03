@@ -21,13 +21,29 @@ local function onSecondView( event )
 	storyboard.gotoScene( "view2" )
 end
 
+local function onThirdView( event )
+
+end
+
 
 -- create a tabBar widget with two buttons at the bottom of the screen
 
 -- table to setup buttons
 local tabButtons = {
-	{ label="First", defaultFile = "icon1.png", overFile = "icon1-down.png", width = 32, height = 32, onPress=onFirstView, selected=true },
- 	{ label="Second", defaultFile = "icon2.png", overFile = "icon2-down.png", width = 32, height = 32, onPress=onSecondView },
+  { id    = 'tabButton1',
+    label = 'First Button',
+    onPress = onFirstView
+  },
+  { id    = 'tabButton2',
+    label = 'Second Button',
+    onPress = onSecondView
+  },
+  { id    = 'tabButton3',
+    label = 'Third Button',
+    onPress = onThirdView
+  }
+  --	{ label="First", defaultFile = "icon1.png", overFile = "icon1-down.png", width = 32, height = 32, onPress=onFirstView, selected=true },
+  -- 	{ label="Second", defaultFile = "icon2.png", overFile = "icon2-down.png", width = 32, height = 32, onPress=onSecondView },
 }
 
 -- create the actual tabBar widget
