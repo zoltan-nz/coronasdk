@@ -1,0 +1,9 @@
+settings = {
+	orientation = {
+
+		--*** Uncomment the lines below for iPad! ***--
+		--default = "landscapeRight",
+		--supported = { "landscapeLeft", "landscapeRight" },
+
+	},
+}
