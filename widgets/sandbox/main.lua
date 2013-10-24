@@ -22,7 +22,7 @@ local function onSecondView( event )
 end
 
 local function onThirdView( event )
-
+  storyboard.gotoScene( 'view3' )
 end
 
 
@@ -40,6 +40,7 @@ local tabButtons = {
   },
   { id    = 'tabButton3',
     label = 'Third Button',
+    size = 20,
     onPress = onThirdView
   }
   --	{ label="First", defaultFile = "icon1.png", overFile = "icon1-down.png", width = 32, height = 32, onPress=onFirstView, selected=true },
