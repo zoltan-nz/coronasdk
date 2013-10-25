@@ -1,14 +1,12 @@
 local storyboard = require( "storyboard" )
 local scene = storyboard.newScene()
 
-
--- Called when the scene's view does not exist:
 function scene:createScene( event )
 	local group = self.view
 	
 	-- create a white background to fill screen
 	local bg = display.newRect( 0, 0, display.contentWidth, display.contentHeight )
-	bg:setFillColor( 255 )	-- white
+	bg:setFillColor( 200 )
 	
 	-- create some text
 	local title = display.newText( "HOME SCREEN", 0, 0, native.systemFont, 32 )
@@ -22,11 +20,17 @@ function scene:createScene( event )
 	summary:setReferencePoint( display.CenterReferencePoint )
 	summary.x = display.contentWidth * 0.5 + 10
 	summary.y = title.y + 215
+
+	local logo =  display.newImageRect( "images/logo.png", 100, 20 )
+	logo:setReferencePoint(display.CenterReferencePoint)
+	logo.x = display.contentCenterX
+	logo.y = 100
 	
 	-- all objects must be added to group (e.g. self.view)
 	group:insert( bg )
 	group:insert( title )
 	group:insert( summary )
+	group:insert( logo )
 end
 
 -- Called immediately after scene has moved onscreen:
