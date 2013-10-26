@@ -1,6 +1,12 @@
 local storyboard = require( "storyboard" )
 local scene = storyboard.newScene()
 
+-- Loading widget module for buttons
+local widget = require ('widget')
+
+local _W = display.contentWidth --Width and height parameters
+local _H = display.contentHeight
+
 function scene:createScene( event )
 	local group = self.view
 	
@@ -9,28 +15,114 @@ function scene:createScene( event )
 	bg:setFillColor( 200 )
 	
 	-- create some text
-	local title = display.newText( "HOME SCREEN", 0, 0, native.systemFont, 32 )
-	title:setTextColor( 0 )	-- black
-	title:setReferencePoint( display.CenterReferencePoint )
-	title.x = display.contentWidth * 0.5
-	title.y = 125
+	-- local title = display.newText( "HOME SCREEN", 0, 0, native.systemFont, 32 )
+	-- title:setTextColor( 0 )	-- black
+	-- title:setReferencePoint( display.CenterReferencePoint )
+	-- title.x = display.contentWidth * 0.5
+	-- title.y = 125
 	
-	local summary = display.newText( "Loaded by the first tab 'onPress' listener\n— specified in the 'tabButtons' table.", 0, 0, 300, 300, native.systemFont, 14 )
-	summary:setTextColor( 0 ) -- black
-	summary:setReferencePoint( display.CenterReferencePoint )
-	summary.x = display.contentWidth * 0.5 + 10
-	summary.y = title.y + 215
+	-- local summary = display.newText( "Loaded by the first tab 'onPress' listener\n— specified in the 'tabButtons' table.", 0, 0, 300, 300, native.systemFont, 14 )
+	-- summary:setTextColor( 0 ) -- black
+	-- summary:setReferencePoint( display.CenterReferencePoint )
+	-- summary.x = display.contentWidth * 0.5 + 10
+	-- summary.y = title.y + 215
 
+	-- Creating logo
 	local logo =  display.newImageRect( "images/logo.png", 100, 20 )
 	logo:setReferencePoint(display.CenterReferencePoint)
 	logo.x = display.contentCenterX
 	logo.y = 100
+
+	-- event listeners for tab buttons:
+	local showView = function(event)
+		if event then
+			view = event.target.id
+		else
+			view = 'home'
+		end
+		print (view)
+		storyboard.gotoScene( view )
+	end
+
+	-- Creating buttons
+	local buttonProducts, buttonAbout, buttonContact
+	buttonProducts = widget.newButton{
+		id = "products",
+		left = 10,
+		top = 250,
+		width = _W-50,
+		height = 40,
+		label = "PRODUCTS",
+		-- labelColor = {r, g, b, a},
+		-- size = size,
+		-- font = "font",
+		onPress = showView,
+		-- onRelease = showView,
+		-- onEvent = onEvent,
+		-- emboss = true/false,
+		-- offset = offset,
+		-- default = default image,
+		-- over = over image,
+		-- buttonTheme = "blue or red",
+		-- baseDir = pathToImages
+	}
+
+	buttonAbout = widget.newButton{
+		id = "about",
+		left = 10,
+		top = 300,
+		width = _W-50,
+		height = 40,
+		label = "ABOUT",
+	-- 	labelColor = {r, g, b, a},
+	-- 	size = size,
+	-- 	font = "font",
+		onPress = showView
+	-- 	onRelease = onRelease,
+	-- 	onEvent = onEvent,
+	-- 	emboss = true/false,
+	-- 	offset = offset,
+	-- 	default = default image,
+	-- 	over = over image,
+	-- 	buttonTheme = "blue or red",
+	-- 	baseDir = pathToImages
+	}
+
+	buttonContact = widget.newButton{
+		id = "contact",
+		left = 10,
+		top = 350,
+		width = _W-50,
+		height = 40,
+		label = "CONTACT",
+	-- 	labelColor = {r, g, b, a},
+	-- 	size = size,
+	-- 	font = "font",
+		onPress = showView,
+	-- 	onRelease = onRelease,
+	-- 	onEvent = onEvent,
+		emboss = true,
+	-- 	offset = offset,
+	-- 	default = default image,
+	-- 	over = over image,
+	-- 	buttonTheme = "blue or red",
+	-- 	baseDir = pathToImages
+	}
+
+
+
+
+
+
 	
 	-- all objects must be added to group (e.g. self.view)
 	group:insert( bg )
-	group:insert( title )
-	group:insert( summary )
+	-- group:insert( title )
+	-- group:insert( summary )
 	group:insert( logo )
+	group:insert( buttonProducts )
+	group:insert( buttonAbout)
+	group:insert( buttonContact )
 end
 
 -- Called immediately after scene has moved onscreen:
