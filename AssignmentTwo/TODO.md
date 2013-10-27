@@ -1,14 +1,4 @@
-TODO.md
-
 ## TODO
-
-###Screen 1. Main Screen
-
-	- Logo
-	- 3 button:
-		- Products
-		- About
-		- Contact
 
 ###Screen 2. Product Categories screen
 
@@ -26,3 +16,13 @@ TODO.md
 	- Description
 
 ###Screen 5. Static pages
+
+## DONE
+
+###Screen 1. Main Screen
+
+	- Logo
+	- 3 button:
+		- Products
+		- About
+		- Contact
