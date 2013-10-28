@@ -22,21 +22,41 @@ function scene:createScene( event )
 	title.x = display.contentWidth * 0.5
 	title.y = 125
 	
-	tabBar = helper.createTabBar('products')
+	local tabBar = helper.createTabBar('products')
 
-	size_of_categories = #database.categories
-	for i = 1, size_of_categories do
-		local categoryButton
-		category_name = database.categories[i].name
-		print (category_name)
-		categoryButton = helper.createButton("category_"..i, 10, 250+(i*30), _W-50, 40, category_name)
-		group:insert(categoryButton)
+	-- Let's create a grid of buttons. Size of this grid is
+	-- depend of the size of the database
+
+	local number_of_columns = 4
+	local size_of_categories = #database.categories
+	local number_of_rows = size_of_categories / number_of_columns
+	
+	local category_id = 1
+
+	local padding_left_size 	= 10
+	local padding_top_size		= 10
+	local width_of_a_button 	= (_W-(padding_left_size * number_of_columns))/number_of_columns
+	local height_of_a_button 	= 30
+
+	local start_y_position = 50
+
+	local y_position = start_y_position
+	for row = 1,number_of_rows do
+		local x_position = padding_left_size
+		for column = 1, number_of_columns do
+			local categoryButton, category_name
+			category_name = database.categories[category_id].name
+			print (category_name)
+			categoryButton = helper.createButton("category_"..category_id, x_position, y_position, width_of_a_button, height_of_a_button, category_name)
+			group:insert(categoryButton)	
+			category_id = category_id + 1
+			if category_id > size_of_categories then break end
+			x_position = x_position + width_of_a_button + padding_left_size
+		end
+		y_position = y_position + height_of_a_button + padding_top_size
 	end
--- for i=1,10 do
--- 	print(i)
--- end
 
-
+	
 	group:insert( title )
 	group:insert( tabBar )
 end

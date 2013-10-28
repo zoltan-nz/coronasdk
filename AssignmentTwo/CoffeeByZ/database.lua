@@ -5,7 +5,11 @@ M = {
 		{id= 1, name= 'Coffee'	},
 		{id= 2, name= 'Cakes'		},
 		{id= 3, name= 'Sandwich'},
-		{id= 4, name= 'Salad'		}
+		{id= 4, name= 'Salad'		},
+		{id= 5, name= 'Salad'		},
+		{id= 6, name= 'Salad'		},
+		{id= 7, name= 'Salad'		},
+		{id= 8, name= 'Salad'		}
 	},
 
 	products= {
