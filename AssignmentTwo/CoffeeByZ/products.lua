@@ -1,8 +1,14 @@
 local storyboard = require( "storyboard" )
 local scene = storyboard.newScene()
 
+local _W = display.contentWidth --Width and height parameters
+local _H = display.contentHeight
+
 -- Loading helper
 local helper = require ( "helper" )
+
+-- Load database file
+local database = require ('database')
 
 -- Called when the scene's view does not exist:
 function scene:createScene( event )
@@ -17,6 +23,19 @@ function scene:createScene( event )
 	title.y = 125
 	
 	tabBar = helper.createTabBar('products')
+
+	size_of_categories = #database.categories
+	for i = 1, size_of_categories do
+		local categoryButton
+		category_name = database.categories[i].name
+		print (category_name)
+		categoryButton = helper.createButton("category_"..i, 10, 250+(i*30), _W-50, 40, category_name)
+		group:insert(categoryButton)
+	end
+-- for i=1,10 do
+-- 	print(i)
+-- end
+
 
 	group:insert( title )
 	group:insert( tabBar )
