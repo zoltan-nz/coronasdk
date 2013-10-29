@@ -6,5 +6,7 @@ display.setStatusBar( display.DefaultStatusBar )
 local widget = require "widget"
 local storyboard = require "storyboard"
 
+
+
 -- Start on home screen
 storyboard.gotoScene( 'home' )
