@@ -1,15 +1,20 @@
 local storyboard = require( "storyboard" )
 local scene = storyboard.newScene()
 
+local _W = display.contentWidth --Width and height parameters
+local _H = display.contentHeight
+
+-- Loading helper
+local helper = require ( "helper" )
 
 -- Called when the scene's view does not exist:
 function scene:createScene( event )
 	local group = self.view
 	
-	-- create a white background to fill screen
-	local bg = display.newRect( 0, 0, display.contentWidth, display.contentHeight )
-	bg:setFillColor( 255 )	-- white
-	
+	helper.drawBackground(group)
+
+	helper.drawMenuBar(group)
+
 	-- create some text
 	local title = display.newText( "CONTACT", 0, 0, native.systemFont, 32 )
 	title:setTextColor( 0 )	-- black
@@ -24,7 +29,7 @@ function scene:createScene( event )
 	summary.y = title.y + 215
 	
 	-- all objects must be added to group (e.g. self.view)
-	group:insert( bg )
+
 	group:insert( title )
 	group:insert( summary )
 end
