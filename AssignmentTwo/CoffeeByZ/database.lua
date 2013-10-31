@@ -2,14 +2,10 @@ local M = {}
 
 M = {
 	categories = {
-		{id= 1, name= 'Coffee'	 },
-		{id= 2, name= 'Cakes'		 },
-		{id= 3, name= 'Sandwich' },
-		{id= 4, name= 'Salad'		 },
-		{id= 5, name= 'Salad'		 },
-		{id= 6, name= 'Salad'		 },
-		{id= 7, name= 'Salad'		 },
-		{id= 8, name= 'Salad'		 }
+		{id= 1, name= 'Coffees'		, image= 'images/coffees.jpg'	 },
+		{id= 2, name= 'Cakes'		 	, image= 'images/cakes.jpg'			},
+		{id= 3, name= 'Sandwiches', image= 'images/sandwiches.jpg' },
+		{id= 4, name= 'Salads'		, image= 'images/salads.jpg' },
 	},
 
 	products= {

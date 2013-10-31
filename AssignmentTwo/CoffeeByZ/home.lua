@@ -17,7 +17,7 @@ function scene:createScene( event )
 	helper.drawBackground(group)
 	
 	-- Creating logo
-	local logo =  display.newImageRect( "images/logo.png", 100, 20 )
+	local logo =  display.newImageRect( "images/logo.png", 320, 70)
 	logo:setReferencePoint(display.CenterReferencePoint)
 	logo.x, logo.y = display.contentCenterX, 100
 
@@ -28,11 +28,10 @@ function scene:createScene( event )
 
 	-- Creating buttons, with my helper function.
 	local buttonProducts, buttonAbout, buttonContact
-	-- local createButton = function 		 (id, 			left, top, width, height, label, onevent, fontsize)
-	buttonProducts 	= helper.createButton("products", 10, 250, _W-50, 40, "PRODUCTS", showView)
-	buttonAbout 		= helper.createButton("about", 		10, 300, _W-50, 40, "ABOUT", 		showView)
-	buttonContact 	= helper.createButton("products", 10, 350, _W-50, 40, "CONTACT", 	showView)
-	
+	buttonProducts 	= helper.createButton({id = "categories", left = 20, top = 155,	width = _W-40, height = 80, label = "", onevent = showView, defaultfile = 'images/products_button.jpg'})
+	buttonAbout 		= helper.createButton({id = "about", 			left = 20, top = 255, width = _W-40, height = 80, label = "", onevent = showView, defaultfile = 'images/about_button.jpg'})
+	buttonContact 	= helper.createButton({id = "contact", 		left = 20, top = 355, width = _W-40, height = 80, label = "", onevent = showView, defaultfile = 'images/contact_button.jpg'})
+
 	-- all objects must be added to group (e.g. self.view)
 	group:insert( logo )
 	group:insert( buttonProducts )

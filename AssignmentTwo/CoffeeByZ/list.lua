@@ -19,13 +19,7 @@ function scene:createScene( event )
 	
 	helper.drawBackground(group)
 	
-	local tabBar = helper.createTabBar('products')
-  tabBar:setSelected(2)
 
-	
-
-
-	group:insert( tabBar )
 end
 
 function scene:enterScene( event )

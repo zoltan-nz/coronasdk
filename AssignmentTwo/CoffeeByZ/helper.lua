@@ -17,27 +17,30 @@ local _H = display.contentHeight
 -- This file behave as a module.
 local M = {}
 
+---------------------------------------------------------------------------
 -- Button creator function.
-local createButton = function (id, left, top, width, height, label, onevent, fontsize)
+local createButton = function (options)
 
-  fontsize = fontsize or 12
+  options.fontsize = options.fontsize or 12
 
   local createdButton = widget.newButton
   {
-    id        = id,
-    left      = left,
-    top       = top,
-    width     = width,
-    height    = height,
-    label     = label,
-    onPress   = onevent,
-    fontSize  = fontsize
+    id          = options.id,
+    left        = options.left,
+    top         = options.top,
+    width       = options.width,
+    height      = options.height,
+    label       = options.label,
+    onPress     = options.onevent,
+    fontSize    = options.fontsize,
+    defaultFile = options.defaultfile
   }
 
   return(createdButton)
 end
 M.createButton = createButton
 
+---------------------------------------------------------------------------
 -- I prefer to draw a clean background instead of messy graphics... this function will manage that.
 local drawBackground = function (group)
 
@@ -45,12 +48,12 @@ local drawBackground = function (group)
   background = display.newRect(group, 0, 0, _W, _H )
 	background:setReferencePoint( display.TopLeftReferencePoint )
 	background.x, background.y = 0, 0
-  background:setFillColor(30,30,30)
+  background:setFillColor(247,246,228)
 
 end
 M.drawBackground = drawBackground
 
-
+---------------------------------------------------------------------------
 -- Back to menu button is exist in each screen. This function will create it.
 local drawBackToMenu = function (group)
 
@@ -66,48 +69,36 @@ local drawBackToMenu = function (group)
     end
   end
 
-  backButton = createAButton(_W-110, _H-50, 100, 40, '', '', "Menu", backToMenuEvent)
+  backButton = createButton(_W-110, _H-50, 100, 40, '', '', "Menu", backToMenuEvent)
   group:insert(backButton)
 
 end
 M.drawBackToMenu = drawBackToMenu
 
--- This function create a Tab Bar on screens where we need
-
-local createTabBar = function (screen)
-
-  -- event listeners for tab buttons:
+---------------------------------------------------------------------------
+-- This function create a Menu Bar on screens where we need
+local drawMenuBar = function (group)
+   
+  -- event listeners for buttons:
   local showView = function(event)
-    view = event.target._id
+    view = event.target.id
     storyboard.gotoScene( view )
   end
 
-  -- create a tabBar widget with two buttons at the bottom of the screen
-  -- table to setup buttons
-  local tabButtons = {
-    { id='home',     label="Home",     size=20, onPress=showView, defaultFile = 'images/grey_bg.png', overFile = 'images/grey_bg.png', width=20, height=20, font = "HelveticaNeue-Light", selected=true },
-    { id='products', label="Products", size=20, onPress=showView, defaultFile = 'images/grey_bg.png', overFile = 'images/grey_bg.png', width=20, height=20, font = "HelveticaNeue-Light",               },
-    { id='about',    label="About",    size=20, onPress=showView, defaultFile = 'images/grey_bg.png', overFile = 'images/grey_bg.png', width=20, height=20, font = "HelveticaNeue-Light",               },
-    { id='contact',  label="Contact",  size=20, onPress=showView, defaultFile = 'images/grey_bg.png', overFile = 'images/grey_bg.png', width=20, height=20, font = "HelveticaNeue-Light",               },
-  }
+  local homeButton      = createButton({id='home',        label = 'HOME',       left=(0),     top = _H-50, width = 80, height = 50, onevent=showView, defaultfile = 'images/tab_bg.png'})
+  local productsButton  = createButton({id='categories',  label = 'CATEGORIES', left=(1*80),  top = _H-50, width = 80, height = 50, onevent=showView, defaultfile = 'images/tab_bg.png'})
+  local aboutButton     = createButton({id='about',       label = 'ABOUT',      left=(2*80),  top = _H-50, width = 80, height = 50, onevent=showView, defaultfile = 'images/tab_bg.png'})
+  local contactButton   = createButton({id='contact',     label = 'CONTACT',    left=(3*80),  top = _H-50, width = 80, height = 50, onevent=showView, defaultfile = 'images/tab_bg.png'})
 
-  -- create the actual tabBar widget
-  local tabBar = widget.newTabBar {
-    top                     = display.contentHeight - 30, -- 50 is default height for tabBar widget
-    height                  = 20,
-    buttons                 = tabButtons,
-    tabSelectedFrameWidth   = 20,
-    tabSelectedFrameHeight  = 30,
-    tabSelectedLeftFile     = 'images/grey_bg.png',
-    tabSelectedRightFile    = 'images/grey_bg.png',
-    tabSelectedMiddleFile   = 'images/grey_bg.png',
-    backgroundFile          = 'images/grey_bg.png',
-    defaultFile             = 'images/grey_bg.png',
-  }
+  group:insert(homeButton)
+  group:insert(productsButton)
+  group:insert(aboutButton)
+  group:insert(contactButton)
 
-return(tabBar)
+  return true
+
 end
-M.createTabBar = createTabBar
+M.drawMenuBar = drawMenuBar
 
 
 
