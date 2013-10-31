@@ -1,13 +1,5 @@
 ## TODO
 
-###Screen 2. Product Categories screen
-
-	- Menu on the top
-	- Buttons for categories in grid (4 categories)
-
-###Screen 3. Category page
-
-	- Item list -> TableView
 
 ###Screen 4. Product page
 
@@ -16,6 +8,8 @@
 	- Description
 
 ###Screen 5. Static pages
+
+- extend views with images and make all stuff nice and completed
 
 ## DONE
 
@@ -26,3 +20,12 @@
 		- Products
 		- About
 		- Contact
+
+###Screen 2. Product Categories screen
+
+	- Menu on the top
+	- Buttons for categories in grid (4 categories)
+
+###Screen 3. Category page
+
+	- Item list -> TableView
