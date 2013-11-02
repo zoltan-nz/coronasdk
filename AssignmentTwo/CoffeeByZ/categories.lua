@@ -13,7 +13,7 @@ local database = require ('database')
 -- Called when the scene's view does not exist:
 function scene:createScene( event )
 	local group = self.view
-	
+
 	helper.drawBackground(group)
 
 	helper.drawMenuBar(group)
@@ -25,15 +25,15 @@ function scene:createScene( event )
 			effect 	= 'slideLeft',
 			time 		= 200,
 			params 	= {
-								category_id = event.target.id
-								}
+        category_id = event.target.id
+      }
 		}
-		storyboard.gotoScene( 'list', options ) 
+		storyboard.gotoScene( 'list', options )
 	end
 
 	-- Let's create a grid of buttons. Size of this grid is
 	-- depend of the size of the database
-    -- Text and images will be positioned dynamically based on rows in databases and content.
+  -- Text and images will be positioned dynamically based on rows in databases and content.
 
 	-- Params, these helps in positioning and determining the layout
 	local number_of_columns 	= 2
@@ -50,30 +50,30 @@ function scene:createScene( event )
 	local category_id = 1
 
 	-- This loop will generate buttons and insert image on buttons.
-    local y_position = start_y_position
+  local y_position = start_y_position
 	for row = 1,number_of_rows do
 		local x_position = padding_left_size
 		for column = 1, number_of_columns do
 
-            local categoryButton, category_name, category_image_path, categoryImage
+      local categoryButton, category_name, category_image_path, categoryImage
 
-            -- Reading data from database
-            category_name           = database.categories[category_id].name
-            category_image_path     = database.categories[category_id].image
+      -- Reading data from database
+      category_name           = database.categories[category_id].name
+      category_image_path     = database.categories[category_id].image
 
-            -- Create button with label which was read from database
-            categoryButton = helper.createButton({id = category_id, left = x_position, top = y_position, width = width_of_a_button, height = height_of_a_button, label = category_name, onevent =  visitCategory, defaultfile = 'images/category_button_pixel.png', fontsize = 20, labelxoffset = 0, labelyoffset = -50})
-			group:insert(categoryButton)
+      -- Create button with label which was read from database
+      categoryButton = helper.createButton({id = category_id, left = x_position, top = y_position, width = width_of_a_button, height = height_of_a_button, label = category_name, onevent =  visitCategory, defaultfile = 'images/category_button_pixel.png', fontsize = 20, labelxoffset = 0, labelyoffset = -50})
+      group:insert(categoryButton)
 
-            -- Create an image on button, the path of image read from database.
-            categoryImage =  display.newImageRect( category_image_path, width_of_a_button-50, width_of_a_button-50)
-            categoryImage:setReferencePoint(display.CenterReferencePoint)
-            categoryImage.x, categoryImage.y = x_position+width_of_a_button/2, y_position+height_of_a_button/2+10
-            group:insert(categoryImage)
+      -- Create an image on button, the path of image read from database.
+      categoryImage =  display.newImageRect( category_image_path, width_of_a_button-50, width_of_a_button-50)
+      categoryImage:setReferencePoint(display.CenterReferencePoint)
+      categoryImage.x, categoryImage.y = x_position+width_of_a_button/2, y_position+height_of_a_button/2+10
+      group:insert(categoryImage)
 
 			category_id = category_id + 1
 
-            -- If number of categories odd number, then have to finish this loop earlier.
+      -- If number of categories odd number, then have to finish this loop earlier.
 			if category_id > size_of_categories then break end
 			x_position = x_position + width_of_a_button + padding_left_size
 		end
