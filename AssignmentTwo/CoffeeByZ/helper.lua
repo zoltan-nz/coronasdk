@@ -25,15 +25,17 @@ local createButton = function (options)
 
   local createdButton = widget.newButton
   {
-    id          = options.id,
-    left        = options.left,
-    top         = options.top,
-    width       = options.width,
-    height      = options.height,
-    label       = options.label,
-    onPress     = options.onevent,
-    fontSize    = options.fontsize,
-    defaultFile = options.defaultfile
+    id           = options.id,
+    left         = options.left,
+    top          = options.top,
+    width        = options.width,
+    height       = options.height,
+    label        = options.label,
+    onPress      = options.onevent,
+    fontSize     = options.fontsize,
+    defaultFile  = options.defaultfile,
+    labelXOffset = options.labelxoffset,
+    labelYOffset = options.labelyoffset
   }
 
   return(createdButton)
@@ -86,7 +88,7 @@ local drawMenuBar = function (group)
   end
 
   local homeButton      = createButton({id='home',        label = 'HOME',       left=(0),     top = _H-50, width = 80, height = 50, onevent=showView, defaultfile = 'images/tab_bg.png'})
-  local productsButton  = createButton({id='categories',  label = 'CATEGORIES', left=(1*80),  top = _H-50, width = 80, height = 50, onevent=showView, defaultfile = 'images/tab_bg.png'})
+  local productsButton  = createButton({id='categories',  label = 'PRODUCTS',   left=(1*80),  top = _H-50, width = 80, height = 50, onevent=showView, defaultfile = 'images/tab_bg.png'})
   local aboutButton     = createButton({id='about',       label = 'ABOUT',      left=(2*80),  top = _H-50, width = 80, height = 50, onevent=showView, defaultfile = 'images/tab_bg.png'})
   local contactButton   = createButton({id='contact',     label = 'CONTACT',    left=(3*80),  top = _H-50, width = 80, height = 50, onevent=showView, defaultfile = 'images/tab_bg.png'})
 

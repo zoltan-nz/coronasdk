@@ -33,13 +33,14 @@ function scene:createScene( event )
 
 	-- Let's create a grid of buttons. Size of this grid is
 	-- depend of the size of the database
+    -- Text and images will be positioned dynamically based on rows in databases and content.
 
-	-- Params
+	-- Params, these helps in positioning and determining the layout
 	local number_of_columns 	= 2
 	local padding_left_size 	= 10
 	local padding_top_size		= 10
-	local width_of_a_button 	= (_W-(padding_left_size * number_of_columns))/number_of_columns
-	local height_of_a_button 	= 30
+	local width_of_a_button 	= (_W-(padding_left_size * (number_of_columns+1)))/number_of_columns
+	local height_of_a_button 	= 150
 
 	local size_of_categories = #database.categories
 	local number_of_rows = size_of_categories / number_of_columns
@@ -48,16 +49,31 @@ function scene:createScene( event )
 
 	local category_id = 1
 
-	local y_position = start_y_position
+	-- This loop will generate buttons and insert image on buttons.
+    local y_position = start_y_position
 	for row = 1,number_of_rows do
 		local x_position = padding_left_size
 		for column = 1, number_of_columns do
-			local categoryButton, category_name
-			category_name = database.categories[category_id].name			
-			print (category_name)
-			categoryButton = helper.createButton({id = category_id, left = x_position, top = y_position, width = width_of_a_button, height = height_of_a_button, label = category_name, onevent =  visitCategory, defaultfile = 'images/category_button_pixel.png'})
-			group:insert(categoryButton)	
+
+            local categoryButton, category_name, category_image_path, categoryImage
+
+            -- Reading data from database
+            category_name           = database.categories[category_id].name
+            category_image_path     = database.categories[category_id].image
+
+            -- Create button with label which was read from database
+            categoryButton = helper.createButton({id = category_id, left = x_position, top = y_position, width = width_of_a_button, height = height_of_a_button, label = category_name, onevent =  visitCategory, defaultfile = 'images/category_button_pixel.png', fontsize = 20, labelxoffset = 0, labelyoffset = -50})
+			group:insert(categoryButton)
+
+            -- Create an image on button, the path of image read from database.
+            categoryImage =  display.newImageRect( category_image_path, width_of_a_button-50, width_of_a_button-50)
+            categoryImage:setReferencePoint(display.CenterReferencePoint)
+            categoryImage.x, categoryImage.y = x_position+width_of_a_button/2, y_position+height_of_a_button/2+10
+            group:insert(categoryImage)
+
 			category_id = category_id + 1
+
+            -- If number of categories odd number, then have to finish this loop earlier.
 			if category_id > size_of_categories then break end
 			x_position = x_position + width_of_a_button + padding_left_size
 		end

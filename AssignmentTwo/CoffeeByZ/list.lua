@@ -35,9 +35,9 @@ function scene:enterScene( event )
 	-- event.limitReached - Indicates that the TableView has reached one of it's limits. 
 	-- event.direction - Returns the direction the TableView is moving in.
 	local function tableViewListener( event )
-    local phase = event.phase
-    local row = event.target
-    print( event.phase )
+        local phase = event.phase
+        local row = event.target
+        print( event.phase )
 	end
 
 	-- Handle row rendering
