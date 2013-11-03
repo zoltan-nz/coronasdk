@@ -41,10 +41,10 @@ function scene:enterScene( event )
     storyboard.gotoScene( 'categories' )
   end
 
-  backToCategories = widget.newButton({width = 70, height = 20, label = '<<<', defaultFile = 'images/category_button_pixel.png', onRelease = onBackToCategories})
+  backToCategories = widget.newButton({width = 70, height = 30, label = '<<<', defaultFile = 'images/category_button_pixel.png', onRelease = onBackToCategories})
   backToCategories:setReferencePoint(display.TopLeftReferencePoint)
-  backToCategories.x = 5
-  backToCategories.y = 25
+  backToCategories.x = 0
+  backToCategories.y = 20
   group:insert(backToCategories)
 
 
@@ -148,11 +148,11 @@ function scene:enterScene( event )
       if itemPrice    then  itemPrice:removeSelf(); itemPrice = nil end
     end
 
-    backButton = widget.newButton({width = 70, height = 20, label = '<<<', defaultFile = 'images/category_button_pixel.png', onRelease = onBackRelease})
+    backButton = widget.newButton({width = 70, height = 30, label = '<<<', defaultFile = 'images/category_button_pixel.png', onRelease = onBackRelease})
     backButton:setReferencePoint(display.TopLeftReferencePoint)
     backButton.alpha = 0
-    backButton.x = 5
-    backButton.y = 25
+    backButton.x = 0
+    backButton.y = 20
     group:insert(backButton)
 
 
