@@ -14,6 +14,7 @@ local helper = require ( "helper" )
 local database = require ('database')
 
 local list, item, backButton, headerText
+local itemGroup, itemTitle, itemImage, itemDetails, itemPrice
 
 -- Called when the scene's view does not exist:
 function scene:createScene( event )
@@ -30,7 +31,6 @@ function scene:enterScene( event )
 
 	local params = event.params
 
-	print (params.category_id)
 	local category_id = params.category_id
 
   headerText = display.newText(group, database.categories[category_id].name, 0, 0, 0, 0, native.systemFontBold, 25)
@@ -56,8 +56,6 @@ function scene:enterScene( event )
 
     local phase = event.phase
     local row = event.row
-    print (row.x, row.y)
-
 
     local rowImage = display.newImage(row, row.params.image )
     rowImage.width, rowImage.height = 80, 80
@@ -65,17 +63,17 @@ function scene:enterScene( event )
     rowImage.x = 5
     rowImage.y = 5
 
-    local rowTitle = display.newText(row, row.params.name, 0, 0, native.systemFontBold, 20 )
+    local rowTitle = display.newText({parent = row, text = row.params.name, font = native.systemFontBold, fontSize = 20, width = 230} )
     rowTitle:setReferencePoint(display.TopLeftReferencePoint)
-    rowTitle.x = 100
+    rowTitle.x = 90
     rowTitle.y = 5
     rowTitle:setTextColor(95, 55, 17)
 
     local rowPrice = display.newText(row, row.params.price, 0,0, native.systemFont, 20)
     rowPrice:setReferencePoint(display.TopLeftReferencePoint)
-    rowPrice.x = row.contentWidth - 80
+    rowPrice.x = row.contentWidth - 100
     rowPrice.y = row.contentHeight - 40
-    rowPrice:setTextColor(226, 213, 193)
+    rowPrice:setTextColor(212, 192, 152)
 
 	end
 
@@ -91,30 +89,75 @@ function scene:enterScene( event )
 	-- tap, press, release, swipeLeft, swipeRight.
 	-- In your listener, event.target is a reference to the TableView row that you interacted with.
 	local function onRowTouch( event )
-    local phase = event.phase
-    local row   = event.row
-    print (phase)
+    local phase     = event.phase
+    local row       = event.row
+    local itemGroup = display.newGroup()
+
+    if row then
+      itemImage   = display.newImage(row.params.image, 0, 0, 130, 130)
+      itemImage:setReferencePoint(display.TopCenterReferencePoint)
+      itemImage.x = _W * 0.5
+      itemImage.y = 50
+      itemImage.alpha = 0
+
+      itemTitle   = display.newText({text = row.params.name, width = 300, font = native.systemFontBold, fontSize = 25})
+      itemTitle:setReferencePoint(display.TopCenterReferencePoint)
+      itemTitle.x = _W * 0.5
+      itemTitle.y = 250
+      itemTitle:setTextColor(95, 55 , 17)
+      itemTitle.alpha = 0
+
+      itemDetails = display.newText({text = row.params.details, width = 300, font= native.systemFont, fontSize = 15})
+      itemDetails:setReferencePoint(display.TopCenterReferencePoint)
+      itemDetails.x = _W * 0.5
+      itemDetails.y = 300
+      itemDetails:setTextColor(95, 55, 17)
+      itemDetails.alpha = 0
+
+      itemPrice   = display.newText(row.params.price, 0, 0, native.systemFont, 15)
+      itemPrice:setReferencePoint(display.TopCenterReferencePoint)
+      itemPrice.x = _W * 0.5
+      itemPrice.y = 400
+      itemPrice:setTextColor(95, 55 , 17)
+      itemPrice.alpha = 0
+
+      itemGroup:insert(itemImage)
+      itemGroup:insert(itemTitle)
+      itemGroup:insert(itemDetails)
+      itemGroup:insert(itemPrice)
+    end
 
     local onBackRelease = function ()
       transition.to (list, {x = 0, time = 200, transition = easing.outExpo})
       transition.to (backButton, {alpha = 0, time = 200, transition = easing.outQuad})
+      if backButton   then  backButton:removeSelf(); backButton = nil end
+      if itemImage    then  itemImage:removeSelf(); itemImage = nil end
+      if itemTitle    then  itemTitle:removeSelf(); itemTitle = nil end
+      if itemDetails  then  itemDetails:removeSelf(); itemDetails = nil end
+      if itemPrice    then  itemPrice:removeSelf(); itemPrice = nil end
     end
 
-    backButton = widget.newButton{width = 100, height = 50, label = 'Back', labelYOffset = -1, onRelease = onBackRelease}
+    backButton = widget.newButton({width = 70, height = 20, label = '<<<', defaultFile = 'images/category_button_pixel.png', onRelease = onBackRelease})
+    backButton:setReferencePoint(display.TopLeftReferencePoint)
     backButton.alpha = 0
-    backButton.x = display.contentCenterX
-    backButton.y = display.contentHeight - backButton.contentHeight
+    backButton.x = 5
+    backButton.y = 25
     group:insert(backButton)
+
+
 
     if "press" == phase then
       print( "Touched row id:", row.params.id )
 
     elseif 'release' == phase then
 
-      transition.to (list, {x = - list.contentWidth, time = 200, transition = easing.outExpo})
-      --      transition.to (itemSelected.name, {x= display.contentCenterX, time = 200, transition = easing.outExpo})
-      transition.to (backButton, {alpha =1 , time = 200, transition = easing.outQuad})
 
+      transition.to (list,        {x = - list.contentWidth, time = 200, transition = easing.outExpo})
+      transition.to (backButton,  {alpha = 1 , time = 200, transition = easing.outQuad})
+      transition.to (itemImage,   {alpha = 1, time = 200, transition = easing.outExpo})
+      transition.to (itemTitle,   {alpha = 1, time = 200, transition = easing.outExpo})
+      transition.to (itemDetails, {alpha = 1, time = 200, transition = easing.outExpo})
+      transition.to (itemPrice,   {alpha = 1, time = 200, transition = easing.outExpo})
     end
 
 	end
@@ -160,17 +203,19 @@ end
 function scene:exitScene( event )
 	local group = self.view
 
-  headerText:removeSelf()
+  if headerText   then  headerText:removeSelf(); headerText = nil end
+  if backButton   then  backButton:removeSelf(); backButton = nil end
+  if itemImage    then  itemImage:removeSelf(); itemImage = nil end
+  if itemTitle    then  itemTitle:removeSelf(); itemTitle = nil end
+  if itemDetails  then  itemDetails:removeSelf(); itemDetails = nil end
+  if itemPrice    then  itemPrice:removeSelf(); itemPrice = nil end
 
   list:deleteAllRows()
-
   list = nil
 
   display:remove(list)
 
   storyboard.removeAll()
-
-  print('exit Scene')
 
 end
 
