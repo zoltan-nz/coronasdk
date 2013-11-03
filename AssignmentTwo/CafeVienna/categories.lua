@@ -1,3 +1,8 @@
+-- PRODUCTS / CATEGORIES page
+--
+-- This page dinamicaly draw buttons on the screen depend of how many categories you insert
+-- in database.lua file.
+
 local storyboard = require( "storyboard" )
 local scene = storyboard.newScene()
 
@@ -14,12 +19,15 @@ local database = require ('database')
 function scene:createScene( event )
 	local group = self.view
 
-	helper.drawBackground(group)
+  -- Using of background creation method from helper.lua
+  helper.drawBackground(group)
 
+  -- Using of menu bar creation method from helper.lua
 	helper.drawMenuBar(group)
 
 	-- Event for clicking on a category.
 	-- Choosen category_id will be passed as a parameter.
+  -- Parameter helps us to list a proper list of product on the next screen.
 	local visitCategory = function (event)
 		local options = {
 			effect 	= 'slideLeft',
@@ -35,7 +43,7 @@ function scene:createScene( event )
 	-- depend of the size of the database
   -- Text and images will be positioned dynamically based on rows in databases and content.
 
-	-- Params, these helps in positioning and determining the layout
+  -- Params, these helps in positioning and determining the layout
 	local number_of_columns 	= 2
 	local padding_left_size 	= 10
 	local padding_top_size		= 10
@@ -49,7 +57,9 @@ function scene:createScene( event )
 
 	local category_id = 1
 
-	-- This loop will generate buttons and insert image on buttons.
+	-- This two loops will generate buttons and insert image on buttons.
+  -- One loop for rows
+  -- One loop for columns
   local y_position = start_y_position
 	for row = 1,number_of_rows do
 		local x_position = padding_left_size
@@ -72,10 +82,13 @@ function scene:createScene( event )
       categoryImage.x, categoryImage.y = x_position+width_of_a_button/2, y_position+height_of_a_button/2+10
       group:insert(categoryImage)
 
-			category_id = category_id + 1
+      -- Lets continue with the following category in the database.
+      category_id = category_id + 1
 
       -- If number of categories odd number, then have to finish this loop earlier.
-			if category_id > size_of_categories then break end
+      -- if category_id > size_of_categories then break end
+
+      -- Setup the next button position based on given parameters
 			x_position = x_position + width_of_a_button + padding_left_size
 		end
 		y_position = y_position + height_of_a_button + padding_top_size

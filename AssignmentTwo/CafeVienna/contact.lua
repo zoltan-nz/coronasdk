@@ -1,3 +1,7 @@
+-- CONTACT page
+--
+-- A simple scene with title, text and an image.
+
 local storyboard = require( "storyboard" )
 local scene = storyboard.newScene()
 

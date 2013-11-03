@@ -4,7 +4,7 @@
 --
 -- Created by Zoltan Debre
 --
--- I collect here reusable functions to keep my code a little bit DRY.
+-- Collection of reusable functions to keep code a little bit DRY (don't repeat yourself).
 --
 ------------------------
 
