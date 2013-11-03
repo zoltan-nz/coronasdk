@@ -2,3 +2,4 @@
 .proj
 *.proj
 .idea/*
+.metadata/*
