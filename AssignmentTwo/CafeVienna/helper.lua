@@ -34,6 +34,7 @@ local createButton = function (options)
     onPress      = options.onevent,
     fontSize     = options.fontsize,
     defaultFile  = options.defaultfile,
+    overFile     = options.overfile,
     labelXOffset = options.labelxoffset,
     labelYOffset = options.labelyoffset,
     labelColor   = options.labelColor
@@ -66,10 +67,10 @@ local drawMenuBar = function (group)
     storyboard.gotoScene( view )
   end
 
-  local homeButton      = createButton({id='home',        label = 'HOME',       left=(0),     top = _H-50, width = 80, height = 50, onevent=showView, defaultfile = 'images/tab_bg.png', labelColor = {default = {95,55,17}, over = {95,55,17}} })
-  local productsButton  = createButton({id='categories',  label = 'PRODUCTS',   left=(1*80),  top = _H-50, width = 80, height = 50, onevent=showView, defaultfile = 'images/tab_bg.png', labelColor = {default = {95,55,17}, over = {95,55,17}} })
-  local aboutButton     = createButton({id='about',       label = 'ABOUT',      left=(2*80),  top = _H-50, width = 80, height = 50, onevent=showView, defaultfile = 'images/tab_bg.png', labelColor = {default = {95,55,17}, over = {95,55,17}} })
-  local contactButton   = createButton({id='contact',     label = 'CONTACT',    left=(3*80),  top = _H-50, width = 80, height = 50, onevent=showView, defaultfile = 'images/tab_bg.png', labelColor = {default = {95,55,17}, over = {95,55,17}} })
+  local homeButton      = createButton({id='home',        label = 'HOME',       left=(0),     top = _H-50, width = 80, height = 50, onevent=showView, defaultfile = 'images/tab_bg.png', overfile = 'images/tab_bg_clicked.png', labelColor = {default = {95,55,17}, over = {95,55,17}} })
+  local productsButton  = createButton({id='categories',  label = 'PRODUCTS',   left=(1*80),  top = _H-50, width = 80, height = 50, onevent=showView, defaultfile = 'images/tab_bg.png', overfile = 'images/tab_bg_clicked.png', labelColor = {default = {95,55,17}, over = {95,55,17}} })
+  local aboutButton     = createButton({id='about',       label = 'ABOUT',      left=(2*80),  top = _H-50, width = 80, height = 50, onevent=showView, defaultfile = 'images/tab_bg.png', overfile = 'images/tab_bg_clicked.png', labelColor = {default = {95,55,17}, over = {95,55,17}} })
+  local contactButton   = createButton({id='contact',     label = 'CONTACT',    left=(3*80),  top = _H-50, width = 80, height = 50, onevent=showView, defaultfile = 'images/tab_bg.png', overfile = 'images/tab_bg_clicked.png', labelColor = {default = {95,55,17}, over = {95,55,17}} })
 
   group:insert(homeButton)
   group:insert(productsButton)

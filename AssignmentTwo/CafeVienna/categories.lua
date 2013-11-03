@@ -62,7 +62,7 @@ function scene:createScene( event )
       category_image_path     = database.categories[category_id].image
 
       -- Create button with label which was read from database
-      categoryButton = helper.createButton({id = category_id, left = x_position, top = y_position, width = width_of_a_button, height = height_of_a_button, label = category_name, onevent =  visitCategory, defaultfile = 'images/category_button_pixel.png', fontsize = 20, labelxoffset = 0, labelyoffset = -50, labelColor = {default = {95,55,17}, over = {95,55,17} }})
+      categoryButton = helper.createButton({id = category_id, left = x_position, top = y_position, width = width_of_a_button, height = height_of_a_button, label = category_name, onevent =  visitCategory, defaultfile = 'images/category_button_pixel.png', overfile = 'images/category_button_pixel_clicked.png', fontsize = 20, labelxoffset = 0, labelyoffset = -50, labelColor = {default = {95,55,17}, over = {95,55,17} }})
 
       group:insert(categoryButton)
 

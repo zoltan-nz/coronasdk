@@ -13,7 +13,7 @@ local helper = require ( "helper" )
 -- Load database file
 local database = require ('database')
 
-local list, item, backButton, headerText
+local backToCategories, list, item, backButton, headerText
 local itemGroup, itemTitle, itemImage, itemDetails, itemPrice
 
 -- Called when the scene's view does not exist:
@@ -37,6 +37,17 @@ function scene:enterScene( event )
   headerText.x, headerText.y = _W * 0.5, 35
   headerText:setTextColor(95,55,17)
 
+  local onBackToCategories = function (event)
+    storyboard.gotoScene( 'categories' )
+  end
+
+  backToCategories = widget.newButton({width = 70, height = 20, label = '<<<', defaultFile = 'images/category_button_pixel.png', onRelease = onBackToCategories})
+  backToCategories:setReferencePoint(display.TopLeftReferencePoint)
+  backToCategories.x = 5
+  backToCategories.y = 25
+  group:insert(backToCategories)
+
+
 	-- Listen for tableView events
 	-- Listener. Used to listen for TableView events, with the following events:
 	-- event.limitReached - Indicates that the TableView has reached one of it's limits.
@@ -44,7 +55,6 @@ function scene:enterScene( event )
 	local function tableViewListener( event )
     local phase = event.phase
     local row = event.target
-    print( event.phase )
 	end
 
 	-- Handle row rendering
@@ -71,7 +81,7 @@ function scene:enterScene( event )
 
     local rowPrice = display.newText(row, row.params.price, 0,0, native.systemFont, 20)
     rowPrice:setReferencePoint(display.TopLeftReferencePoint)
-    rowPrice.x = row.contentWidth - 100
+    rowPrice.x = row.contentWidth - 70
     rowPrice.y = row.contentHeight - 40
     rowPrice:setTextColor(212, 192, 152)
 
@@ -103,7 +113,7 @@ function scene:enterScene( event )
       itemTitle   = display.newText({text = row.params.name, width = 300, font = native.systemFontBold, fontSize = 25})
       itemTitle:setReferencePoint(display.TopCenterReferencePoint)
       itemTitle.x = _W * 0.5
-      itemTitle.y = 250
+      itemTitle.y = 255
       itemTitle:setTextColor(95, 55 , 17)
       itemTitle.alpha = 0
 
@@ -129,6 +139,7 @@ function scene:enterScene( event )
 
     local onBackRelease = function ()
       transition.to (list, {x = 0, time = 200, transition = easing.outExpo})
+      transition.to (backToCategories, {x = 0, time = 200, transition = easing.outExpo})
       transition.to (backButton, {alpha = 0, time = 200, transition = easing.outQuad})
       if backButton   then  backButton:removeSelf(); backButton = nil end
       if itemImage    then  itemImage:removeSelf(); itemImage = nil end
@@ -147,12 +158,12 @@ function scene:enterScene( event )
 
 
     if "press" == phase then
-      print( "Touched row id:", row.params.id )
 
     elseif 'release' == phase then
 
 
       transition.to (list,        {x = - list.contentWidth, time = 200, transition = easing.outExpo})
+      transition.to (backToCategories, {x = - list.contentWidth, time = 200, transition = easing.outExpo})
       transition.to (backButton,  {alpha = 1 , time = 200, transition = easing.outQuad})
       transition.to (itemImage,   {alpha = 1, time = 200, transition = easing.outExpo})
       transition.to (itemTitle,   {alpha = 1, time = 200, transition = easing.outExpo})
@@ -167,7 +178,7 @@ function scene:enterScene( event )
 	{
     top 					= 50,
     width 				= _W,
-    height 				= (_H-150),
+    height 				= 310,
     listener 			= tableViewListener,
     onRowRender 	= onRowRender,
     onRowTouch 		= onRowTouch,
@@ -181,11 +192,10 @@ function scene:enterScene( event )
 	-- get products for database where category_id is the choosen one
 	for i,product in pairs(database.products) do
 	  if product.category_id == category_id then
-	  	print(product.id)
 	  	list:insertRow
     	{
     		rowHeight = 100,
-    		rowColor = { 150, 160, 180, 200 },
+    		rowColor = { 247,246,228 },
     		lineColor = { 200 },
     		params = {
           id 			= product.id,

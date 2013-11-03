@@ -24,12 +24,12 @@ function scene:createScene( event )
 	title.x = display.contentWidth * 0.5
 	title.y = 50
 
-  text = "Address: Upper Drumcondra Road 56.\nDrumcondra, Dublin 9, Ireland\nPhone: +353-12345-678\nOpen: Every day from 7am to 8pm"
+  text = "Address: 56. Upper Drumcondra Road\nDrumcondra, Dublin 9, Ireland\nPhone: +353-12345-678\nOpen: Every day from 7am to 8pm"
 	summary = display.newText({text = text, width = 300, font =  native.systemFont, fontSize = 14 })
 	summary:setTextColor( 95,55,17 ) -- black
 	summary:setReferencePoint( display.CenterReferencePoint )
 	summary.x = display.contentWidth * 0.5
-	summary.y = title.y + 50
+	summary.y = title.y + 55
 
 	image = display.newImage('images/contact.jpg', 0,0,130,130)
   image:setReferencePoint(display.TopCenterReferencePoint)

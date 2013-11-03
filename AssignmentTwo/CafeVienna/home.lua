@@ -28,9 +28,9 @@ function scene:createScene( event )
 
 	-- Creating buttons, with my helper function.
 	local buttonProducts, buttonAbout, buttonContact
-	buttonProducts 	= helper.createButton({id = "categories",   left = 20, top = 155, width = _W-40, height = 80, label = "", onevent = showView, defaultfile = 'images/products_button.jpg'})
-	buttonAbout 	= helper.createButton({id = "about", 	    left = 20, top = 255, width = _W-40, height = 80, label = "", onevent = showView, defaultfile = 'images/about_button.jpg'})
-	buttonContact 	= helper.createButton({id = "contact", 		left = 20, top = 355, width = _W-40, height = 80, label = "", onevent = showView, defaultfile = 'images/contact_button.jpg'})
+	buttonProducts 	= helper.createButton({id = "categories",   left = 20, top = 155, width = _W-40, height = 80, label = "", onevent = showView, defaultfile = 'images/products_button.jpg', overfile = 'images/products_button_clicked.jpg'})
+	buttonAbout 	= helper.createButton({id = "about", 	    left = 20, top = 255, width = _W-40, height = 80, label = "", onevent = showView, defaultfile = 'images/about_button.jpg', overfile = 'images/about_button_clicked.jpg'})
+	buttonContact 	= helper.createButton({id = "contact", 		left = 20, top = 355, width = _W-40, height = 80, label = "", onevent = showView, defaultfile = 'images/contact_button.jpg', overfile = 'images/contact_button_clicked.jpg'})
 
 	-- all objects must be added to group (e.g. self.view)
 	group:insert( logo )
