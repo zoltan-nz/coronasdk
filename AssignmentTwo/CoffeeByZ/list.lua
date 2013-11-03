@@ -13,7 +13,7 @@ local helper = require ( "helper" )
 -- Load database file
 local database = require ('database')
 
-local list, item, backButton
+local list, item, backButton, headerText
 
 -- Called when the scene's view does not exist:
 function scene:createScene( event )
@@ -32,6 +32,10 @@ function scene:enterScene( event )
 
 	print (params.category_id)
 	local category_id = params.category_id
+
+  headerText = display.newText(group, database.categories[category_id].name, 0, 0, 0, 0, native.systemFontBold, 25)
+  headerText.x, headerText.y = _W * 0.5, 35
+  headerText:setTextColor(95,55,17)
 
 	-- Listen for tableView events
 	-- Listener. Used to listen for TableView events, with the following events:
@@ -52,23 +56,26 @@ function scene:enterScene( event )
 
     local phase = event.phase
     local row = event.row
-		local rowImage = display.newImage(row, row.params.image )
+    print (row.x, row.y)
+
+
+    local rowImage = display.newImage(row, row.params.image )
+    rowImage.width, rowImage.height = 80, 80
     rowImage:setReferencePoint(display.TopLeftReferencePoint)
-    rowImage.x = 0
-    rowImage.y = 0
-    rowImage.width, rowImage.height = 50, 50
-    
+    rowImage.x = 5
+    rowImage.y = 5
+
     local rowTitle = display.newText(row, row.params.name, 0, 0, native.systemFontBold, 20 )
     rowTitle:setReferencePoint(display.TopLeftReferencePoint)
-    rowTitle.x = 80
-    rowTitle.y = 10
-    rowTitle:setTextColor(0,0,0)
+    rowTitle.x = 100
+    rowTitle.y = 5
+    rowTitle:setTextColor(95, 55, 17)
 
-    local rowPrice = display.newText(row, row.params.price, 0,0, nil, 20)
+    local rowPrice = display.newText(row, row.params.price, 0,0, native.systemFont, 20)
     rowPrice:setReferencePoint(display.TopLeftReferencePoint)
-    rowPrice.x = row.contentWidth - 50
-    rowPrice.y = row.contentHeight - 20
-    rowPrice:setTextColor(0,0,0)
+    rowPrice.x = row.contentWidth - 80
+    rowPrice.y = row.contentHeight - 40
+    rowPrice:setTextColor(226, 213, 193)
 
 	end
 
@@ -116,12 +123,13 @@ function scene:enterScene( event )
 	list = widget.newTableView
 	{
     top 					= 50,
-    width 				= 320,
+    width 				= _W,
     height 				= (_H-150),
     listener 			= tableViewListener,
     onRowRender 	= onRowRender,
     onRowTouch 		= onRowTouch,
     maskFile      = 'images/mask-320x448.png',
+    noLines       = true
 	}
 	group:insert( list )
 
@@ -151,10 +159,24 @@ end
 
 function scene:exitScene( event )
 	local group = self.view
+
+  headerText:removeSelf()
+
+  list:deleteAllRows()
+
+  list = nil
+
+  display:remove(list)
+
+  storyboard.removeAll()
+
+  print('exit Scene')
+
 end
 
 function scene:destroyScene( event )
 	local group = self.view
+  storyboard.removeAll()
 end
 
 -----------------------------------------------------------------------------------------
