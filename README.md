@@ -12,5 +12,4 @@ Content
 [http://learningcorona.com/](http://learningcorona.com/)
 [http://www.coronalabs.com/resources/videos/](http://www.coronalabs.com/resources/videos/)
 
-[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/szines/coronasdk/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
 
