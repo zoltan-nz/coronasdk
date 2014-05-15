@@ -7,9 +7,9 @@ Content
 
 ###If you want to learn Lua and Corona SDK
 
-[http://www.lua.org/](http://www.lua.org/
-[http://www.lua.org/manual/5.2/](http://www.lua.org/manual/5.2/)
-[http://learningcorona.com/](http://learningcorona.com/)
-[http://www.coronalabs.com/resources/videos/](http://www.coronalabs.com/resources/videos/)
+- [http://www.lua.org/](http://www.lua.org/)
+- [http://www.lua.org/manual/5.2/](http://www.lua.org/manual/5.2/)
+- [http://learningcorona.com/](http://learningcorona.com/)
+- [http://www.coronalabs.com/resources/videos/](http://www.coronalabs.com/resources/videos/)
 
 
